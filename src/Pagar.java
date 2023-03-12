@@ -1,12 +1,12 @@
+import java.sql.*;
+import javax.swing.JOptionPane;
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+*   VENTANA QUE SIRVE A MANERA DE REGISTRAR LOS PAGOS EN EL SISTEMA
+*   INTEGRANTES DEL EQUIPO
+*   - Kevin Alan Flores Reyna - 20660053
+*   - Angel David Lopez Alvarez - 20660062
+*/
 
-/**
- *
- * @author kalan
- */
 public class Pagar extends javax.swing.JFrame {
 
     /**
@@ -60,6 +60,7 @@ public class Pagar extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setText("Lista de pagos");
@@ -184,6 +185,7 @@ public class Pagar extends javax.swing.JFrame {
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, -1, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed

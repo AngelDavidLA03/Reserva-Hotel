@@ -205,6 +205,7 @@ public class Login extends javax.swing.JFrame {
                     }
                 }
             }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
         } 
         catch (SQLException ex) 
         {

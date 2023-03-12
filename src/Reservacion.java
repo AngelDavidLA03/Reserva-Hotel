@@ -121,19 +121,9 @@ public class Reservacion extends javax.swing.JInternalFrame {
         jPanel1.add(ComboboxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, -1, -1));
 
         ButtonConshabi.setText("jButton8");
-        ButtonConshabi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonConshabiActionPerformed(evt);
-            }
-        });
         jPanel1.add(ButtonConshabi, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 60, -1));
 
         ButtonConscli.setText("jButton9");
-        ButtonConscli.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonConscliActionPerformed(evt);
-            }
-        });
         jPanel1.add(ButtonConscli, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 60, -1));
 
         Comboboxtiporeserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-------", "Reserva", "Alquiler" }));
@@ -190,22 +180,12 @@ public class Reservacion extends javax.swing.JInternalFrame {
         jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
 
         txtTotal.setText("Total: $");
-        jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 160, 30));
+        jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 160, 20));
 
         jButton6.setText("Consumo");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
         jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 335, -1, -1));
 
         jButton7.setText("Pagar");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
         jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 335, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 370));
@@ -222,30 +202,6 @@ public class Reservacion extends javax.swing.JInternalFrame {
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtClienteActionPerformed
-
-    private void ButtonConshabiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConshabiActionPerformed
-       // Codigos necesarios para mostrar la subventana de La lista de Habitaciones
-        Lista_habitaciones ven = new Lista_habitaciones();
-       ven.setVisible(true);
-    }//GEN-LAST:event_ButtonConshabiActionPerformed
-
-    private void ButtonConscliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConscliActionPerformed
-        // Codigos necesarios para mostrar la subventana de Lista de clientes
-        Lista_Clientes ven = new Lista_Clientes();
-       ven.setVisible(true);
-    }//GEN-LAST:event_ButtonConscliActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-      // Codigos necesarios para mostrar la subventana para agregar consumos extra
-        Consumos ven = new Consumos();
-       ven.setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-      // Codigos necesarios para mostrar la subventana para realizar el pago
-        Pagar ven = new Pagar();
-       ven.setVisible(true);
-    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

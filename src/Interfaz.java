@@ -26,7 +26,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         Ventana = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        menubar = new javax.swing.JMenuBar();
         menadd = new javax.swing.JMenu();
         addhab = new javax.swing.JMenuItem();
         addprod = new javax.swing.JMenuItem();
@@ -86,7 +86,7 @@ public class Interfaz extends javax.swing.JFrame {
         });
         menadd.add(addcli);
 
-        jMenuBar1.add(menadd);
+        menubar.add(menadd);
 
         menres.setText("Reservar");
 
@@ -99,7 +99,7 @@ public class Interfaz extends javax.swing.JFrame {
         });
         menres.add(Resypro);
 
-        jMenuBar1.add(menres);
+        menubar.add(menres);
 
         Usuarios.setText("Configurar");
 
@@ -112,7 +112,7 @@ public class Interfaz extends javax.swing.JFrame {
         });
         Usuarios.add(Usu);
 
-        jMenuBar1.add(Usuarios);
+        menubar.add(Usuarios);
 
         Close.setText("Salir");
 
@@ -134,9 +134,9 @@ public class Interfaz extends javax.swing.JFrame {
         });
         Close.add(CerrarP);
 
-        jMenuBar1.add(Close);
+        menubar.add(Close);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menubar);
 
         pack();
         setLocationRelativeTo(null);
@@ -234,8 +234,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuItem addcli;
     private javax.swing.JMenuItem addhab;
     private javax.swing.JMenuItem addprod;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menadd;
     private javax.swing.JMenu menres;
+    private javax.swing.JMenuBar menubar;
     // End of variables declaration//GEN-END:variables
 }

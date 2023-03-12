@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
 public class Conexion
 {
     String bd = "db_hotel";                                     // Nombre de la base de datos
-    String servidor = "localhost";                              // Servidor de la base de datos
-    String puerto = "3306";                                     // Puerto con el que se realizara la conexion
+    String servidor = "localhost";                              // Servidor de la base de datos (host local por defecto)
+    String puerto = "3306";                                     // Puerto con el que se realizara la conexion (puerto 3306 por defecto)
     String url = "jdbc:mariadb://"+servidor+":"+puerto+"/";     // URL para ingresar a la base de datos
     String user = "root";                                       // Usuario para acceder a la base de datos (super usuario o root por defecto)
     String pass = "";                                           // Contraseña del usuario para acceder a la base de datos (campo vacio para modificarlo segun cada persona que quiera usar el programa)
-    String driver = "org.mariadb.jdbc.Driver";                  // URL del conector de MariaDB mediante Java
+    String driver = "org.mariadb.jdbc.Driver";                  // URL del conector de MariaDB mediante Java (su ubicacion es la carpeta libraries)
     Connection cx;                                              // Variable en la cual se almacenaran los cambios de conexion
     
     // Metodo constructor (para la instancia de la clase en diferentes clases)

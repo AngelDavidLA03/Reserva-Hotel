@@ -1,5 +1,6 @@
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
 *   SUBVENTANA ENCARGADA DE VER, AÑADIR, ELIMINAR Y MODIFICAR LOS DATOS DE LOS PRODUCTOS OFRECIDOS POR EL HOTEL EN EL PROGRAMA
 *   INTEGRANTES DEL EQUIPO
@@ -13,6 +14,14 @@ public class addProducto extends javax.swing.JInternalFrame {
      */
     public addProducto() {
         initComponents();
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+        
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+        
+        loadTableProducts();
     }
 
     /**
@@ -33,19 +42,17 @@ public class addProducto extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         txtCodProd = new javax.swing.JTextField();
         txtNomProd = new javax.swing.JTextField();
-        txtPrecioU = new javax.swing.JTextField();
-        txtstock = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
+        txtStock = new javax.swing.JTextField();
         txtContUni = new javax.swing.JTextField();
         ButtonBorrar = new javax.swing.JButton();
         ButtonNuevo = new javax.swing.JButton();
-        ButtonGuardar = new javax.swing.JButton();
-        ComboboxUniMed = new javax.swing.JComboBox<>();
+        txtUniMed = new javax.swing.JTextField();
+        btnCancel = new javax.swing.JButton();
+        btnAccept = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        txtBuscar = new javax.swing.JTextField();
-        ButtonBuscar = new javax.swing.JButton();
-        ButtonEliminar = new javax.swing.JButton();
+        tableProducts = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -77,11 +84,16 @@ public class addProducto extends javax.swing.JInternalFrame {
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
         jPanel1.add(txtCodProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 130, -1));
         jPanel1.add(txtNomProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
-        jPanel1.add(txtPrecioU, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
-        jPanel1.add(txtstock, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
+        jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
+        jPanel1.add(txtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
         jPanel1.add(txtContUni, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
 
         ButtonBorrar.setText("Borrar");
+        ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonBorrarActionPerformed(evt);
+            }
+        });
         jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
 
         ButtonNuevo.setText("Nuevo");
@@ -90,20 +102,31 @@ public class addProducto extends javax.swing.JInternalFrame {
                 ButtonNuevoActionPerformed(evt);
             }
         });
-        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 310, -1, -1));
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, -1, -1));
+        jPanel1.add(txtUniMed, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 130, -1));
 
-        ButtonGuardar.setText("Guardar");
-        jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, -1, -1));
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, -1, -1));
 
-        ComboboxUniMed.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Litros", "Kilos", "g", " " }));
-        jPanel1.add(ComboboxUniMed, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 130, -1));
+        btnAccept.setText("Aceptar");
+        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 310, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 370));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -122,26 +145,22 @@ public class addProducto extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        tableProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProductsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableProducts);
+        if (tableProducts.getColumnModel().getColumnCount() > 0) {
+            tableProducts.getColumnModel().getColumn(0).setResizable(false);
+            tableProducts.getColumnModel().getColumn(1).setResizable(false);
+            tableProducts.getColumnModel().getColumn(2).setResizable(false);
+            tableProducts.getColumnModel().getColumn(3).setResizable(false);
+            tableProducts.getColumnModel().getColumn(4).setResizable(false);
+            tableProducts.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 300));
-
-        txtBuscar.setText("Buscar");
-        jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 270, -1));
-
-        ButtonBuscar.setText("Buscar");
-        jPanel2.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
-
-        ButtonEliminar.setText("Eliminar");
-        jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 350));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 370));
 
@@ -155,17 +174,95 @@ public class addProducto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
-        // TODO add your handling code here:
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+        
+        // Se llama al metodo para desbloquear los campos de texto
+        unlockTextEdit();
+        
+        // Se muestran los botones de aceptar y cancelar
+        btnCancel.setVisible(true);
+        btnAccept.setVisible(true);
+        
+        // Se ocultan los demas botones de accion
+        ButtonBorrar.setVisible(false);
+        ButtonNuevo.setVisible(false);
     }//GEN-LAST:event_ButtonNuevoActionPerformed
+
+    private void tableProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductsMouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableProducts.getModel();                   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        String CodProduct = String.valueOf(modeloTabla.getValueAt(tableProducts.getSelectedRow(),0));   // Se extrae el valor de la tabla de la ventana que se encuentre en la fila 0
+        int codProduct = Integer.parseInt(CodProduct);                                                  // Se convierte el valor en uno de tipo entero
+
+        // Se ejecuta el metodo encargado de buscar los productos de forma separada
+        SEARCHproductUNIQUE(codProduct);
+
+    }//GEN-LAST:event_tableProductsMouseClicked
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+        
+        // Se ocultan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+        
+        // Se muestran los demas botones de accion
+        ButtonBorrar.setVisible(true);
+        ButtonNuevo.setVisible(true);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+        // Se analiza si existe algun campo vacio en los campos de texto
+        if(txtCodProd.getText().equals("") || txtNomProd.getText().equals("") || txtUniMed.getText().equals("") || txtPrecio.getText().equals("") || txtStock.getText().equals("") || txtContUni.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Existe algun campo vacio, favor de llenarlo", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        }
+        // Sin embargo, si no existen campos vacios
+        else
+        {
+            // Variables en las que se almacenaran lo almacenado en los espacios de la ventana
+            int codProduct = Integer.parseInt(txtCodProd.getText());
+            String nomProduct = txtNomProd.getText();
+            String unidadMedida = txtUniMed.getText();
+            double precio = Double.parseDouble(txtPrecio.getText());
+            int stock = Integer.parseInt(txtStock.getText());
+            int cantidadUM = Integer.parseInt(txtContUni.getText());
+            
+            // Se ejecuta el metodo para añadir los valores a la tabla de productos
+            ADDproducts(codProduct, nomProduct, unidadMedida, precio, stock, cantidadUM);
+            
+            // Se llama al metodo para bloquear los campos de texto
+            lockTextEdit();
+
+            // Se ocultan los botones de aceptar y cancelar
+            btnCancel.setVisible(false);
+            btnAccept.setVisible(false);
+            
+            // Se muestran los demas botones de accion
+            ButtonBorrar.setVisible(true);
+            ButtonNuevo.setVisible(true);
+        }
+
+    }//GEN-LAST:event_btnAcceptActionPerformed
+
+    private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+    }//GEN-LAST:event_ButtonBorrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
-    private javax.swing.JButton ButtonBuscar;
-    private javax.swing.JButton ButtonEliminar;
-    private javax.swing.JButton ButtonGuardar;
     private javax.swing.JButton ButtonNuevo;
-    private javax.swing.JComboBox<String> ComboboxUniMed;
+    private javax.swing.JButton btnAccept;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -177,12 +274,163 @@ public class addProducto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTable tableProducts;
     private javax.swing.JTextField txtCodProd;
     private javax.swing.JTextField txtContUni;
     private javax.swing.JTextField txtNomProd;
-    private javax.swing.JTextField txtPrecioU;
-    private javax.swing.JTextField txtstock;
+    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtStock;
+    private javax.swing.JTextField txtUniMed;
     // End of variables declaration//GEN-END:variables
+
+    // Metodo encargado de buscar un producto segun su clave primaria
+    private void SEARCHproductUNIQUE(int codProduct)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+
+        try 
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+
+            ps = cn.prepareStatement("CALL `SEARCHproductUNIQUE`(?)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps.setInt(1, codProduct);                                      // Se asigna el valor del parametro codProduct a la consulta
+
+            rs = ps.executeQuery();                                 // Se ejecuta la consulta
+
+            // Se comprueba si el valor arrojado de la consulta es diferente a nulo
+            if(rs != null)
+            {
+                // Ciclo while donde se comprueba si existe un registro siguiente
+                while(rs.next())
+                {
+                    // Se asignan los valores encontrados en la consulta
+                    txtCodProd.setText(rs.getInt("codProducto") + "");
+                    txtNomProd.setText(rs.getString("nomProduct"));
+                    txtPrecio.setText("$ "+ rs.getDouble("precio") + "0");
+                    txtStock.setText(rs.getInt("stock") + "");
+                    txtUniMed.setText(rs.getString("unidadMedida"));
+                    txtContUni.setText(rs.getInt("cantidadUM") + "");
+                }
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
+    // Metodo encargado de añadir los valores en la tabla de productos
+    private void ADDproducts(int codProduct, String nomProduct, String unidadMedida, double precio, int stock, int cantidadUM)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `ADDproduct`(?,?,?,?,?,?)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asignan los valores de los parametros a la consulta
+            ps.setInt(1, codProduct);
+            ps.setString(2, nomProduct);
+            ps.setString(3, unidadMedida);
+            ps.setDouble(4, precio);
+            ps.setInt(5, stock);
+            ps.setInt(6, cantidadUM);
+            
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            // Se notifica al usuario que se ha registrado el producto
+            JOptionPane.showMessageDialog(null, "SE HA REGISTRADO EL NUEVO PRODUCTO");
+
+            cx.disconnect();        // Se cierra la conexion con la base de datos
+            loadTableProducts();    // Se actualiza la tabla 
+        }
+        
+        
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
+        }
+    }
+    
+    // Metodo encargado de llenar la tabla de los productos
+    private void loadTableProducts()
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableProducts.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `SEARCHproduct`");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();           // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
+    // Metodo encargado para bloquear los campos de texto
+    private void lockTextEdit()
+    {
+        // Se bloquea la edicion de los campos de texto
+        txtCodProd.setEditable(false);
+        txtNomProd.setEditable(false);
+        txtPrecio.setEditable(false);
+        txtStock.setEditable(false);
+        txtUniMed.setEditable(false);
+        txtContUni.setEditable(false);
+    }
+    
+    // Metodo encargado para desbloquear los campos de texto
+    private void unlockTextEdit()
+    {
+        // Se desbloquea la edicion de los campos de texto
+        txtCodProd.setEditable(true);
+        txtNomProd.setEditable(true);
+        txtPrecio.setEditable(true);
+        txtStock.setEditable(true);
+        txtUniMed.setEditable(true);
+        txtContUni.setEditable(true);
+    }
+    
+    // Metodo encargado para vaciar los campos de texto
+    private void clearTextField()
+    {
+        // Se vacian los campos de texto
+        txtCodProd.setText("");
+        txtNomProd.setText("");
+        txtPrecio.setText("");
+        txtStock.setText("");
+        txtUniMed.setText("");
+        txtContUni.setText("");
+    }
 }

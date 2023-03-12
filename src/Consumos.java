@@ -1,12 +1,12 @@
+import java.sql.*;
+import javax.swing.JOptionPane;
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+*   VENTANA QUE SIRVE A MANERA VER, AÑADIR, Y MODIFICAR LOS DATOS DE LOS CONSUMOS HECHOS EN EL HOTEL
+*   INTEGRANTES DEL EQUIPO
+*   - Kevin Alan Flores Reyna - 20660053
+*   - Angel David Lopez Alvarez - 20660062
+*/
 
-/**
- *
- * @author kalan
- */
 public class Consumos extends javax.swing.JFrame {
 
     /**
@@ -47,6 +47,7 @@ public class Consumos extends javax.swing.JFrame {
         txtpreciototal = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setText("Lista de Consumo");
@@ -128,6 +129,7 @@ public class Consumos extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 270));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed

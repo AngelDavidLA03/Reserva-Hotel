@@ -1,12 +1,12 @@
+import java.sql.*;
+import javax.swing.JOptionPane;
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+*   VENTANA QUE SIRVE A MANERA DE VER TODOS LOS CLIENTES REGISTRADOS
+*   INTEGRANTES DEL EQUIPO
+*   - Kevin Alan Flores Reyna - 20660053
+*   - Angel David Lopez Alvarez - 20660062
+*/
 
-/**
- *
- * @author kalan
- */
 public class Lista_Clientes extends javax.swing.JFrame {
 
     /**
@@ -31,6 +31,7 @@ public class Lista_Clientes extends javax.swing.JFrame {
         ButtonBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtBuscar.setText("Buscar");
@@ -44,10 +45,29 @@ public class Lista_Clientes extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código Cliente", "CURP", "Nombre", "Apellido Paterno", "Apellido Materno", "Núm. Pasaporte", "Télefono", "Correo"
+                "Código Cliente", "CURP", "Núm. Pasaporte", "Nombre", "Apellido Paterno", "Apellido Materno", "Télefono", "Correo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+            jTable1.getColumnModel().getColumn(7).setResizable(false);
+        }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
 
@@ -55,6 +75,7 @@ public class Lista_Clientes extends javax.swing.JFrame {
         getContentPane().add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**

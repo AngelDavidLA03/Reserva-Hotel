@@ -128,7 +128,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
         jPanel1.add(txtcalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 130, -1));
         jPanel1.add(txtNumext, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 130, -1));
 
-        ComboboxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Nomral ", "Admin" }));
+        ComboboxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Normal ", "Admin" }));
         jPanel1.add(ComboboxRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 130, -1));
         jPanel1.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 130, -1));
 
