@@ -32,21 +32,21 @@ public class addProducto extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txtCodProd = new javax.swing.JTextField();
+        txtNomProd = new javax.swing.JTextField();
+        txtPrecioU = new javax.swing.JTextField();
+        txtstock = new javax.swing.JTextField();
+        txtContUni = new javax.swing.JTextField();
+        ButtonBorrar = new javax.swing.JButton();
+        ButtonNuevo = new javax.swing.JButton();
+        ButtonGuardar = new javax.swing.JButton();
+        ComboboxUniMed = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jTextField9 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
+        ButtonBuscar = new javax.swing.JButton();
+        ButtonEliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -76,33 +76,28 @@ public class addProducto extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Cantidad por unidad");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+        jPanel1.add(txtCodProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 130, -1));
+        jPanel1.add(txtNomProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
+        jPanel1.add(txtPrecioU, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
+        jPanel1.add(txtstock, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
+        jPanel1.add(txtContUni, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
 
-        jTextField1.setText("jTextField1");
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 130, -1));
+        ButtonBorrar.setText("Borrar");
+        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
 
-        jTextField3.setText("jTextField3");
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
+        ButtonNuevo.setText("Nuevo");
+        ButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonNuevoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 310, -1, -1));
 
-        jTextField4.setText("jTextField4");
-        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
+        ButtonGuardar.setText("Guardar");
+        jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, -1, -1));
 
-        jTextField5.setText("jTextField5");
-        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
-
-        jTextField7.setText("jTextField7");
-        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
-
-        jButton1.setText("jButton1");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
-
-        jButton2.setText("jButton2");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 310, -1, -1));
-
-        jButton3.setText("jButton3");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, -1, -1));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 130, -1));
+        ComboboxUniMed.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Litros", "Kilos", "g", " " }));
+        jPanel1.add(ComboboxUniMed, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 130, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 370));
 
@@ -117,21 +112,21 @@ public class addProducto extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
+                "Código Producto", "Nombre", "Precio Unitario", "Strock", "Medida", "Cantidad por unidad"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
 
-        jTextField9.setText("jTextField9");
-        jPanel2.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 190, -1));
+        txtBuscar.setText("Buscar");
+        jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 270, -1));
 
-        jButton4.setText("jButton4");
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
+        ButtonBuscar.setText("Buscar");
+        jPanel2.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
 
-        jButton5.setText("jButton5");
-        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
+        ButtonEliminar.setText("Eliminar");
+        jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 370));
 
@@ -144,14 +139,18 @@ public class addProducto extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonNuevoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton ButtonBorrar;
+    private javax.swing.JButton ButtonBuscar;
+    private javax.swing.JButton ButtonEliminar;
+    private javax.swing.JButton ButtonGuardar;
+    private javax.swing.JButton ButtonNuevo;
+    private javax.swing.JComboBox<String> ComboboxUniMed;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -164,11 +163,11 @@ public class addProducto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtCodProd;
+    private javax.swing.JTextField txtContUni;
+    private javax.swing.JTextField txtNomProd;
+    private javax.swing.JTextField txtPrecioU;
+    private javax.swing.JTextField txtstock;
     // End of variables declaration//GEN-END:variables
 }

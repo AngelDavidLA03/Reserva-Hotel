@@ -34,29 +34,29 @@ public class Usuarios extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtCodEmp = new javax.swing.JTextField();
+        txtNombreEmp = new javax.swing.JTextField();
+        txtAppat = new javax.swing.JTextField();
+        txtApmat = new javax.swing.JTextField();
+        txtCiudad = new javax.swing.JTextField();
+        txtCP = new javax.swing.JTextField();
+        ButtonBorrar = new javax.swing.JButton();
+        ButtonNuevo = new javax.swing.JButton();
+        ButtonGuardar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txtCol = new javax.swing.JTextField();
+        txtcalle = new javax.swing.JTextField();
+        txtNumext = new javax.swing.JTextField();
+        ComboboxRol = new javax.swing.JComboBox<>();
+        txtPass = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jTextField9 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        txtBuscarCli = new javax.swing.JTextField();
+        ButtonBuscar = new javax.swing.JButton();
+        ButtonEliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -92,35 +92,31 @@ public class Usuarios extends javax.swing.JInternalFrame {
         jLabel10.setText("Código Postal");
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
 
-        jTextField1.setText("jTextField1");
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 130, -1));
+        txtCodEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodEmpActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtCodEmp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 130, -1));
+        jPanel1.add(txtNombreEmp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 130, -1));
+        jPanel1.add(txtAppat, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 130, -1));
+        jPanel1.add(txtApmat, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 130, -1));
+        jPanel1.add(txtCiudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 130, -1));
+        jPanel1.add(txtCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 130, -1));
 
-        jTextField3.setText("jTextField3");
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 130, -1));
+        ButtonBorrar.setText("Borrar");
+        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, -1, -1));
 
-        jTextField4.setText("jTextField4");
-        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 130, -1));
+        ButtonNuevo.setText("Nuevo");
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 370, -1, -1));
 
-        jTextField5.setText("jTextField5");
-        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 130, -1));
-
-        jTextField6.setText("jTextField6");
-        jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 130, -1));
-
-        jTextField7.setText("jTextField7");
-        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 130, -1));
-
-        jTextField8.setText("jTextField8");
-        jPanel1.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 130, -1));
-
-        jButton1.setText("jButton1");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, -1, -1));
-
-        jButton2.setText("jButton2");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 370, -1, -1));
-
-        jButton3.setText("jButton3");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, -1, -1));
+        ButtonGuardar.setText("Guardar");
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, -1, -1));
 
         jLabel11.setText("Colonia");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
@@ -130,18 +126,13 @@ public class Usuarios extends javax.swing.JInternalFrame {
 
         jLabel13.setText("Núm Ext");
         jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, -1, -1));
+        jPanel1.add(txtCol, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, 130, -1));
+        jPanel1.add(txtcalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 130, -1));
+        jPanel1.add(txtNumext, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 130, -1));
 
-        jTextField10.setText("jTextField10");
-        jPanel1.add(jTextField10, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, 130, -1));
-
-        jTextField11.setText("jTextField11");
-        jPanel1.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 130, -1));
-
-        jTextField12.setText("jTextField12");
-        jPanel1.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 130, -1));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 130, -1));
+        ComboboxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Nomral ", "Admin" }));
+        jPanel1.add(ComboboxRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 130, -1));
+        jPanel1.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 130, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 410));
 
@@ -150,47 +141,64 @@ public class Usuarios extends javax.swing.JInternalFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
+                "Código Empleado ", "Rol", "Nombre", "Apellido Paterno", "Apellido Materno", "Contraseña", "Dirección"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
 
-        jTextField9.setText("jTextField9");
-        jPanel2.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 190, -1));
+        txtBuscarCli.setText("Buscar");
+        jPanel2.add(txtBuscarCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 320, -1));
 
-        jButton4.setText("jButton4");
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
+        ButtonBuscar.setText("Buscar");
+        jPanel2.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
 
-        jButton5.setText("jButton5");
-        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
+        ButtonEliminar.setText("Eliminar");
+        ButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonEliminarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 410));
 
-        jLabel1.setText("Datos del Cliente");
+        jLabel1.setText("Datos del Empleados");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
-        jLabel2.setText("Lista de Clientes");
+        jLabel2.setText("Lista de Empleados");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtCodEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodEmpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodEmpActionPerformed
+
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
+
+    private void ButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton ButtonBorrar;
+    private javax.swing.JButton ButtonBuscar;
+    private javax.swing.JButton ButtonEliminar;
+    private javax.swing.JButton ButtonGuardar;
+    private javax.swing.JButton ButtonNuevo;
+    private javax.swing.JComboBox<String> ComboboxRol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -208,16 +216,16 @@ public class Usuarios extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField txtApmat;
+    private javax.swing.JTextField txtAppat;
+    private javax.swing.JTextField txtBuscarCli;
+    private javax.swing.JTextField txtCP;
+    private javax.swing.JTextField txtCiudad;
+    private javax.swing.JTextField txtCodEmp;
+    private javax.swing.JTextField txtCol;
+    private javax.swing.JTextField txtNombreEmp;
+    private javax.swing.JTextField txtNumext;
+    private javax.swing.JPasswordField txtPass;
+    private javax.swing.JTextField txtcalle;
     // End of variables declaration//GEN-END:variables
 }
