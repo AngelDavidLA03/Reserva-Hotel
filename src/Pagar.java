@@ -32,9 +32,9 @@ public class Pagar extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         txtTotal1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
+        txtTotal = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        txtTotal = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -46,15 +46,17 @@ public class Pagar extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         txtHabitacion = new javax.swing.JTextField();
         txtCliente = new javax.swing.JTextField();
-        txtTrabajador = new javax.swing.JTextField();
-        txtcantdias = new javax.swing.JTextField();
-        txtCosto = new javax.swing.JTextField();
+        txttotalreserva = new javax.swing.JTextField();
         ButtonBorrar = new javax.swing.JButton();
         ButtonNuevo = new javax.swing.JButton();
         ButtonGuardar = new javax.swing.JButton();
-        txtHora = new javax.swing.JFormattedTextField();
-        Comboboxtiporeserva = new javax.swing.JComboBox<>();
-        txtFecha = new javax.swing.JFormattedTextField();
+        Comboboxmodopago = new javax.swing.JComboBox<>();
+        txtTarjeta = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtsubtotal = new javax.swing.JFormattedTextField();
+        txtdescuento = new javax.swing.JFormattedTextField();
+        txtIVA = new javax.swing.JFormattedTextField();
+        txtcostototal = new javax.swing.JFormattedTextField();
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -71,13 +73,13 @@ public class Pagar extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Núm Habitación", "Cliente", "Trabajador", "Tipo", "Fecha Reserva", "Hora Reserva", "Cantidad días", "Costo Total"
+                "Modo de pago", "Núm Tarjeta", "Sub-Total", "Descuento", "IVA", "Costo Total"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
@@ -87,28 +89,28 @@ public class Pagar extends javax.swing.JFrame {
         txtTotal1.setText("Total: $");
         jPanel3.add(txtTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 160, 30));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 580, 170));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 580, 180));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        txtTotal.setText("Total: $");
+        jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 160, 30));
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Núm Habitación", "Cliente", "Trabajador", "Tipo", "Fecha Reserva", "Hora Reserva", "Cantidad días", "Costo Total"
+                "Producto", "Cantidad", "Precio Total"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 130));
-
-        txtTotal.setText("Total: $");
-        jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 160, 30));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 190));
 
@@ -121,8 +123,8 @@ public class Pagar extends javax.swing.JFrame {
         jLabel4.setText("Modo de pago");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
-        jLabel5.setText("Total a Pagar");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+        jLabel5.setText("Sub-Total");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
         jLabel6.setText("Cliente");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
@@ -131,13 +133,13 @@ public class Pagar extends javax.swing.JFrame {
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
         jLabel8.setText("Descuento");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
 
         jLabel9.setText("IVA");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
 
         jLabel10.setText("Costo Total");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
         jPanel1.add(txtHabitacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 130, -1));
 
         txtCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -146,9 +148,7 @@ public class Pagar extends javax.swing.JFrame {
             }
         });
         jPanel1.add(txtCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 130, -1));
-        jPanel1.add(txtTrabajador, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 130, -1));
-        jPanel1.add(txtcantdias, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 130, -1));
-        jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, 130, -1));
+        jPanel1.add(txttotalreserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 130, -1));
 
         ButtonBorrar.setText("Borrar");
         jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
@@ -159,16 +159,26 @@ public class Pagar extends javax.swing.JFrame {
         ButtonGuardar.setText("Guardar");
         jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, -1, -1));
 
-        txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(txtHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 80, -1));
+        Comboboxmodopago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-------", "Tarjeta ", "Efectivo", " " }));
+        jPanel1.add(Comboboxmodopago, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, -1, -1));
+        jPanel1.add(txtTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 130, -1));
 
-        Comboboxtiporeserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-------", " " }));
-        jPanel1.add(Comboboxtiporeserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, -1, -1));
+        jLabel11.setText("Núm Tarjeta");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
-        txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 80, -1));
+        txtsubtotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        jPanel1.add(txtsubtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 130, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 390));
+        txtdescuento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getPercentInstance())));
+        jPanel1.add(txtdescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 130, -1));
+
+        txtIVA.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getPercentInstance())));
+        jPanel1.add(txtIVA, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, 130, -1));
+
+        txtcostototal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        jPanel1.add(txtcostototal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 130, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 400));
 
         jLabel12.setText("Lista de consumos");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, -1, -1));
@@ -219,9 +229,10 @@ public class Pagar extends javax.swing.JFrame {
     private javax.swing.JButton ButtonBorrar;
     private javax.swing.JButton ButtonGuardar;
     private javax.swing.JButton ButtonNuevo;
-    private javax.swing.JComboBox<String> Comboboxtiporeserva;
+    private javax.swing.JComboBox<String> Comboboxmodopago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -239,13 +250,14 @@ public class Pagar extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField txtCliente;
-    private javax.swing.JTextField txtCosto;
-    private javax.swing.JFormattedTextField txtFecha;
     private javax.swing.JTextField txtHabitacion;
-    private javax.swing.JFormattedTextField txtHora;
+    private javax.swing.JFormattedTextField txtIVA;
+    private javax.swing.JTextField txtTarjeta;
     private javax.swing.JTextField txtTotal;
     private javax.swing.JTextField txtTotal1;
-    private javax.swing.JTextField txtTrabajador;
-    private javax.swing.JTextField txtcantdias;
+    private javax.swing.JFormattedTextField txtcostototal;
+    private javax.swing.JFormattedTextField txtdescuento;
+    private javax.swing.JFormattedTextField txtsubtotal;
+    private javax.swing.JTextField txttotalreserva;
     // End of variables declaration//GEN-END:variables
 }
