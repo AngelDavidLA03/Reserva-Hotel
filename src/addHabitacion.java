@@ -1,12 +1,11 @@
+import java.sql.*;
+import javax.swing.JOptionPane;
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
-
-/**
- *
- * @author kalan
- */
+*   SUBVENTANA ENCARGADA DE VER, AÑADIR, ELIMINAR Y MODIFICAR LOS DATOS DE LAS HABITACIONES EN EL PROGRAMA
+*   INTEGRANTES DEL EQUIPO
+*   - Kevin Alan Flores Reyna - 20660053
+*   - Angel David Lopez Alvarez - 20660062
+*/
 public class addHabitacion extends javax.swing.JInternalFrame {
 
     /**
@@ -54,7 +53,6 @@ public class addHabitacion extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -118,10 +116,26 @@ public class addHabitacion extends javax.swing.JInternalFrame {
             new String [] {
                 "Código Habitación", "Número Habitación", "Piso", "Núm. Cams", "Costo", "Tipo Habitación"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, false, true, false, false
+            };
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        }
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 300));
         jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 270, -1));
 
         ButtonBuscar.setText("Buscar");

@@ -1,12 +1,11 @@
+import java.sql.*;
+import javax.swing.JOptionPane;
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
-
-/**
- *
- * @author kalan
- */
+*   SUBVENTANA ENCARGADA DE VER, AÑADIR, ELIMINAR Y MODIFICAR LOS DATOS DE LOS PRODUCTOS OFRECIDOS POR EL HOTEL EN EL PROGRAMA
+*   INTEGRANTES DEL EQUIPO
+*   - Kevin Alan Flores Reyna - 20660053
+*   - Angel David Lopez Alvarez - 20660062
+*/
 public class addProducto extends javax.swing.JInternalFrame {
 
     /**
@@ -52,8 +51,8 @@ public class addProducto extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setTitle("Añadir Productos");
+        setPreferredSize(new java.awt.Dimension(910, 416));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -114,10 +113,26 @@ public class addProducto extends javax.swing.JInternalFrame {
             new String [] {
                 "Código Producto", "Nombre", "Precio Unitario", "Strock", "Medida", "Cantidad por unidad"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        }
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 300));
 
         txtBuscar.setText("Buscar");
         jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 270, -1));

@@ -1,15 +1,12 @@
-
-import static java.lang.System.exit;
-
+import java.sql.*;
+import javax.swing.JOptionPane;
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+*   VENTANA QUE SIRVE A MANERA DE MENU PRINCIPAL DEL PROGRAMA
+*   INTEGRANTES DEL EQUIPO
+*   - Kevin Alan Flores Reyna - 20660053
+*   - Angel David Lopez Alvarez - 20660062
+*/
 
-/**
- *
- * @author kalan
- */
 public class Interfaz extends javax.swing.JFrame {
 
     /**
@@ -43,6 +40,8 @@ public class Interfaz extends javax.swing.JFrame {
         CerrarP = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(910, 416));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         javax.swing.GroupLayout VentanaLayout = new javax.swing.GroupLayout(Ventana);
@@ -53,10 +52,10 @@ public class Interfaz extends javax.swing.JFrame {
         );
         VentanaLayout.setVerticalGroup(
             VentanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 470, Short.MAX_VALUE)
+            .addGap(0, 480, Short.MAX_VALUE)
         );
 
-        getContentPane().add(Ventana, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 470));
+        getContentPane().add(Ventana, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 480));
 
         menadd.setText("Añadir");
 
@@ -118,7 +117,7 @@ public class Interfaz extends javax.swing.JFrame {
         Close.setText("Salir");
 
         CerrarS.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        CerrarS.setText("Cerrar Seción");
+        CerrarS.setText("Cerrar Sesión");
         CerrarS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CerrarSActionPerformed(evt);
@@ -140,46 +139,53 @@ public class Interfaz extends javax.swing.JFrame {
         setJMenuBar(jMenuBar1);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addcliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addcliActionPerformed
-        addCliente verventana = new addCliente();
-    Ventana.add(verventana);
-    verventana.show();
+        // Codigos necesarios para mostrar la subventana de clientes en la interfaz
+        addCliente clientes = new addCliente();
+        Ventana.add(clientes);
+        clientes.show();
     }//GEN-LAST:event_addcliActionPerformed
 
     private void UsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuActionPerformed
-    Usuarios verventana = new Usuarios();
-    Ventana.add(verventana);
-    verventana.show();
+        // Codigos necesarios para mostrar la subventana de usuarios en la interfaz
+        Usuarios usuarios = new Usuarios();
+        Ventana.add(usuarios);
+        usuarios.show();
     }//GEN-LAST:event_UsuActionPerformed
 
     private void CerrarSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarSActionPerformed
-        Login ven = new Login();
-       ven.setVisible(true);
-       this.dispose();
+        // Codigos necesarios para mostrar la ventana de login y cerrar el menu principal
+        Login login = new Login();
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_CerrarSActionPerformed
 
     private void CerrarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarPActionPerformed
-        exit(0);
+        System.exit(0);     // Se cierra la ventana y finaliza la ejecucion
     }//GEN-LAST:event_CerrarPActionPerformed
 
     private void addhabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addhabActionPerformed
-    addHabitacion verventana = new addHabitacion();
-    Ventana.add(verventana);
-    verventana.show();
+        // Codigos necesarios para mostrar la subventana de habitaciones en la interfaz
+        addHabitacion habitacion = new addHabitacion();
+        Ventana.add(habitacion);
+        habitacion.show();
     }//GEN-LAST:event_addhabActionPerformed
 
     private void addprodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addprodActionPerformed
-    addProducto verventana = new addProducto();
-    Ventana.add(verventana);
-    verventana.show();
+        // Codigos necesarios para mostrar la subventana de productos en la interfaz
+        addProducto producto = new addProducto();
+        Ventana.add(producto);
+        producto.show();
     }//GEN-LAST:event_addprodActionPerformed
 
     private void ResyproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResyproActionPerformed
-    Recervacion verventana = new Recervacion();
-    Ventana.add(verventana);
-    verventana.show();
+        // Codigos necesarios para mostrar la subventana de reservaciones en la interfaz
+        Reservacion reservacion = new Reservacion();
+        Ventana.add(reservacion);
+        reservacion.show();
     }//GEN-LAST:event_ResyproActionPerformed
 
     /**
