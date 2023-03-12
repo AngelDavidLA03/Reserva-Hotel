@@ -1,4 +1,10 @@
 # Proyecto 3
+ADVERTENCIA
+Para el testeo del proyecto es necesario realizar lo siguiente:
+- Instalar el SGBD MariaDB y crear la contraseña para el usuario "root".
+- Abrir los scrpits en HeidiSQL (que se instalará junto con MariaDB) y ejecutarlos.
+- Modificar la clase Conexion.java, para añadir la misma contraseña al usuario "root" 
+
 El siguiente repositorio tendrá el fin de almacenar el código referente al proyecto
 
 Descripción:
