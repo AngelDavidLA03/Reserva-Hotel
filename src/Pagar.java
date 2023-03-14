@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 *   - Angel David Lopez Alvarez - 20660062
 */
 
-public class Pagar extends javax.swing.JFrame {
+public class Pagar extends javax.swing.JFrame implements textFieldConfig {
 
     /**
      * Creates new form Pagar
@@ -192,40 +192,6 @@ public class Pagar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtClienteActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Pagar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Pagar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Pagar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Pagar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Pagar().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
@@ -262,4 +228,29 @@ public class Pagar extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtsubtotal;
     private javax.swing.JTextField txttotalreserva;
     // End of variables declaration//GEN-END:variables
+
+    // Metodo encargado para bloquear los campos de texto
+    @Override
+    public void lockTextEdit()
+    {
+        // Se bloquea la edicion de los campos de texto
+        
+    }
+    
+    // Metodo encargado para desbloquear los campos de texto
+    @Override
+    public void unlockTextEdit()
+    {
+        // Se desbloquea la edicion de los campos de texto
+        
+    }
+    
+    // Metodo encargado para vaciar los campos de texto
+    @Override
+    public void clearTextField()
+    {
+        // Se vacian los campos de texto
+        
+    }
+
 }

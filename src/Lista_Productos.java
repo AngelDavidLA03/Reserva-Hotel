@@ -1,5 +1,6 @@
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
 *   VENTANA QUE SIRVE A MANERA DE VISUALIZAR TODOS LOS PRODUCTOS QUE OFRECE EL HOTEL
 *   INTEGRANTES DEL EQUIPO
@@ -14,6 +15,9 @@ public class Lista_Productos extends javax.swing.JFrame {
      */
     public Lista_Productos() {
         initComponents();
+        
+        // Se carga la tabla de productos
+        loadTableProducts();
     }
 
     /**
@@ -25,16 +29,18 @@ public class Lista_Productos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        background = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableProducts = new javax.swing.JTable();
         ButtonBuscar = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tableProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -53,28 +59,79 @@ public class Lista_Productos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        tableProducts.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tableProducts);
+        if (tableProducts.getColumnModel().getColumnCount() > 0) {
+            tableProducts.getColumnModel().getColumn(0).setResizable(false);
+            tableProducts.getColumnModel().getColumn(1).setResizable(false);
+            tableProducts.getColumnModel().getColumn(2).setResizable(false);
+            tableProducts.getColumnModel().getColumn(3).setResizable(false);
+            tableProducts.getColumnModel().getColumn(4).setResizable(false);
+            tableProducts.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 300));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 290));
 
         ButtonBuscar.setText("Buscar");
-        getContentPane().add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
+        ButtonBuscar.setEnabled(false);
+        background.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
 
-        txtBuscar.setText("Buscar");
-        getContentPane().add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 270, -1));
+        txtBuscar.setEditable(false);
+        txtBuscar.setText("Ingrese el código del producto.");
+        txtBuscar.setEnabled(false);
+        txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusLost(evt);
+            }
+        });
+        txtBuscar.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtBuscarInputMethodTextChanged(evt);
+            }
+        });
+        background.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 270, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
+        // Se analiza si el valor del campo de texto es igual al mensaje por defecto
+        if(txtBuscar.getText().equals("Ingrese el código del producto."))
+        {
+            // Si el valor es igual al mensaje, este mismo se quita
+            txtBuscar.setText("");
+        }
+    }//GEN-LAST:event_txtBuscarFocusGained
+
+    private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
+        // Se analiza si el valor del campo de texto es nulo
+        if(txtBuscar.getText().equals(""))
+        {
+            // Si el valor es nulo, se vuelve a colocar el mensaje
+            txtBuscar.setText("Ingrese el código del producto.");
+        }
+    }//GEN-LAST:event_txtBuscarFocusLost
+
+    private void txtBuscarInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtBuscarInputMethodTextChanged
+        System.out.println(evt.getText());
+    }//GEN-LAST:event_txtBuscarInputMethodTextChanged
 
     /**
      * @param args the command line arguments
@@ -113,8 +170,49 @@ public class Lista_Productos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBuscar;
+    private javax.swing.JPanel background;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableProducts;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+
+    // Metodo encargado de llenar la tabla de los productos
+    private void loadTableProducts()
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableProducts.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `SEARCHproduct`");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();           // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
 }

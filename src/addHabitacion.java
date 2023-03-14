@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 *   - Kevin Alan Flores Reyna - 20660053
 *   - Angel David Lopez Alvarez - 20660062
 */
-public class addHabitacion extends javax.swing.JInternalFrame {
+public class addHabitacion extends javax.swing.JInternalFrame implements textFieldConfig {
 
     /**
      * Creates new form addHabitacion
@@ -91,8 +91,6 @@ public class addHabitacion extends javax.swing.JInternalFrame {
 
         ButtonGuardar.setText("Guardar");
         jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, -1, -1));
-
-        Imagen.setText("Imagen");
         jPanel1.add(Imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 130, 70));
 
         Comboboxnumcamas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "1", "2", "3", "4" }));
@@ -184,4 +182,29 @@ public class addHabitacion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNumhab;
     private javax.swing.JTextField txtpiso;
     // End of variables declaration//GEN-END:variables
+    
+    // Metodo encargado para bloquear los campos de texto
+    @Override
+    public void lockTextEdit()
+    {
+        // Se bloquea la edicion de los campos de texto
+        
+    }
+    
+    // Metodo encargado para desbloquear los campos de texto
+    @Override
+    public void unlockTextEdit()
+    {
+        // Se desbloquea la edicion de los campos de texto
+        
+    }
+    
+    // Metodo encargado para vaciar los campos de texto
+    @Override
+    public void clearTextField()
+    {
+        // Se vacian los campos de texto
+        
+    }
+
 }

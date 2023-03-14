@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 *   - Kevin Alan Flores Reyna - 20660053
 *   - Angel David Lopez Alvarez - 20660062
 */
-public class Reservacion extends javax.swing.JInternalFrame {
+public class Reservacion extends javax.swing.JInternalFrame implements textFieldConfig {
 
     /**
      * Creates new form Recervacion
@@ -120,17 +120,27 @@ public class Reservacion extends javax.swing.JInternalFrame {
         ComboboxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Alquiler", "Pagado", "Anulada" }));
         jPanel1.add(ComboboxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, -1, -1));
 
-        ButtonConshabi.setText("jButton8");
-        jPanel1.add(ButtonConshabi, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 60, -1));
+        ButtonConshabi.setText("Buscar");
+        ButtonConshabi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonConshabiActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonConshabi, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 70, -1));
 
-        ButtonConscli.setText("jButton9");
-        jPanel1.add(ButtonConscli, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 60, -1));
+        ButtonConscli.setText("Buscar");
+        ButtonConscli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonConscliActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonConscli, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 70, -1));
 
         Comboboxtiporeserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-------", "Reserva", "Alquiler" }));
         jPanel1.add(Comboboxtiporeserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, -1, -1));
 
         txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, -1, -1));
+        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 130, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 370));
 
@@ -180,9 +190,14 @@ public class Reservacion extends javax.swing.JInternalFrame {
         jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
 
         txtTotal.setText("Total: $");
-        jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 160, 20));
+        jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 160, 30));
 
         jButton6.setText("Consumo");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 335, -1, -1));
 
         jButton7.setText("Pagar");
@@ -202,6 +217,21 @@ public class Reservacion extends javax.swing.JInternalFrame {
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtClienteActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        Lista_Productos lProducts = new Lista_Productos();
+        lProducts.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void ButtonConshabiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConshabiActionPerformed
+        Lista_habitaciones lHabitacion = new Lista_habitaciones();
+        lHabitacion.setVisible(true);
+    }//GEN-LAST:event_ButtonConshabiActionPerformed
+
+    private void ButtonConscliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConscliActionPerformed
+        Lista_Clientes lClient = new Lista_Clientes();
+        lClient.setVisible(true);
+    }//GEN-LAST:event_ButtonConscliActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -241,4 +271,29 @@ public class Reservacion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtTrabajador;
     private javax.swing.JTextField txtcantdias;
     // End of variables declaration//GEN-END:variables
+
+    // Metodo encargado para bloquear los campos de texto
+    @Override
+    public void lockTextEdit()
+    {
+        // Se bloquea la edicion de los campos de texto
+        
+    }
+    
+    // Metodo encargado para desbloquear los campos de texto
+    @Override
+    public void unlockTextEdit()
+    {
+        // Se desbloquea la edicion de los campos de texto
+        
+    }
+    
+    // Metodo encargado para vaciar los campos de texto
+    @Override
+    public void clearTextField()
+    {
+        // Se vacian los campos de texto
+        
+    }
+
 }

@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 *   - Kevin Alan Flores Reyna - 20660053
 *   - Angel David Lopez Alvarez - 20660062
 */
-public class addProducto extends javax.swing.JInternalFrame {
+public class addProducto extends javax.swing.JInternalFrame implements textFieldConfig {
 
     /**
      * Creates new form addProducto
@@ -18,9 +18,11 @@ public class addProducto extends javax.swing.JInternalFrame {
         // Se llama al metodo para bloquear los campos de texto
         lockTextEdit();
         
+        // Se deshabilitan los botones de aceptar y cancelar
         btnCancel.setVisible(false);
         btnAccept.setVisible(false);
         
+        // Se carga la tabla de productos
         loadTableProducts();
     }
 
@@ -134,7 +136,7 @@ public class addProducto extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Código Producto", "Nombre", "Precio Unitario", "Strock", "Medida", "Cantidad por unidad"
+                "Código Producto", "Nombre", "Precio Unitario", "Stock", "Medida", "Cantidad por unidad"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -399,7 +401,8 @@ public class addProducto extends javax.swing.JInternalFrame {
     }
     
     // Metodo encargado para bloquear los campos de texto
-    private void lockTextEdit()
+    @Override
+    public void lockTextEdit()
     {
         // Se bloquea la edicion de los campos de texto
         txtCodProd.setEditable(false);
@@ -411,7 +414,8 @@ public class addProducto extends javax.swing.JInternalFrame {
     }
     
     // Metodo encargado para desbloquear los campos de texto
-    private void unlockTextEdit()
+    @Override
+    public void unlockTextEdit()
     {
         // Se desbloquea la edicion de los campos de texto
         txtCodProd.setEditable(true);
@@ -423,7 +427,8 @@ public class addProducto extends javax.swing.JInternalFrame {
     }
     
     // Metodo encargado para vaciar los campos de texto
-    private void clearTextField()
+    @Override
+    public void clearTextField()
     {
         // Se vacian los campos de texto
         txtCodProd.setText("");

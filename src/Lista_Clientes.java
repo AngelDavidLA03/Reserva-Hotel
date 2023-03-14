@@ -14,6 +14,8 @@ public class Lista_Clientes extends javax.swing.JFrame {
      */
     public Lista_Clientes() {
         initComponents();
+        
+        
     }
 
     /**
@@ -25,17 +27,16 @@ public class Lista_Clientes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtBuscar = new javax.swing.JTextField();
+        background = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         ButtonBuscar = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtBuscar.setText("Buscar");
-        getContentPane().add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 280, -1));
+        background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -69,14 +70,66 @@ public class Lista_Clientes extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(7).setResizable(false);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
 
         ButtonBuscar.setText("Buscar");
-        getContentPane().add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
+        background.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
+
+        txtBuscar.setText("Ingrese el ID del cliente.");
+        txtBuscar.setEnabled(false);
+        txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusLost(evt);
+            }
+        });
+        txtBuscar.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtBuscarInputMethodTextChanged(evt);
+            }
+        });
+        background.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 270, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
+        // Se analiza si el valor del campo de texto es igual al mensaje por defecto
+        if(txtBuscar.getText().equals("Ingrese el ID del cliente."))
+        {
+            // Si el valor es igual al mensaje, este mismo se quita
+            txtBuscar.setText("");
+        }
+    }//GEN-LAST:event_txtBuscarFocusGained
+
+    private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
+        // Se analiza si el valor del campo de texto es nulo
+        if(txtBuscar.getText().equals(""))
+        {
+            // Si el valor es nulo, se vuelve a colocar el mensaje
+            txtBuscar.setText("Ingrese el ID del cliente.");
+        }
+    }//GEN-LAST:event_txtBuscarFocusLost
+
+    private void txtBuscarInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtBuscarInputMethodTextChanged
+        System.out.println(evt.getText());
+    }//GEN-LAST:event_txtBuscarInputMethodTextChanged
 
     /**
      * @param args the command line arguments
@@ -115,8 +168,11 @@ public class Lista_Clientes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBuscar;
+    private javax.swing.JPanel background;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+
+
 }

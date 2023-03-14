@@ -27,12 +27,12 @@ public class Interfaz extends javax.swing.JFrame {
 
         Ventana = new javax.swing.JPanel();
         menubar = new javax.swing.JMenuBar();
+        menres = new javax.swing.JMenu();
+        Resypro = new javax.swing.JMenuItem();
         menadd = new javax.swing.JMenu();
         addhab = new javax.swing.JMenuItem();
         addprod = new javax.swing.JMenuItem();
         addcli = new javax.swing.JMenuItem();
-        menres = new javax.swing.JMenu();
-        Resypro = new javax.swing.JMenuItem();
         Usuarios = new javax.swing.JMenu();
         Usu = new javax.swing.JMenuItem();
         Close = new javax.swing.JMenu();
@@ -57,37 +57,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         getContentPane().add(Ventana, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 480));
 
-        menadd.setText("Añadir");
-
-        addhab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        addhab.setText("Añadir Habitación");
-        addhab.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addhabActionPerformed(evt);
-            }
-        });
-        menadd.add(addhab);
-
-        addprod.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        addprod.setText("Añadir Producto");
-        addprod.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addprodActionPerformed(evt);
-            }
-        });
-        menadd.add(addprod);
-
-        addcli.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        addcli.setText("Añadir Cliente");
-        addcli.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addcliActionPerformed(evt);
-            }
-        });
-        menadd.add(addcli);
-
-        menubar.add(menadd);
-
         menres.setText("Reservar");
 
         Resypro.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -100,6 +69,37 @@ public class Interfaz extends javax.swing.JFrame {
         menres.add(Resypro);
 
         menubar.add(menres);
+
+        menadd.setText("Añadir");
+
+        addhab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        addhab.setText("Habitación");
+        addhab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addhabActionPerformed(evt);
+            }
+        });
+        menadd.add(addhab);
+
+        addprod.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        addprod.setText("Producto");
+        addprod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addprodActionPerformed(evt);
+            }
+        });
+        menadd.add(addprod);
+
+        addcli.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        addcli.setText("Cliente");
+        addcli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addcliActionPerformed(evt);
+            }
+        });
+        menadd.add(addcli);
+
+        menubar.add(menadd);
 
         Usuarios.setText("Configurar");
 
@@ -157,6 +157,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_UsuActionPerformed
 
     private void CerrarSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarSActionPerformed
+        JOptionPane.showMessageDialog(null, "FINALIZANDO LA SESION ACTUAL","SESION CERRADA", JOptionPane.INFORMATION_MESSAGE);
+
         // Codigos necesarios para mostrar la ventana de login y cerrar el menu principal
         Login login = new Login();
         login.setVisible(true);
