@@ -35,7 +35,7 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Ventana = new javax.swing.JPanel();
+        Ventana = new javax.swing.JDesktopPane();
         menubar = new javax.swing.JMenuBar();
         menres = new javax.swing.JMenu();
         Resypro = new javax.swing.JMenuItem();
@@ -65,7 +65,7 @@ public class Interfaz extends javax.swing.JFrame {
             .addGap(0, 480, Short.MAX_VALUE)
         );
 
-        getContentPane().add(Ventana, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 480));
+        getContentPane().add(Ventana, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         menres.setText("Reservar");
 
@@ -244,7 +244,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuItem Resypro;
     private javax.swing.JMenuItem Usu;
     private javax.swing.JMenu Usuarios;
-    private javax.swing.JPanel Ventana;
+    private javax.swing.JDesktopPane Ventana;
     private javax.swing.JMenuItem addcli;
     private javax.swing.JMenuItem addhab;
     private javax.swing.JMenuItem addprod;
