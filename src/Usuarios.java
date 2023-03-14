@@ -83,7 +83,7 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setText("Nombre");
+        jLabel3.setText("Nombre(s)");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
 
         jLabel4.setText("Apellido Paterno");
@@ -92,10 +92,10 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         jLabel5.setText("Apellido Materno");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
 
-        jLabel6.setText("Rol Empleado");
+        jLabel6.setText("Rol de Recepcionista");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
-        jLabel7.setText("Código Empleado");
+        jLabel7.setText("Código de Recepcionista");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
         jLabel8.setText("Contraseña");
@@ -106,6 +106,8 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
 
         jLabel10.setText("Código Postal");
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
+
+        txtCodEmp.setEditable(false);
         jPanel1.add(txtCodEmp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 130, -1));
         jPanel1.add(txtNombreEmp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 130, -1));
         jPanel1.add(txtAppat, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 130, -1));
@@ -543,7 +545,6 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
     public void lockTextEdit()
     {
         // Se bloquea la edicion de los campos de texto
-        txtCodEmp.setEditable(false);
         cmbBoxRol.setEditable(false);
         txtNombreEmp.setEditable(false);
         txtAppat.setEditable(false);

@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
     private static int trys = 5;        // Intentos de inicio de sesion antes de cerrar el programa 
+    private static String rol = "";
     
     public Login() {
         initComponents();
@@ -101,8 +102,8 @@ public class Login extends javax.swing.JFrame {
             if(loginCheck(recID,passRec))
             {
                 JOptionPane.showMessageDialog(null, "BIENVENIDO","LOGIN EXITOSO", JOptionPane.INFORMATION_MESSAGE);
-                new Interfaz().setVisible(true);    // Se instancia una nueva interfaz del menu principal
-                this.dispose();                     // La ventana actual (login) se cierra
+                new Interfaz(rol).setVisible(true);         // Se instancia una nueva interfaz del menu principal
+                this.dispose();                             // La ventana actual (login) se cierra
 
             }
             // Sin embargo, si el valor es falso
@@ -203,6 +204,7 @@ public class Login extends javax.swing.JFrame {
                     {
                         isExist = false;        // Si no existen resultados de la consulta, se asigna el valor de falso
                     }
+                    rol = rs.getString("rolRec");
                 }
             }
             cx.disconnect();    // Se cierra la conexion con la base de datos

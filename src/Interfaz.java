@@ -8,12 +8,22 @@ import javax.swing.JOptionPane;
 */
 
 public class Interfaz extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Interfaz
-     */
-    public Interfaz() {
+    
+    private static String rolRec;           // Atributo para almacenar el rol del usuario logeado
+    
+    public Interfaz(String rol) {
         initComponents();
+        
+        // Se asigna el valor para el atributo de rolRec
+        rolRec = rol;
+        
+        // Se analiza si rol es igual a Normal
+        if(rol.equals("Normal"))
+        {
+            // Si lo es, se bloquea el acceso a estos menús ocultandolos
+            menadd.setVisible(false);
+            Usuarios.setVisible(false);
+        }
     }
 
     /**
@@ -157,6 +167,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_UsuActionPerformed
 
     private void CerrarSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarSActionPerformed
+        // Se notifica al usuario que se cerrara la sesion
         JOptionPane.showMessageDialog(null, "FINALIZANDO LA SESION ACTUAL","SESION CERRADA", JOptionPane.INFORMATION_MESSAGE);
 
         // Codigos necesarios para mostrar la ventana de login y cerrar el menu principal
@@ -166,7 +177,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_CerrarSActionPerformed
 
     private void CerrarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarPActionPerformed
-        System.exit(0);     // Se cierra la ventana y finaliza la ejecucion
+        // Se cierra la ventana y finaliza la ejecucion
+        System.exit(0);     
     }//GEN-LAST:event_CerrarPActionPerformed
 
     private void addhabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addhabActionPerformed
@@ -220,7 +232,7 @@ public class Interfaz extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Interfaz().setVisible(true);
+                new Interfaz(rolRec).setVisible(true);
             }
         });
     }

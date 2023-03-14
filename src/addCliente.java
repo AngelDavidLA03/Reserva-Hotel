@@ -1,5 +1,9 @@
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
 *   SUBVENTANA ENCARGADA DE VER, AÑADIR, Y MODIFICAR LOS DATOS DE LOS CLIENTES EN EL PROGRAMA
 *   INTEGRANTES DEL EQUIPO
@@ -13,6 +17,16 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
      */
     public addCliente() {
         initComponents();
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+        
+        // Se deshabilitan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+        
+        // Se carga la tabla de productos
+        loadTableClients();
     }
 
     /**
@@ -34,19 +48,25 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtCodCli = new javax.swing.JTextField();
-        txtcurp = new javax.swing.JTextField();
-        txtNombre = new javax.swing.JTextField();
-        txtAppat = new javax.swing.JTextField();
-        txtApmat = new javax.swing.JTextField();
-        txtPasa = new javax.swing.JTextField();
-        txtTel = new javax.swing.JTextField();
-        txtCorreo = new javax.swing.JTextField();
+        txtCurp = new javax.swing.JTextField();
+        txtNom = new javax.swing.JTextField();
+        txtAp = new javax.swing.JTextField();
+        txtAm = new javax.swing.JTextField();
+        txtNumPass = new javax.swing.JTextField();
+        txtTelf = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        txtTipoClient = new javax.swing.JTextField();
+        chckBoxExtern = new javax.swing.JCheckBox();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         ButtonBorrar = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnAccept = new javax.swing.JButton();
         ButtonNuevo = new javax.swing.JButton();
-        ButtonGuardar = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableClients = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         ButtonBuscar = new javax.swing.JButton();
         ButtonEliminar = new javax.swing.JButton();
@@ -61,7 +81,7 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setText("Nombre");
+        jLabel3.setText("Nombre(s)");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
         jLabel4.setText("Apellido Paterno");
@@ -82,82 +102,107 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         jLabel9.setText("Télefono");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
 
-        jLabel10.setText("Correo");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+        jLabel10.setText("de reservas externa?");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, -1, -1));
 
-        txtCodCli.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodCliActionPerformed(evt);
-            }
-        });
+        txtCodCli.setEditable(false);
         jPanel1.add(txtCodCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 130, -1));
-        jPanel1.add(txtcurp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
+        jPanel1.add(txtCurp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
+        jPanel1.add(txtNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
+        jPanel1.add(txtAp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
+        jPanel1.add(txtAm, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 130, -1));
+        jPanel1.add(txtNumPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
+        jPanel1.add(txtTelf, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 130, -1));
+        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 130, -1));
+        jPanel1.add(txtTipoClient, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 130, -1));
+        jPanel1.add(chckBoxExtern, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 285, -1, -1));
 
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
-        jPanel1.add(txtAppat, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
-        jPanel1.add(txtApmat, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 130, -1));
-        jPanel1.add(txtPasa, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
+        jLabel11.setText("Correo");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
 
-        txtTel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTelActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtTel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 130, -1));
-        jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 130, -1));
+        jLabel12.setText("¿Cliente de página ");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
 
         ButtonBorrar.setText("Borrar");
-        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
+        ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonBorrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, -1, -1));
+
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, -1, -1));
+
+        btnAccept.setText("Aceptar");
+        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, -1, -1));
 
         ButtonNuevo.setText("Nuevo");
-        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 310, -1, -1));
+        ButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonNuevoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, -1, -1));
 
-        ButtonGuardar.setText("Guardar");
-        jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, -1, -1));
+        jLabel13.setText("Tipo de Cliente");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 370));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 410));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código Cliente", "CURP", "Nombre", "Apellido Paterno", "Apellido Materno", "Núm. Pasaporte", "Télefono", "Correo"
+                "Código Cliente", "CURP", "Nombre", "Apellido Paterno", "Apellido Materno", "Núm. Pasaporte", "Télefono", "Correo", "Tipo Cliente", "¿Es externo?"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(6).setResizable(false);
-            jTable1.getColumnModel().getColumn(7).setResizable(false);
+        tableClients.getTableHeader().setReorderingAllowed(false);
+        tableClients.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableClientsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableClients);
+        if (tableClients.getColumnModel().getColumnCount() > 0) {
+            tableClients.getColumnModel().getColumn(0).setResizable(false);
+            tableClients.getColumnModel().getColumn(1).setResizable(false);
+            tableClients.getColumnModel().getColumn(2).setResizable(false);
+            tableClients.getColumnModel().getColumn(3).setResizable(false);
+            tableClients.getColumnModel().getColumn(4).setResizable(false);
+            tableClients.getColumnModel().getColumn(5).setResizable(false);
+            tableClients.getColumnModel().getColumn(6).setResizable(false);
+            tableClients.getColumnModel().getColumn(7).setResizable(false);
+            tableClients.getColumnModel().getColumn(8).setResizable(false);
+            tableClients.getColumnModel().getColumn(9).setResizable(false);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 300));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 340));
 
         txtBuscar.setText("Buscar");
         jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 280, -1));
@@ -168,7 +213,7 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         ButtonEliminar.setText("Eliminar");
         jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 370));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 410));
 
         jLabel1.setText("Datos del Cliente");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
@@ -179,27 +224,165 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCodCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodCliActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodCliActionPerformed
+    private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+    }//GEN-LAST:event_ButtonBorrarActionPerformed
 
-    private void txtTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+
+        // Se ocultan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+
+        // Se muestran los demas botones de accion
+        ButtonBorrar.setVisible(true);
+        ButtonNuevo.setVisible(true);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+
+        DateFormat dateFormat = new SimpleDateFormat("yyMMdd");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
+        String date = dateFormat.format(Calendar.getInstance().getTime());  // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+
+        String controlador = "";
+        
+        if(txtCurp.getText().equals("") && !txtNumPass.getText().equals(""))
+        {
+            controlador = "CURP";
+        }
+        else if(!txtCurp.getText().equals("") && txtNumPass.getText().equals(""))
+        {
+            controlador = "PASAPORTE";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "El nuevo cliente debe tener obligatoriamente o CURP o su Número de Pasaporte, favor de rellenarlos", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        }
+
+        // Se analiza si existe algun campo vacio en los campos de texto
+        if(controlador.equals("") || txtNom.getText().equals("") ||txtAp.getText().equals("") || txtAm.getText().equals("") || txtTelf.getText().equals("") || txtEmail.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Existe algun campo vacio, favor de llenarlos", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        }
+        // Sin embargo, si no existen campos vacios
+        else
+        {
+            // Se extraen las primeras letras tando del nombre, como de los apellidos (si tiene mas de un nombre, igualmente se extraera su inicial)
+            String name = txtNom.getText();;
+            String[] names = name.split(" ");
+
+            char nomInitial = 'X';
+            char secondNomInitial = 'X';
+            if(names.length == 2)
+            {
+                nomInitial = names[0].charAt(0);
+                secondNomInitial = names[1].charAt(0);
+            }
+            else
+            {
+                nomInitial = names[0].charAt(0);
+            }
+            char apInitial = txtAp.getText().charAt(0);
+            char amInitial = txtAm.getText().charAt(0);
+
+            // Variables en las que se almacenaran lo almacenado en los espacios de la ventana
+
+            // Se hace una concatenacion entre las iniciales y la fecha
+            String codClient = String.valueOf(nomInitial) + String.valueOf(secondNomInitial) + String.valueOf(apInitial) + String.valueOf(amInitial) + date;
+            txtCodCli.setText(codClient);
+
+            String nomClient = txtNom.getText();
+            String apClient = txtAp.getText();
+            String amClient = txtAm.getText();
+            String telfClient = txtTelf.getText();
+            String emailClient = txtEmail.getText();
+            String tipoClient = txtTipoClient.getText();
+            String curpClient = txtCurp.getText();
+            String numPasaporteClient = txtNumPass.getText();
+            int isPagExternas = 0;
+            
+            // Se analiza si el checkbox esta activado
+            if(chckBoxExtern.isSelected())
+            {
+                isPagExternas = 1;        // Se asigna el valor de 1 para notificar que si proviene de una pagina externa
+            }
+            // Sin embargo, si el checkbox esta desactivado
+            else
+            {
+                isPagExternas = 0;        // Se asigna el valor de 0 para notificar que no proviene de una pagina externa
+            }
+            
+            
+
+            // Se ejecuta el metodo para añadir los valores a la tabla de productos
+            ADDclients(codClient,nomClient,apClient,amClient,telfClient,emailClient,tipoClient,curpClient,numPasaporteClient,isPagExternas);
+
+            // Se llama al metodo para bloquear los campos de texto
+            lockTextEdit();
+
+            // Se ocultan los botones de aceptar y cancelar
+            btnCancel.setVisible(false);
+            btnAccept.setVisible(false);
+
+            // Se muestran los demas botones de accion
+            ButtonBorrar.setVisible(true);
+            ButtonNuevo.setVisible(true);
+
+        }
+    }//GEN-LAST:event_btnAcceptActionPerformed
+
+    private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para desbloquear los campos de texto
+        unlockTextEdit();
+
+        // Se muestran los botones de aceptar y cancelar
+        btnCancel.setVisible(true);
+        btnAccept.setVisible(true);
+
+        // Se ocultan los demas botones de accion
+        ButtonBorrar.setVisible(false);
+        ButtonNuevo.setVisible(false);
+        
+        // Se asigna el valor al campo de texto como esporadico
+        txtTipoClient.setText("Esporadico");
+        txtTipoClient.setEditable(false);
+
+    }//GEN-LAST:event_ButtonNuevoActionPerformed
+
+    private void tableClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientsMouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableClients.getModel();               // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        String codClient = String.valueOf(modeloTabla.getValueAt(tableClients.getSelectedRow(),0));    // Se extrae el valor de la tabla de la ventana que se encuentre en la fila 0
+
+        // Se ejecuta el metodo encargado de buscar los productos de forma separada
+        SEARCHclientUNIQUE(codClient);
+    }//GEN-LAST:event_tableClientsMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
     private javax.swing.JButton ButtonBuscar;
     private javax.swing.JButton ButtonEliminar;
-    private javax.swing.JButton ButtonGuardar;
     private javax.swing.JButton ButtonNuevo;
+    private javax.swing.JButton btnAccept;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JCheckBox chckBoxExtern;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -211,24 +394,187 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtApmat;
-    private javax.swing.JTextField txtAppat;
+    private javax.swing.JTable tableClients;
+    private javax.swing.JTextField txtAm;
+    private javax.swing.JTextField txtAp;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCodCli;
-    private javax.swing.JTextField txtCorreo;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPasa;
-    private javax.swing.JTextField txtTel;
-    private javax.swing.JTextField txtcurp;
+    private javax.swing.JTextField txtCurp;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtNom;
+    private javax.swing.JTextField txtNumPass;
+    private javax.swing.JTextField txtTelf;
+    private javax.swing.JTextField txtTipoClient;
     // End of variables declaration//GEN-END:variables
+    
+    // Metodo encargado de buscar un recepcionista segun su clave primaria
+    private void SEARCHclientUNIQUE(String codClient)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
 
+        try 
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+
+            ps = cn.prepareStatement("CALL `SEARCHclientUNIQUE`(?)");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps.setString(1, codClient);                                      // Se asigna el valor del parametro codProduct a la consulta
+
+            rs = ps.executeQuery();                                 // Se ejecuta la consulta
+
+            // Se comprueba si el valor arrojado de la consulta es diferente a nulo
+            if(rs != null)
+            {
+                // Ciclo while donde se comprueba si existe un registro siguiente
+                while(rs.next())
+                {
+                    // Se asignan los valores encontrados en la consulta
+                    txtCodCli.setText(rs.getString("codClient"));
+                    txtNom.setText(rs.getString("nomClient"));
+                    txtAp.setText(rs.getString("apClient"));
+                    txtAm.setText(rs.getString("amClient"));
+                    txtTelf.setText(rs.getString("telfClient"));
+                    txtEmail.setText(rs.getString("emailClient"));
+                    txtCurp.setText(rs.getString("curpClient") + "");
+                    txtNumPass.setText(rs.getString("numPasaporteClient"));
+                    txtTipoClient.setText(rs.getString("tipoClient"));
+                    
+                    // Se analiza si el cliente es de una pagina externa
+                    if(rs.getInt("isPagExternas") == 1)
+                    {
+                        chckBoxExtern.setSelected(true);        // Se activa el checkbox para notificar que si proviene de una pagina externa
+                    }
+                    // Sin embargo, si no es de una pagina externa
+                    else
+                    {
+                        chckBoxExtern.setSelected(false);       // Se desactiva el checkbox para notificar que no proviene de una pagina externa
+                    }
+                }
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
+    // Metodo encargado de añadir los valores en la tabla de recepcionistas
+    private void ADDclients(String codClient, String nomClient, String apClient, String amClient, String telfClient, String emailClient, String tipoClient, String curpClient, String numPasaporteClient, int isPagExternas)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `ADDclient`(?,?,?,?,?,?,?,?,?,?)");  // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asignan los valores de los parametros a la modificacion
+            ps.setString(1, codClient);
+            ps.setString(2, nomClient);
+            ps.setString(3, apClient);
+            ps.setString(4, amClient);
+            ps.setString(5, telfClient);
+            ps.setString(6, emailClient);
+            ps.setString(7, tipoClient);
+            ps.setString(8, curpClient);
+            ps.setString(9, numPasaporteClient);
+            ps.setInt(10, isPagExternas);
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            // Se notifica al usuario que se ha registrado el producto
+            JOptionPane.showMessageDialog(null, "SE HA REGISTRADO AL NUEVO CLIENTE");
+            
+            //  SE PREPARA LA ADICION A LA ESPECIALIZACION DE ESPORADICO
+            
+            ps = cn.prepareStatement("CALL `ADDesporadic`(?)");                 // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asigna el valor del parametro de la modificacion
+            ps.setString(1,codClient);
+            
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+
+            cx.disconnect();        // Se cierra la conexion con la base de datos
+            loadTableClients();    // Se actualiza la tabla 
+        }
+        
+        
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
+        }
+    }
+    
+    // Metodo encargado de llenar la tabla de los recepcionistas
+    private void loadTableClients()
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableClients.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `SEARCHclient`");       // Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();           // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                    
+                    // Se analiza si el valor contenido en la fila 9 es verdadero
+                    if(i == 9 && fila[9].equals(true))
+                    {
+                        // Se sustituye el valor de la fila 9 por "Si"
+                        fila[9] = "Si";
+                    }
+                    // Sin embargo, se analiza si el valor contenido en la fila 9 es falso
+                    else if(i == 9 && fila[9].equals(false))
+                    {
+                        // Se sustituye el valor de la fila 9 por "No"
+                        fila[9] = "No";
+                    }
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
     // Metodo encargado para bloquear los campos de texto
     @Override
     public void lockTextEdit()
     {
         // Se bloquea la edicion de los campos de texto
-        
+        txtCurp.setEditable(false);
+        txtNom.setEditable(false);
+        txtAp.setEditable(false);
+        txtAm.setEditable(false);
+        txtNumPass.setEditable(false);
+        txtTelf.setEditable(false);
+        txtEmail.setEditable(false);
+        txtTipoClient.setEditable(false);
     }
     
     // Metodo encargado para desbloquear los campos de texto
@@ -236,7 +582,14 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
     public void unlockTextEdit()
     {
         // Se desbloquea la edicion de los campos de texto
-        
+        txtCurp.setEditable(true);
+        txtNom.setEditable(true);
+        txtAp.setEditable(true);
+        txtAm.setEditable(true);
+        txtNumPass.setEditable(true);
+        txtTelf.setEditable(true);
+        txtEmail.setEditable(true);
+        txtTipoClient.setEditable(true);
     }
     
     // Metodo encargado para vaciar los campos de texto
@@ -244,7 +597,16 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
     public void clearTextField()
     {
         // Se vacian los campos de texto
-        
+        txtCodCli.setText("");
+        txtCurp.setText("");
+        txtNom.setText("");
+        txtAp.setText("");
+        txtAm.setText("");
+        txtNumPass.setText("");
+        txtTelf.setText("");
+        txtEmail.setText("");
+        txtTipoClient.setText("");
+        chckBoxExtern.setSelected(false);
     }
 
 }

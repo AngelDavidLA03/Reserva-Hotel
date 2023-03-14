@@ -14,7 +14,7 @@ CREATE TABLE Cliente (codClient VARCHAR(10) PRIMARY KEY NOT NULL COMMENT 'Formad
 	nomClient VARCHAR(24) NOT NULL, 
 	apClient VARCHAR(16) NOT NULL, 
 	amClient VARCHAR(16) NOT NULL,
-	telfClient VARCHAR(18) NOT NULL, 
+	telfClient VARCHAR(15) NOT NULL, 
 	emailClient VARCHAR(128) NOT NULL,
 	tipoClient VARCHAR(10) NOT NULL COMMENT 'Solo permitir valores como Habitual y Esporadico',
 	curpClient VARCHAR(18) NULL COMMENT 'Solo para clientes mexicanos',

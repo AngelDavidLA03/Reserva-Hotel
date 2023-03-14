@@ -16,7 +16,7 @@ NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA CONTROLAR EL ACCESO AL PROGRAMA'
-SELECT COUNT(recID) AS isExist
+SELECT COUNT(recID) AS isExist, rolRec
 FROM Recepcionista
 WHERE (recID LIKE emp) AND (passRec LIKE pass);
 
@@ -106,5 +106,66 @@ CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA BUSCAR TODOS LOS RECEPCIONISTAS SEGUN SU ID'
 SELECT recID, rolRec, nomRec, apRec, amRec, passRec, calleRec, numExtRec, colRec, cpRec, ciudadRec
-FROM recepcionista
+FROM Recepcionista
 WHERE (recID LIKE id);
+
+
+
+
+/* PROCEDIMIENTO UTILIZADO PARA AGREGAR VALORES A LA TABLA CLIENTES */
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ADDclient`(
+	IN `codClientC` VARCHAR(10), 
+	IN `nomClientC` VARCHAR(24), 
+	IN `apClientC` VARCHAR(16), 
+	IN `amClientC` VARCHAR(16), 
+	IN `telfClientC` VARCHAR(15), 
+	IN `emailClientC` VARCHAR(128), 
+	IN `tipoClientC` VARCHAR(10), 
+	IN `curpClientC` VARCHAR(18), 
+	IN `numPasaporteClientC` VARCHAR(10), 
+	IN `isPagExternasC`BOOLEAN
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT 'PROCEDIMIENTO UTILIZADO PARA AGREGAR VALORES A LA TABLA CLIENTES'
+INSERT INTO Cliente (codClient, nomClient, apClient, amClient, telfClient, emailClient, tipoClient, curpClient, numPasaporteClient, isPagExternas) 
+VALUES (codClientC, nomClientC, apClientC, amClientC, telfClientC, emailClientC, tipoClientC, curpClientC, numPasaporteClientC, isPagExternasC);
+
+/* PROCEDIMIENTO UTILIZADO PARA AGREGAR VALORES A LA TABLA ESPORADICO */
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ADDesporadic`(
+	IN `codClientN` VARCHAR(10)
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT 'PROCEDIMIENTO UTILIZADO PARA AGREGAR VALORES A LA TABLA ESPORADICO'
+INSERT INTO Esporadico (codClientE)
+VALUES (codClientN);
+
+/* PROCEDIMIENTO UTILIZADO PARA BUSCAR TODOS LOS CLIENTES */
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHclient`(
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT 'PROCEDIMIENTO UTILIZADO PARA BUSCAR TODOS LOS CLIENTES'
+SELECT codClient, curpClient, nomClient, apClient, amClient, numPasaporteClient, telfClient, emailClient, tipoClient, isPagExternas 
+FROM Cliente
+ORDER BY codClient ASC;
+
+/* PROCEDIMIENTO UTILIZADO PARA BUSCAR TODOS LOS CLIENTES */
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHclientUNIQUE`(
+	IN `codClientC` VARCHAR(10)
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT 'PROCEDIMIENTO UTILIZADO PARA BUSCAR TODOS LOS CLIENTES'
+SELECT codClient,curpClient, nomClient, apClient, amClient, numPasaporteClient, telfClient, emailClient, tipoClient, isPagExternas
+FROM Cliente
+WHERE (codClient LIKE codClientC);
