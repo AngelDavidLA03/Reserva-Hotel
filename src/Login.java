@@ -182,7 +182,7 @@ public class Login extends javax.swing.JFrame {
             Conexion cx = new Conexion();                           // Se crea una nueva conexion
             Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
 
-            ps = cn.prepareStatement("CALL `SEARCHrec`(?, ?)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps = cn.prepareStatement("CALL `LOGINrec`(?, ?)");      // Se prepara la linea de codigo para ejecutar el PROCEDURE
             ps.setString(1, user);                                  // Se asigna el valor del parametro user a la consulta
             ps.setString(2, pass);                                  // Se asigna el valor del parametro pass a la consulta
 

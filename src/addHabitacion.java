@@ -116,13 +116,14 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, false, true, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);

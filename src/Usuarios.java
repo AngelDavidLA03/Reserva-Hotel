@@ -1,5 +1,10 @@
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
 *   SUBVENTANA ENCARGADA DE VER, AÑADIR, ELIMINAR Y MODIFICAR LOS DATOS DE LOS USUARIOS EN EL PROGRAMA
 *   INTEGRANTES DEL EQUIPO
@@ -12,7 +17,18 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
      * Creates new form Usuarios
      */
     public Usuarios() {
+        
         initComponents();
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+         
+        // Se deshabilitan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+        
+        // Se carga la tabla de productos
+        loadTableEmployes();
     }
 
     /**
@@ -41,18 +57,19 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         txtCP = new javax.swing.JTextField();
         ButtonBorrar = new javax.swing.JButton();
         ButtonNuevo = new javax.swing.JButton();
-        ButtonGuardar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         txtCol = new javax.swing.JTextField();
-        txtcalle = new javax.swing.JTextField();
-        txtNumext = new javax.swing.JTextField();
-        ComboboxRol = new javax.swing.JComboBox<>();
+        txtCalle = new javax.swing.JTextField();
+        txtNumExt = new javax.swing.JTextField();
+        cmbBoxRol = new javax.swing.JComboBox<>();
         txtPass = new javax.swing.JPasswordField();
+        btnCancel = new javax.swing.JButton();
+        btnAccept = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableEmployes = new javax.swing.JTable();
         txtBuscarCli = new javax.swing.JTextField();
         ButtonBuscar = new javax.swing.JButton();
         ButtonEliminar = new javax.swing.JButton();
@@ -85,86 +102,104 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
         jLabel9.setText("Ciudad");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, -1, -1));
 
         jLabel10.setText("Código Postal");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
-
-        txtCodEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodEmpActionPerformed(evt);
-            }
-        });
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
         jPanel1.add(txtCodEmp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 130, -1));
         jPanel1.add(txtNombreEmp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 130, -1));
         jPanel1.add(txtAppat, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 130, -1));
         jPanel1.add(txtApmat, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 130, -1));
-        jPanel1.add(txtCiudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 130, -1));
-        jPanel1.add(txtCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 130, -1));
+        jPanel1.add(txtCiudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 130, -1));
+        jPanel1.add(txtCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 130, -1));
 
         ButtonBorrar.setText("Borrar");
+        ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonBorrarActionPerformed(evt);
+            }
+        });
         jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, -1, -1));
 
         ButtonNuevo.setText("Nuevo");
-        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 370, -1, -1));
-
-        ButtonGuardar.setText("Guardar");
-        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+        ButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonGuardarActionPerformed(evt);
+                ButtonNuevoActionPerformed(evt);
             }
         });
-        jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, -1, -1));
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, -1, -1));
 
         jLabel11.setText("Colonia");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
 
         jLabel12.setText("Calle");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
 
         jLabel13.setText("Núm Ext");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, -1, -1));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
         jPanel1.add(txtCol, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, 130, -1));
-        jPanel1.add(txtcalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 130, -1));
-        jPanel1.add(txtNumext, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 130, -1));
+        jPanel1.add(txtCalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 130, -1));
+        jPanel1.add(txtNumExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 130, -1));
 
-        ComboboxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Normal ", "Admin" }));
-        jPanel1.add(ComboboxRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 130, -1));
+        cmbBoxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Normal", "Admin" }));
+        jPanel1.add(cmbBoxRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 130, -1));
         jPanel1.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 130, -1));
+
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, -1, -1));
+
+        btnAccept.setText("Aceptar");
+        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 410));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableEmployes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Código Empleado ", "Rol", "Nombre", "Apellido Paterno", "Apellido Materno", "Contraseña", "Dirección"
+                "Código Recepcionista ", "Rol", "Nombre", "Apellido Paterno", "Apellido Materno", "Dirección"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(6).setResizable(false);
+        tableEmployes.getTableHeader().setReorderingAllowed(false);
+        tableEmployes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableEmployesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableEmployes);
+        if (tableEmployes.getColumnModel().getColumnCount() > 0) {
+            tableEmployes.getColumnModel().getColumn(0).setResizable(false);
+            tableEmployes.getColumnModel().getColumn(1).setResizable(false);
+            tableEmployes.getColumnModel().getColumn(1).setPreferredWidth(27);
+            tableEmployes.getColumnModel().getColumn(2).setResizable(false);
+            tableEmployes.getColumnModel().getColumn(3).setResizable(false);
+            tableEmployes.getColumnModel().getColumn(4).setResizable(false);
+            tableEmployes.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 340));
@@ -194,26 +229,145 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCodEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodEmpActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodEmpActionPerformed
-
-    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonGuardarActionPerformed
-
     private void ButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEliminarActionPerformed
-        // TODO add your handling code here:
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
     }//GEN-LAST:event_ButtonEliminarActionPerformed
+
+    private void tableEmployesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmployesMouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableEmployes.getModel();               // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        String recID = String.valueOf(modeloTabla.getValueAt(tableEmployes.getSelectedRow(),0));    // Se extrae el valor de la tabla de la ventana que se encuentre en la fila 0
+
+        // Se ejecuta el metodo encargado de buscar los productos de forma separada
+        SEARCHemployeUNIQUE(recID);
+    }//GEN-LAST:event_tableEmployesMouseClicked
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+
+        // Se ocultan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+
+        // Se muestran los demas botones de accion
+        ButtonBorrar.setVisible(true);
+        ButtonNuevo.setVisible(true);
+        
+        // Se oculta la contraseña
+        txtPass.setEchoChar('*');
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+        
+        DateFormat dateFormat = new SimpleDateFormat("yyMMdd");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
+        String date = dateFormat.format(Calendar.getInstance().getTime());  // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+
+        // Se analiza si existe algun campo vacio en los campos de texto
+        if(cmbBoxRol.getSelectedItem().equals("------") || txtNombreEmp.getText().equals("") || txtAppat.getText().equals("") || txtApmat.getText().equals("") || txtPass.getText().equals("") || txtCalle.getText().equals("") || txtNumExt.getText().equals("") || txtCol.getText().equals("") || txtCP.getText().equals("") || txtCiudad.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Existe algun campo vacio, favor de llenarlo o cambiar el valor del desplegable", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        }
+        // Sin embargo, si no existen campos vacios
+        else
+        {
+            // Se extraen las primeras letras tando del nombre, como de los apellidos (si tiene mas de un nombre, igualmente se extraera su inicial)
+            String name = txtNombreEmp.getText();;
+            String[] names = name.split(" ");
+            
+            char nomInitial = 'X';
+            char secondNomInitial = 'X';
+            if(names.length == 2)
+            {
+                nomInitial = names[0].charAt(0);
+                secondNomInitial = names[1].charAt(0);
+            }
+            else
+            {
+                nomInitial = names[0].charAt(0);
+            }
+            char apInitial = txtAppat.getText().charAt(0);
+            char amInitial = txtApmat.getText().charAt(0);
+            
+            // Variables en las que se almacenaran lo almacenado en los espacios de la ventana
+
+            // Se hace una concatenacion entre las iniciales y la fecha
+            String codRec = String.valueOf(nomInitial) + String.valueOf(secondNomInitial) + String.valueOf(apInitial) + String.valueOf(amInitial) + date;
+            txtCodEmp.setText(codRec);
+            
+            String rolRec = (String)cmbBoxRol.getSelectedItem();
+            String nomRec = txtNombreEmp.getText();
+            String apRec = txtAppat.getText();
+            String amRec = txtApmat.getText();
+            String calleRec = txtCalle.getText();
+            int numExtRec = Integer.parseInt(txtNumExt.getText());
+            String colRec = txtCol.getText();
+            int cpRec = Integer.parseInt(txtCP.getText());
+            String ciudadRec = txtCiudad.getText();
+            String passRec = txtPass.getText();
+            
+
+            // Se ejecuta el metodo para añadir los valores a la tabla de productos
+            ADDemployes(codRec,rolRec,nomRec,apRec,amRec,calleRec,numExtRec,colRec,cpRec,ciudadRec,passRec);
+
+            // Se llama al metodo para bloquear los campos de texto
+            lockTextEdit();
+
+            // Se ocultan los botones de aceptar y cancelar
+            btnCancel.setVisible(false);
+            btnAccept.setVisible(false);
+
+            // Se muestran los demas botones de accion
+            ButtonBorrar.setVisible(true);
+            ButtonNuevo.setVisible(true);
+            
+            // Se oculta la contraseña
+            txtPass.setEchoChar('*');
+        }
+    }//GEN-LAST:event_btnAcceptActionPerformed
+
+    private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+        
+        // Se llama al metodo para desbloquear los campos de texto
+        unlockTextEdit();
+        
+        // Se muestran los botones de aceptar y cancelar
+        btnCancel.setVisible(true);
+        btnAccept.setVisible(true);
+        
+        // Se ocultan los demas botones de accion
+        ButtonBorrar.setVisible(false);
+        ButtonNuevo.setVisible(false);
+        
+        // Se muestra la contraseña
+        txtPass.setEchoChar((char)0);
+    }//GEN-LAST:event_ButtonNuevoActionPerformed
+
+    private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+    }//GEN-LAST:event_ButtonBorrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
     private javax.swing.JButton ButtonBuscar;
     private javax.swing.JButton ButtonEliminar;
-    private javax.swing.JButton ButtonGuardar;
     private javax.swing.JButton ButtonNuevo;
-    private javax.swing.JComboBox<String> ComboboxRol;
+    private javax.swing.JButton btnAccept;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JComboBox<String> cmbBoxRol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -230,26 +384,176 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableEmployes;
     private javax.swing.JTextField txtApmat;
     private javax.swing.JTextField txtAppat;
     private javax.swing.JTextField txtBuscarCli;
     private javax.swing.JTextField txtCP;
+    private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtCodEmp;
     private javax.swing.JTextField txtCol;
     private javax.swing.JTextField txtNombreEmp;
-    private javax.swing.JTextField txtNumext;
+    private javax.swing.JTextField txtNumExt;
     private javax.swing.JPasswordField txtPass;
-    private javax.swing.JTextField txtcalle;
     // End of variables declaration//GEN-END:variables
 
+    // Metodo encargado de buscar un recepcionista segun su clave primaria
+    private void SEARCHemployeUNIQUE(String recID)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+
+        try 
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+
+            ps = cn.prepareStatement("CALL `SEARCHrecepUNIQUE`(?)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps.setString(1, recID);                                      // Se asigna el valor del parametro codProduct a la consulta
+
+            rs = ps.executeQuery();                                 // Se ejecuta la consulta
+
+            // Se comprueba si el valor arrojado de la consulta es diferente a nulo
+            if(rs != null)
+            {
+                // Ciclo while donde se comprueba si existe un registro siguiente
+                while(rs.next())
+                {
+                    // Se asignan los valores encontrados en la consulta
+                    txtCodEmp.setText(rs.getString("recID"));
+                    String rol = rs.getString("rolRec");                        // Se crea una variable para almacenar el valor del atributo rolRec
+                    switch(rol)                                                 // Se crea un switch case para comprobar el valor obtenido en el atributo rolRec
+                    {
+                        case "Admin":
+                        {
+                            // Si el valor de rol es igual a "Admin", este seleccionara el valor en la posicion 2 del arreglo del combobox
+                            cmbBoxRol.setSelectedIndex(2);
+                            break;
+                        }
+                        case "Normal":
+                        {
+                            // Si el valor de rol es igual a "Admin", este seleccionara el valor en la posicion 1 del arreglo del combobox
+                            cmbBoxRol.setSelectedIndex(1);
+                            break;
+                        }
+                    }
+                    txtNombreEmp.setText(rs.getString("nomRec"));
+                    txtAppat.setText(rs.getString("apRec"));
+                    txtApmat.setText(rs.getString("amRec"));
+                    txtCalle.setText(rs.getString("calleRec"));
+                    txtNumExt.setText(rs.getInt("numExtRec") + "");
+                    txtCol.setText(rs.getString("colRec"));
+                    txtCP.setText(rs.getInt("cpRec") + "");
+                    txtCiudad.setText(rs.getString("ciudadRec"));
+                    txtPass.setText(rs.getString("passRec"));
+                }
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
+    // Metodo encargado de añadir los valores en la tabla de recepcionistas
+    private void ADDemployes(String codRec, String rolRec, String nomRec, String apRec, String amRec, String calleRec, int numExtRec, String colRec, int cpRec, String ciudadRec, String passRec)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `ADDrecep`(?,?,?,?,?,?,?,?,?,?,?)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asignan los valores de los parametros a la consulta
+            ps.setString(1, codRec);
+            ps.setString(2, nomRec);
+            ps.setString(3, apRec);
+            ps.setString(4, amRec);
+            ps.setString(5, calleRec);
+            ps.setInt(6, numExtRec);
+            ps.setString(7, colRec);
+            ps.setInt(8, cpRec);
+            ps.setString(9, ciudadRec);
+            ps.setString(10, rolRec);
+            ps.setString(11, passRec);
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            // Se notifica al usuario que se ha registrado el producto
+            JOptionPane.showMessageDialog(null, "SE HA REGISTRADO AL NUEVO RECEPCIONISTA");
+
+            cx.disconnect();        // Se cierra la conexion con la base de datos
+            loadTableEmployes();    // Se actualiza la tabla 
+        }
+        
+        
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
+        }
+    }
+    
+    // Metodo encargado de llenar la tabla de los recepcionistas
+    private void loadTableEmployes()
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableEmployes.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `SEARCHrecep`");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();           // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
     // Metodo encargado para bloquear los campos de texto
     @Override
     public void lockTextEdit()
     {
         // Se bloquea la edicion de los campos de texto
-        
+        txtCodEmp.setEditable(false);
+        cmbBoxRol.setEditable(false);
+        txtNombreEmp.setEditable(false);
+        txtAppat.setEditable(false);
+        txtApmat.setEditable(false);
+        txtCalle.setEditable(false);
+        txtNumExt.setEditable(false);
+        txtCol.setEditable(false);
+        txtCP.setEditable(false);
+        txtCiudad.setEditable(false);
+        txtPass.setEditable(false);
     }
     
     // Metodo encargado para desbloquear los campos de texto
@@ -257,7 +561,15 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
     public void unlockTextEdit()
     {
         // Se desbloquea la edicion de los campos de texto
-        
+        txtNombreEmp.setEditable(true);
+        txtAppat.setEditable(true);
+        txtApmat.setEditable(true);
+        txtCalle.setEditable(true);
+        txtNumExt.setEditable(true);
+        txtCol.setEditable(true);
+        txtCP.setEditable(true);
+        txtCiudad.setEditable(true);
+        txtPass.setEditable(true);
     }
     
     // Metodo encargado para vaciar los campos de texto
@@ -265,7 +577,17 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
     public void clearTextField()
     {
         // Se vacian los campos de texto
-        
+        txtCodEmp.setText("");
+        cmbBoxRol.setSelectedIndex(0);
+        txtNombreEmp.setText("");
+        txtAppat.setText("");
+        txtApmat.setText("");
+        txtCalle.setText("");
+        txtNumExt.setText("");
+        txtCol.setText("");
+        txtCP.setText("");
+        txtCiudad.setText("");
+        txtPass.setText("");
     }
 
 }

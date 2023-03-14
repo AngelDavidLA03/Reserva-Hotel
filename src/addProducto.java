@@ -13,6 +13,7 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
      * Creates new form addProducto
      */
     public addProducto() {
+        
         initComponents();
         
         // Se llama al metodo para bloquear los campos de texto
@@ -147,6 +148,7 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
                 return canEdit [columnIndex];
             }
         });
+        tableProducts.getTableHeader().setReorderingAllowed(false);
         tableProducts.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableProductsMouseClicked(evt);
@@ -198,7 +200,6 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
 
         // Se ejecuta el metodo encargado de buscar los productos de forma separada
         SEARCHproductUNIQUE(codProduct);
-
     }//GEN-LAST:event_tableProductsMouseClicked
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -248,7 +249,6 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
             ButtonBorrar.setVisible(true);
             ButtonNuevo.setVisible(true);
         }
-
     }//GEN-LAST:event_btnAcceptActionPerformed
 
     private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
