@@ -44,17 +44,17 @@ public class Lista_habitaciones extends javax.swing.JFrame {
 
         tableHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código Habitacion", "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Caracteristicas"
+                "Código Habitacion", "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Caracteristicas", "¿Está reservada?"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -73,9 +73,10 @@ public class Lista_habitaciones extends javax.swing.JFrame {
             tableHabitacion.getColumnModel().getColumn(1).setResizable(false);
             tableHabitacion.getColumnModel().getColumn(2).setResizable(false);
             tableHabitacion.getColumnModel().getColumn(3).setResizable(false);
-            tableHabitacion.getColumnModel().getColumn(3).setPreferredWidth(10);
+            tableHabitacion.getColumnModel().getColumn(3).setPreferredWidth(24);
             tableHabitacion.getColumnModel().getColumn(4).setResizable(false);
             tableHabitacion.getColumnModel().getColumn(5).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(6).setResizable(false);
         }
 
         background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
@@ -217,6 +218,19 @@ public class Lista_habitaciones extends javax.swing.JFrame {
                 for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
                 {
                     fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                    
+                    // Se analiza si el valor contenido en la fila 6 es verdadero
+                    if(i == 6 && fila[6].equals(true))
+                    {
+                        // Se sustituye el valor de la fila 6 por "Si"
+                        fila[6] = "Si";
+                    }
+                    // Sin embargo, se analiza si el valor contenido en la fila 6 es falso
+                    else if(i == 6 && fila[6].equals(false))
+                    {
+                        // Se sustituye el valor de la fila 6 por "No"
+                        fila[6] = "No";
+                    }
                 }
                 modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
             }
@@ -260,6 +274,19 @@ public class Lista_habitaciones extends javax.swing.JFrame {
                 for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
                 {
                     fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                    
+                    // Se analiza si el valor contenido en la fila 6 es verdadero
+                    if(i == 6 && fila[6].equals(true))
+                    {
+                        // Se sustituye el valor de la fila 6 por "Si"
+                        fila[6] = "Si";
+                    }
+                    // Sin embargo, se analiza si el valor contenido en la fila 6 es falso
+                    else if(i == 6 && fila[6].equals(false))
+                    {
+                        // Se sustituye el valor de la fila 6 por "No"
+                        fila[6] = "No";
+                    }
                 }
                 modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
             }

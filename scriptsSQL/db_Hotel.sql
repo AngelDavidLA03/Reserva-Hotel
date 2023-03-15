@@ -92,7 +92,8 @@ CREATE TABLE habitacion(codHab INT(3) PRIMARY KEY NOT NULL COMMENT 'Cada habitac
 	tipoHab VARCHAR(11) NOT NULL COMMENT 'Solo permitir valores como Simple, Doble y Matrimonial',
 	pisoHab INT(1) NOT NULL,
 	costoHab DECIMAL(7,2) NOT NULL,
-	caracteristicasHab VARCHAR(64) NOT NULL COMMENT 'Anotaciones sobre las caracteristicas generales de la habitacion') ENGINE=INNODB;
+	caracteristicasHab VARCHAR(64) NOT NULL COMMENT 'Anotaciones sobre las caracteristicas generales de la habitacion',
+	isReserv BOOLEAN NOT NULL COMMENT 'Usar solo cuando la habitacion esta reservada, 0 = No, 1 = Si') ENGINE=INNODB;
 	
 /* TABLA DE RELACION HABITACION - CLIENTE DE TIPO M - M*/
 CREATE TABLE Reservar(codClient VARCHAR(10) NOT NULL,

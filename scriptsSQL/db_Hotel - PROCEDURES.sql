@@ -283,15 +283,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ADDhabitacion`(
 	IN `tipoHabH` VARCHAR(11),
 	IN `pisoHabH` INT(1),
 	IN `costoHabH` DECIMAL(7,2),
-	IN `caracteristicasHabH` VARCHAR(64)
+	IN `caracteristicasHabH` VARCHAR(64),
+	IN `isReservH` BOOLEAN
 )
 LANGUAGE SQL
 NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
-COMMENT 'PROCEDIMIENTO UTILIZADO PARA AGREGAR VALORES A LA TABLA PRODUCTOS'
-INSERT INTO habitacion (codHab,numHab, tipoHab, pisoHab, costoHab, caracteristicasHab) 
-VALUES (codHabH,numHabH, tipoHabH, pisoHabH, costoHabH, caracteristicasHabH);
+COMMENT 'PROCEDIMIENTO UTILIZADO PARA AGREGAR VALORES A LA TABLA HABITACION'
+INSERT INTO habitacion (codHab,numHab, tipoHab, pisoHab, costoHab, caracteristicasHab,isReserv) 
+VALUES (codHabH,numHabH, tipoHabH, pisoHabH, costoHabH, caracteristicasHabH,isReservH);
 
 /* PROCEDIMIENTO UTILIZADO PARA BUSCAR TODAS LAS HABITACIONES */
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHhabitacion`(
@@ -301,7 +302,7 @@ NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA BUSCAR TODAS LAS HABITACIONES'
-SELECT codHab,numHab, tipoHab, pisoHab, costoHab, caracteristicasHab
+SELECT codHab,numHab, tipoHab, pisoHab, costoHab, caracteristicasHab, isReserv
 FROM Habitacion
 ORDER BY codHab ASC;
 
@@ -328,7 +329,7 @@ NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA BUSCAR LAS HABITACIONES DE FORMA AISLADA EN LA VENTANA DE LISTAS'
-SELECT codHab, numHab, tipoHab, pisoHab, costoHab, caracteristicasHab
+SELECT codHab, numHab, tipoHab, pisoHab, costoHab, caracteristicasHab, isReserv
 FROM Habitacion
 WHERE  SUBSTRING(habitacion.codHab,1,num) = ti;
 

@@ -90,7 +90,7 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
         jPanel1.add(iconImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 220, 140));
 
-        cmbBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Simple", "Doble", "Matrimonial", " " }));
+        cmbBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Simple", "Doble", "Matrimonial" }));
         cmbBoxTipo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbBoxTipoItemStateChanged(evt);
@@ -141,17 +141,17 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
 
         tableHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código Habitacion", "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Características"
+                "Código Habitacion", "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Características", "¿Está reservada?"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -170,8 +170,10 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
             tableHabitacion.getColumnModel().getColumn(1).setResizable(false);
             tableHabitacion.getColumnModel().getColumn(2).setResizable(false);
             tableHabitacion.getColumnModel().getColumn(3).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(3).setPreferredWidth(24);
             tableHabitacion.getColumnModel().getColumn(4).setResizable(false);
             tableHabitacion.getColumnModel().getColumn(5).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 400));
@@ -229,9 +231,10 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
             int pisoHab = Integer.parseInt(txtpiso.getText());
             double costo = Double.parseDouble(txtCosto.getText());
             String caracteristicas = txtCaracteristicas.getText();
+            int isReserv = 0;
 
             // Se ejecuta el metodo para añadir los valores a la tabla de productos
-            ADDhabitacion(codHab, numHab, tipoHab, pisoHab, costo, caracteristicas);
+            ADDhabitacion(codHab, numHab, tipoHab, pisoHab, costo, caracteristicas,isReserv);
 
             // Se llama al metodo para bloquear los campos de texto
             lockTextEdit();
@@ -394,16 +397,16 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
     }
     
     // Metodo encargado de añadir los valores en la tabla de recepcionistas
-    private void ADDhabitacion(int codHab, int numHab, String tipoHab, int pisoHab, double costoHab, String caracteristicas)
+    private void ADDhabitacion(int codHab, int numHab, String tipoHab, int pisoHab, double costoHab, String caracteristicas, int isReserv)
     {
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
 
         try
         {
-            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
-            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            Conexion cx = new Conexion();                                       // Se crea una nueva conexion
+            Connection cn = cx.connect();                                       // Se ejecuta el metodo connect() de la clase Conexion
             
-            ps = cn.prepareStatement("CALL `ADDhabitacion`(?,?,?,?,?,?)");  // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps = cn.prepareStatement("CALL `ADDhabitacion`(?,?,?,?,?,?,?)");    // Se prepara la linea de codigo para ejecutar el PROCEDURE
             
             // Se asignan los valores de los parametros a la modificacion
             ps.setInt(1, codHab);
@@ -412,6 +415,7 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
             ps.setInt(4, pisoHab);
             ps.setDouble(5, costoHab);
             ps.setString(6, caracteristicas);
+            ps.setInt(7,isReserv);
 
             ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
             
@@ -485,6 +489,19 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
                 for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
                 {
                     fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                    
+                    // Se analiza si el valor contenido en la fila 6 es verdadero
+                    if(i == 6 && fila[6].equals(true))
+                    {
+                        // Se sustituye el valor de la fila 6 por "Si"
+                        fila[6] = "Si";
+                    }
+                    // Sin embargo, se analiza si el valor contenido en la fila 6 es falso
+                    else if(i == 6 && fila[6].equals(false))
+                    {
+                        // Se sustituye el valor de la fila 6 por "No"
+                        fila[6] = "No";
+                    }
                 }
                 modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
             }
