@@ -44,6 +44,8 @@ CREATE TABLE Producto (codProducto INT(4) PRIMARY KEY NOT NULL,
 CREATE TABLE Comprar (codProducto INT(4) NOT NULL, 
 	codClient VARCHAR(10) NOT NULL,
 	cantidad INT(2) NOT NULL,
+	fechaCompra DATE NOT NULL,
+	horaCompra TIME NOT NULL,
 	precioTotalC DECIMAL(8,2) NOT NULL) ENGINE=INNODB;
 
 ALTER TABLE Comprar ADD CONSTRAINT FK_codProducto_Comprar FOREIGN KEY (codProducto) REFERENCES Producto(codProducto) ON DELETE CASCADE ON UPDATE CASCADE; 
