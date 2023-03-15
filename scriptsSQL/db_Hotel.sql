@@ -24,11 +24,6 @@ CREATE TABLE Cliente (codClient VARCHAR(10) PRIMARY KEY NOT NULL COMMENT 'Formad
 /* TABLA DE ESPECIALIZACION HABITUAL */
 CREATE TABLE Habitual(codClientH VARCHAR(10) PRIMARY KEY NOT NULL COMMENT 'Formado por letra inicial de su nombre(s), apellidos y fecha de registro',
 	descuentoH INT(3) NOT NULL COMMENT 'Porcentaje de descuento (tomar el valor dividido entre 100 para evitar errores)',
-	calleH VARCHAR(21) NOT NULL, 
-	numExtH INT(3) NOT NULL, 
-	colH VARCHAR(15) NOT NULL, 
-	cpH INT(5) NOT NULL, 
-	ciudadH VARCHAR(15) NOT NULL,
 	UNIQUE INDEX `codClientH` (`codClientH`) USING BTREE,
 	CONSTRAINT `FK_codClientH_Simple` FOREIGN KEY (`codClientH`) REFERENCES `db_hotel`.`cliente` (`codClient`) ON UPDATE CASCADE ON DELETE CASCADE) ENGINE = INNODB;
 
@@ -47,7 +42,9 @@ CREATE TABLE Producto (codProducto INT(4) PRIMARY KEY NOT NULL,
 	
 /* TABLA DE RELACION PRODUCTO - CLIENTE DE TIPO M -M */
 CREATE TABLE Comprar (codProducto INT(4) NOT NULL, 
-	codClient VARCHAR(10) NOT NULL) ENGINE=INNODB;
+	codClient VARCHAR(10) NOT NULL,
+	cantidad INT(2) NOT NULL,
+	precioTotalC DECIMAL(8,2) NOT NULL) ENGINE=INNODB;
 
 ALTER TABLE Comprar ADD CONSTRAINT FK_codProducto_Comprar FOREIGN KEY (codProducto) REFERENCES Producto(codProducto) ON DELETE CASCADE ON UPDATE CASCADE; 
 ALTER TABLE Comprar ADD CONSTRAINT FK_codClient_Comprar FOREIGN KEY (codClient) REFERENCES Cliente(codClient) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -99,7 +96,8 @@ CREATE TABLE Reservar(codClient VARCHAR(10) NOT NULL,
 	numHab INT(3) NOT NULL,
 	fechaReserv DATE NOT NULL,
 	horaReserv TIME NOT NULL,
-	diasReserv INT(2) NOT NULL) ENGINE=INNODB;
+	diasReserv INT(2) NOT NULL,
+	precioTotalR DECIMAL(8,2) NOT NULL) ENGINE=INNODB;
 	
 ALTER TABLE Reservar ADD CONSTRAINT FK_codClient_Reservar FOREIGN KEY (codClient) REFERENCES Cliente(codClient) ON DELETE CASCADE ON UPDATE CASCADE; 
 ALTER TABLE Reservar ADD CONSTRAINT FK_numHab_Reservar FOREIGN KEY (numHab) REFERENCES Habitacion(numHab) ON DELETE CASCADE ON UPDATE CASCADE;
