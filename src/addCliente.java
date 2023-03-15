@@ -72,9 +72,6 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClients = new javax.swing.JTable();
-        txtBuscar = new javax.swing.JTextField();
-        ButtonBuscar = new javax.swing.JButton();
-        ButtonEliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -233,21 +230,7 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
             tableClients.getColumnModel().getColumn(9).setResizable(false);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 340));
-
-        txtBuscar.setText("Buscar");
-        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtBuscarKeyTyped(evt);
-            }
-        });
-        jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 280, -1));
-
-        ButtonBuscar.setText("Buscar");
-        jPanel2.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
-
-        ButtonEliminar.setText("Eliminar");
-        jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 390));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 410));
 
@@ -455,15 +438,9 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         ButtonUpdate.setVisible(true);
     }//GEN-LAST:event_btnAcceptUpdateActionPerformed
 
-    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-        
-    }//GEN-LAST:event_txtBuscarKeyTyped
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
-    private javax.swing.JButton ButtonBuscar;
-    private javax.swing.JButton ButtonEliminar;
     private javax.swing.JButton ButtonNuevo;
     private javax.swing.JButton ButtonUpdate;
     private javax.swing.JButton btnAcceptAdd;
@@ -491,7 +468,6 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
     private javax.swing.JTable tableClients;
     private javax.swing.JTextField txtAm;
     private javax.swing.JTextField txtAp;
-    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCodCli;
     private javax.swing.JTextField txtCurp;
     private javax.swing.JTextField txtEmail;
