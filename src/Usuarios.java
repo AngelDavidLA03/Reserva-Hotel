@@ -129,7 +129,7 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
                 ButtonNuevoActionPerformed(evt);
             }
         });
-        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, -1, -1));
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, -1, -1));
 
         jLabel11.setText("Colonia");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
@@ -161,7 +161,7 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
                 btnAcceptActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, -1, -1));
+        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 370, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 410));
 
@@ -359,11 +359,28 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
     }//GEN-LAST:event_ButtonNuevoActionPerformed
 
     private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
-        // Se llama al metodo para vaciar los campos de texto
-        clearTextField();
-
-        // Se llama al metodo para bloquear los campos de texto
-        lockTextEdit();
+        // Se crea una variable para almacenar el error
+        int valorMenu;
+        // Se crea un arreglo en el que se almacenan las opciones del mensaje
+        String[] options = {"SI","NO"};
+        
+        // Se crea un 
+        valorMenu = JOptionPane.showOptionDialog(null, "¿ESTA SEGURO DE ELIMINAR AL RECEPCIONISTA " + txtCodEmp.getText() +"?","CONFIRMACION",
+                                                 JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,options,options[0]);
+        switch(valorMenu)
+        {
+            case 0:
+            {
+                // Se ejecuta el metodo encargado de eliminar al recepcionista
+                DELETErecep(txtCodEmp.getText());
+                
+                // Se llama al metodo para vaciar los campos de texto
+                clearTextField();                
+                break;
+            }
+            // Si el valor obtenido del mensaje es 1, no se hara ninguna accion, simplemente se cerrara el recuadro
+            case 1:{break;}
+        }
     }//GEN-LAST:event_ButtonBorrarActionPerformed
 
     private void txtBuscarCliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarCliKeyTyped
@@ -546,6 +563,36 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         catch (SQLException ex) 
         {
             System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
+    private void DELETErecep(String recID)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `DELETErecep`(?)");              // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asigna el valor del parametro a la consulta
+            ps.setString(1, recID);
+
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            // Se notifica al usuario que se ha registrado el producto
+            JOptionPane.showMessageDialog(null, "SE HA ELIMINADO AL NUEVO RECEPCIONISTA");
+
+            cx.disconnect();        // Se cierra la conexion con la base de datos
+            loadTableEmployes();    // Se actualiza la tabla 
+        }
+        
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
         }
     }
     
