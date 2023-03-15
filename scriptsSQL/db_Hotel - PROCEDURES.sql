@@ -51,7 +51,8 @@ ORDER BY codProducto ASC;
 
 /* PROCEDIMIENTO UTILIZADO PARA BUSCAR PRODUCTOS DE FORMA AISLADA*/
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHproductUNIQUE`(
-	IN `codProductoP` INT(4)
+	IN `ti` VARCHAR(10),
+	IN `num` INT(2)
 )
 LANGUAGE SQL
 NOT DETERMINISTIC
@@ -60,7 +61,7 @@ SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA BUSCAR LOS PRODUCTOS DE FORMA AISLADA'
 SELECT codProducto, nomProduct, precio, stock, unidadMedida, cantidadUM
 FROM Producto
-WHERE (codProducto = codProductoP);
+WHERE  SUBSTRING(producto.codProducto,1,num)=ti;
 
 /* PROCEDIMIENTO UTILIZADO PARA AGREGAR VALORES A LA TABLA RECEPCIONISTA */
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ADDrecep`(
@@ -98,16 +99,17 @@ ORDER BY recID ASC;
 
 /* PROCEDIMIENTO UTILIZADO PARA BUSCAR RECEPCIONISTAS DE FORMA AISLADA*/
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHrecepUNIQUE`(
-	IN `id` VARCHAR(10)
+	IN `ti` VARCHAR(10),
+	IN `num` INT(2)
 )
 LANGUAGE SQL
 NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA BUSCAR TODOS LOS RECEPCIONISTAS SEGUN SU ID'
-SELECT recID, rolRec, nomRec, apRec, amRec, passRec, calleRec, numExtRec, colRec, cpRec, ciudadRec
+SELECT recID, rolRec, nomRec, apRec, amRec, CONCAT(calleRec," #",numExtRec," col. ",colRec,"CP. ",cpRec,", ", ciudadRec) AS dirRec
 FROM Recepcionista
-WHERE (recID LIKE id);
+WHERE  SUBSTRING(recepcionista.recID,1,num)=ti;
 
 
 
@@ -159,7 +161,8 @@ ORDER BY codClient ASC;
 
 /* PROCEDIMIENTO UTILIZADO PARA BUSCAR TODOS LOS CLIENTES */
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHclientUNIQUE`(
-	IN `codClientC` VARCHAR(10)
+	IN `ti` VARCHAR(10),
+	IN `num` INT(2)
 )
 LANGUAGE SQL
 NOT DETERMINISTIC
@@ -168,4 +171,4 @@ SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA BUSCAR TODOS LOS CLIENTES'
 SELECT codClient,curpClient, nomClient, apClient, amClient, numPasaporteClient, telfClient, emailClient, tipoClient, isPagExternas
 FROM Cliente
-WHERE (codClient LIKE codClientC);
+WHERE  SUBSTRING(cliente.codClient,1,num)=ti;
