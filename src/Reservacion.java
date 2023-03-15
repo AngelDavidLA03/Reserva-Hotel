@@ -182,6 +182,11 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 560, 280));
 
         txtBuscar.setText("Buscar");
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
         jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 260, -1));
 
         ButtonBuscar.setText("Buscar");
@@ -233,6 +238,10 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         Lista_Clientes lClient = new Lista_Clientes();
         lClient.setVisible(true);
     }//GEN-LAST:event_ButtonConscliActionPerformed
+
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

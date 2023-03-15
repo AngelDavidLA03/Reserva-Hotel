@@ -87,11 +87,9 @@ public class Lista_Productos extends javax.swing.JFrame {
                 txtBuscarFocusLost(evt);
             }
         });
-        txtBuscar.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txtBuscarInputMethodTextChanged(evt);
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
             }
         });
         background.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 270, -1));
@@ -129,9 +127,9 @@ public class Lista_Productos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtBuscarFocusLost
 
-    private void txtBuscarInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtBuscarInputMethodTextChanged
-        System.out.println(evt.getText());
-    }//GEN-LAST:event_txtBuscarInputMethodTextChanged
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarKeyTyped
 
     /**
      * @param args the command line arguments

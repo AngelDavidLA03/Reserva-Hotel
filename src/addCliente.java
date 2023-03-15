@@ -22,8 +22,10 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         lockTextEdit();
         
         // Se deshabilitan los botones de aceptar y cancelar
-        btnCancel.setVisible(false);
-        btnAccept.setVisible(false);
+        btnCancelAdd.setVisible(false);
+        btnAcceptAdd.setVisible(false);
+        btnCancelUpdate.setVisible(false);
+        btnAcceptUpdate.setVisible(false);
         
         // Se carga la tabla de productos
         loadTableClients();
@@ -55,15 +57,18 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         txtNumPass = new javax.swing.JTextField();
         txtTelf = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        txtTipoClient = new javax.swing.JTextField();
         chckBoxExtern = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         ButtonBorrar = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
-        btnAccept = new javax.swing.JButton();
-        ButtonNuevo = new javax.swing.JButton();
+        btnCancelAdd = new javax.swing.JButton();
+        btnAcceptAdd = new javax.swing.JButton();
+        ButtonUpdate = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
+        ButtonNuevo = new javax.swing.JButton();
+        btnCancelUpdate = new javax.swing.JButton();
+        btnAcceptUpdate = new javax.swing.JButton();
+        cmbBoxTipo = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClients = new javax.swing.JTable();
@@ -114,7 +119,6 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         jPanel1.add(txtNumPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
         jPanel1.add(txtTelf, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 130, -1));
         jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 130, -1));
-        jPanel1.add(txtTipoClient, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 130, -1));
         jPanel1.add(chckBoxExtern, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 285, -1, -1));
 
         jLabel11.setText("Correo");
@@ -131,21 +135,32 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         });
         jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, -1, -1));
 
-        btnCancel.setText("Cancelar");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelAdd.setText("Cancelar");
+        btnCancelAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
+                btnCancelAddActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, -1, -1));
+        jPanel1.add(btnCancelAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, -1, -1));
 
-        btnAccept.setText("Aceptar");
-        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+        btnAcceptAdd.setText("Aceptar");
+        btnAcceptAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAcceptActionPerformed(evt);
+                btnAcceptAddActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, -1, -1));
+        jPanel1.add(btnAcceptAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, -1, -1));
+
+        ButtonUpdate.setText("Modificar");
+        ButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonUpdateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, -1, -1));
+
+        jLabel13.setText("Tipo de Cliente");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
         ButtonNuevo.setText("Nuevo");
         ButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -155,8 +170,24 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         });
         jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, -1, -1));
 
-        jLabel13.setText("Tipo de Cliente");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
+        btnCancelUpdate.setText("Cancelar");
+        btnCancelUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelUpdateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancelUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, -1, -1));
+
+        btnAcceptUpdate.setText("Aceptar");
+        btnAcceptUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptUpdateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAcceptUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, -1, -1));
+
+        cmbBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Esporadico", "Habitual" }));
+        jPanel1.add(cmbBoxTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 325, 130, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 410));
 
@@ -237,7 +268,7 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         lockTextEdit();
     }//GEN-LAST:event_ButtonBorrarActionPerformed
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+    private void btnCancelAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAddActionPerformed
         // Se llama al metodo para vaciar los campos de texto
         clearTextField();
 
@@ -245,15 +276,16 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         lockTextEdit();
 
         // Se ocultan los botones de aceptar y cancelar
-        btnCancel.setVisible(false);
-        btnAccept.setVisible(false);
+        btnCancelAdd.setVisible(false);
+        btnAcceptAdd.setVisible(false);
 
         // Se muestran los demas botones de accion
         ButtonBorrar.setVisible(true);
+        ButtonUpdate.setVisible(true);
         ButtonNuevo.setVisible(true);
-    }//GEN-LAST:event_btnCancelActionPerformed
+    }//GEN-LAST:event_btnCancelAddActionPerformed
 
-    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+    private void btnAcceptAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptAddActionPerformed
 
         DateFormat dateFormat = new SimpleDateFormat("yyMMdd");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
         String date = dateFormat.format(Calendar.getInstance().getTime());  // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
@@ -274,7 +306,7 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         }
 
         // Se analiza si existe algun campo vacio en los campos de texto
-        if(controlador.equals("") || txtNom.getText().equals("") ||txtAp.getText().equals("") || txtAm.getText().equals("") || txtTelf.getText().equals("") || txtEmail.getText().equals(""))
+        if(cmbBoxTipo.getSelectedItem().equals("------") || controlador.equals("") || txtNom.getText().equals("") ||txtAp.getText().equals("") || txtAm.getText().equals("") || txtTelf.getText().equals("") || txtEmail.getText().equals(""))
         {
             JOptionPane.showMessageDialog(null, "Existe algun campo vacio, favor de llenarlos", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
         }
@@ -310,7 +342,7 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
             String amClient = txtAm.getText();
             String telfClient = txtTelf.getText();
             String emailClient = txtEmail.getText();
-            String tipoClient = txtTipoClient.getText();
+            String tipoClient = (String)cmbBoxTipo.getSelectedItem();
             String curpClient = txtCurp.getText();
             String numPasaporteClient = txtNumPass.getText();
             int isPagExternas = 0;
@@ -335,36 +367,28 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
             lockTextEdit();
 
             // Se ocultan los botones de aceptar y cancelar
-            btnCancel.setVisible(false);
-            btnAccept.setVisible(false);
+            btnCancelAdd.setVisible(false);
+            btnAcceptAdd.setVisible(false);
 
             // Se muestran los demas botones de accion
             ButtonBorrar.setVisible(true);
             ButtonNuevo.setVisible(true);
+            ButtonUpdate.setVisible(true);
 
         }
-    }//GEN-LAST:event_btnAcceptActionPerformed
+    }//GEN-LAST:event_btnAcceptAddActionPerformed
 
-    private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
-        // Se llama al metodo para vaciar los campos de texto
-        clearTextField();
-
-        // Se llama al metodo para desbloquear los campos de texto
-        unlockTextEdit();
-
+    
+    private void ButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUpdateActionPerformed
         // Se muestran los botones de aceptar y cancelar
-        btnCancel.setVisible(true);
-        btnAccept.setVisible(true);
-
+        btnCancelUpdate.setVisible(true);
+        btnAcceptUpdate.setVisible(true);
+        
         // Se ocultan los demas botones de accion
         ButtonBorrar.setVisible(false);
+        ButtonUpdate.setVisible(false);
         ButtonNuevo.setVisible(false);
-        
-        // Se asigna el valor al campo de texto como esporadico
-        txtTipoClient.setText("Esporadico");
-        txtTipoClient.setEditable(false);
-
-    }//GEN-LAST:event_ButtonNuevoActionPerformed
+    }//GEN-LAST:event_ButtonUpdateActionPerformed
 
     private void tableClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientsMouseClicked
         DefaultTableModel modeloTabla = (DefaultTableModel) tableClients.getModel();               // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
@@ -374,8 +398,65 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         SEARCHclientUNIQUE(codClient);
     }//GEN-LAST:event_tableClientsMouseClicked
 
+    private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para desbloquear los campos de texto
+        unlockTextEdit();
+
+        // Se muestran los botones de aceptar y cancelar
+        btnCancelAdd.setVisible(true);
+        btnAcceptAdd.setVisible(true);
+
+        // Se ocultan los demas botones de accion
+        ButtonBorrar.setVisible(false);
+        ButtonUpdate.setVisible(false);
+        ButtonNuevo.setVisible(false);
+        
+    }//GEN-LAST:event_ButtonNuevoActionPerformed
+
+    private void btnCancelUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelUpdateActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+
+        // Se ocultan los botones de aceptar y cancelar
+        btnCancelUpdate.setVisible(false);
+        btnAcceptUpdate.setVisible(false);
+
+        // Se muestran los demas botones de accion
+        ButtonBorrar.setVisible(true);
+        ButtonUpdate.setVisible(true);
+        ButtonNuevo.setVisible(true);
+    }//GEN-LAST:event_btnCancelUpdateActionPerformed
+
+    private void btnAcceptUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptUpdateActionPerformed
+        // Variables en las que se almacenaran lo almacenado en los espacios de la ventana
+        String codClient = txtCodCli.getText();
+        String tipoClient = (String)cmbBoxTipo.getSelectedItem();
+        int descuento = 10;
+        
+        // Se ejecuta el metodo para cambiar el tipo de cliente
+        CHANGEtipoClient(codClient,tipoClient,descuento);
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+
+        // Se ocultan los botones de aceptar y cancelar
+        btnCancelUpdate.setVisible(false);
+        btnAcceptUpdate.setVisible(false);
+
+        // Se muestran los demas botones de accion
+        ButtonBorrar.setVisible(true);
+        ButtonNuevo.setVisible(true);
+        ButtonUpdate.setVisible(true);
+    }//GEN-LAST:event_btnAcceptUpdateActionPerformed
+
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtBuscarKeyTyped
 
 
@@ -384,9 +465,13 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
     private javax.swing.JButton ButtonBuscar;
     private javax.swing.JButton ButtonEliminar;
     private javax.swing.JButton ButtonNuevo;
-    private javax.swing.JButton btnAccept;
-    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton ButtonUpdate;
+    private javax.swing.JButton btnAcceptAdd;
+    private javax.swing.JButton btnAcceptUpdate;
+    private javax.swing.JButton btnCancelAdd;
+    private javax.swing.JButton btnCancelUpdate;
     private javax.swing.JCheckBox chckBoxExtern;
+    private javax.swing.JComboBox<String> cmbBoxTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -413,7 +498,6 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
     private javax.swing.JTextField txtNom;
     private javax.swing.JTextField txtNumPass;
     private javax.swing.JTextField txtTelf;
-    private javax.swing.JTextField txtTipoClient;
     // End of variables declaration//GEN-END:variables
     
     // Metodo encargado de buscar un recepcionista segun su clave primaria
@@ -447,7 +531,23 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
                     txtEmail.setText(rs.getString("emailClient"));
                     txtCurp.setText(rs.getString("curpClient") + "");
                     txtNumPass.setText(rs.getString("numPasaporteClient"));
-                    txtTipoClient.setText(rs.getString("tipoClient"));
+                    
+                    String type = rs.getString("tipoClient");                    // Se crea una variable para almacenar el valor del atributo tipoClient
+                    switch(type)                                                 // Se crea un switch case para comprobar el valor obtenido en el atributo tipoClient
+                    {
+                        case "Habitual":
+                        {
+                            // Si el valor de tipo es igual a "Habitual", este seleccionara el valor en la posicion 2 del arreglo del combobox
+                            cmbBoxTipo.setSelectedIndex(2);
+                            break;
+                        }
+                        case "Esporadico":
+                        {
+                            // Si el valor de tipo es igual a "Esporadico", este seleccionara el valor en la posicion 1 del arreglo del combobox
+                            cmbBoxTipo.setSelectedIndex(1);
+                            break;
+                        }
+                    }
                     
                     // Se analiza si el cliente es de una pagina externa
                     if(rs.getInt("isPagExternas") == 1)
@@ -498,20 +598,116 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
             // Se notifica al usuario que se ha registrado el producto
             JOptionPane.showMessageDialog(null, "SE HA REGISTRADO AL NUEVO CLIENTE");
             
-            //  SE PREPARA LA ADICION A LA ESPECIALIZACION DE ESPORADICO
+            //  SE PREPARA LA ADICION A LA ESPECIALIZACION CORRESPONDIENTE
+            if(tipoClient.equals("Esporadico"))
+            {
+                ps = cn.prepareStatement("CALL `ADDhabitual`(?,?)");                 // Se prepara la linea de codigo para ejecutar el PROCEDURE
             
-            ps = cn.prepareStatement("CALL `ADDesporadic`(?)");                 // Se prepara la linea de codigo para ejecutar el PROCEDURE
+                // Se asignan los valores de los parametros de la modificacion
+                ps.setString(1,codClient);
+                ps.setInt(2,10);
+            }
+            else
+            {
+                ps = cn.prepareStatement("CALL `ADDesporadic`(?)");                 // Se prepara la linea de codigo para ejecutar el PROCEDURE
             
-            // Se asigna el valor del parametro de la modificacion
-            ps.setString(1,codClient);
-            
+                // Se asigna el valor del parametro de la modificacion
+                ps.setString(1,codClient);
+            }
+
             ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
 
-            cx.disconnect();        // Se cierra la conexion con la base de datos
-            loadTableClients();    // Se actualiza la tabla 
+            cx.disconnect();            // Se cierra la conexion con la base de datos
+            loadTableClients();         // Se actualiza la tabla 
         }
         
         
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
+        }
+    }
+    
+    // Metodo para cambiar el tipo de cliente
+    private void CHANGEtipoClient(String codClient, String tipoClient, int descuento)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `CHANGEclient`(?,?)");  // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asignan los valores de los parametros a la modificacion
+            ps.setString(1, codClient);
+            ps.setString(2, tipoClient);
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            //  SE PREPARA LA ADICION A LA ESPECIALIZACION CORRESPONDIENTE
+            if(tipoClient.equals("Esporadico"))
+            {
+                // SE MODIFICA EL REGISTRO EB LA TABLA CLIENTE
+                ps = cn.prepareStatement("CALL `CHANGEclient`(?,?)");                   // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+                // Se asignan los valores de los parametros de la modificacion
+                ps.setString(1,codClient);
+                ps.setString(2,tipoClient);
+                
+                ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+                
+                // SE ELIMINA EL REGISTRO EN LA TABLA DE HABITUAL
+                ps = cn.prepareStatement("CALL `DELETEhabitual`(?)");                   // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+                // Se asignan los valores de los parametros de la modificacion
+                ps.setString(1,codClient);
+                
+                ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+                
+                // SE AÑADE EL REGISTRO EN LA TABLA DE HABITUAL
+                ps = cn.prepareStatement("CALL `ADDesporadic`(?)");                     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+                // Se asignan los valores de los parametros de la modificacion
+                ps.setString(1,codClient);
+                
+                ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+                
+                
+            }
+            else
+            {
+                // SE MODIFICA EL REGISTRO EB LA TABLA CLIENTE
+                ps = cn.prepareStatement("CALL `CHANGEclient`(?,?)");                   // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+                // Se asignan los valores de los parametros de la modificacion
+                ps.setString(1,codClient);
+                ps.setString(2,tipoClient);
+                
+                ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+                
+                // SE ELIMINA EL REGISTRO EN LA TABLA DE HABITUAL
+                ps = cn.prepareStatement("CALL `DELETEesporadic`(?)");                  // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+                // Se asignan los valores de los parametros de la modificacion
+                ps.setString(1,codClient);
+                
+                ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+                
+                // SE AÑADE EL REGISTRO EN LA TABLA DE HABITUAL
+                ps = cn.prepareStatement("CALL `ADDhabitual`(?,?)");                    // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+                // Se asignan los valores de los parametros de la modificacion
+                ps.setString(1,codClient);
+                ps.setInt(2,descuento);
+                
+                ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            }
+            
+            cx.disconnect();            // Se cierra la conexion con la base de datos
+            loadTableClients();         // Se actualiza la tabla 
+        }
         catch(Exception e)
         {
             System.out.println("ERROR. - " + e);
@@ -583,7 +779,7 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         txtNumPass.setEditable(false);
         txtTelf.setEditable(false);
         txtEmail.setEditable(false);
-        txtTipoClient.setEditable(false);
+        cmbBoxTipo.setEditable(false);
     }
     
     // Metodo encargado para desbloquear los campos de texto
@@ -598,7 +794,6 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         txtNumPass.setEditable(true);
         txtTelf.setEditable(true);
         txtEmail.setEditable(true);
-        txtTipoClient.setEditable(true);
     }
     
     // Metodo encargado para vaciar los campos de texto
@@ -614,8 +809,8 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         txtNumPass.setText("");
         txtTelf.setText("");
         txtEmail.setText("");
-        txtTipoClient.setText("");
         chckBoxExtern.setSelected(false);
+        cmbBoxTipo.setSelectedIndex(0);
     }
 
 }

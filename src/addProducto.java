@@ -56,6 +56,9 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableProducts = new javax.swing.JTable();
+        txtBuscar = new javax.swing.JTextField();
+        ButtonBuscar = new javax.swing.JButton();
+        ButtonEliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -164,7 +167,21 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
             tableProducts.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 350));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 300));
+
+        txtBuscar.setText("Buscar");
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
+        jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 280, -1));
+
+        ButtonBuscar.setText("Buscar");
+        jPanel2.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
+
+        ButtonEliminar.setText("Eliminar");
+        jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 370));
 
@@ -259,9 +276,15 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
         lockTextEdit();
     }//GEN-LAST:event_ButtonBorrarActionPerformed
 
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
+    private javax.swing.JButton ButtonBuscar;
+    private javax.swing.JButton ButtonEliminar;
     private javax.swing.JButton ButtonNuevo;
     private javax.swing.JButton btnAccept;
     private javax.swing.JButton btnCancel;
@@ -277,6 +300,7 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableProducts;
+    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCodProd;
     private javax.swing.JTextField txtContUni;
     private javax.swing.JTextField txtNomProd;

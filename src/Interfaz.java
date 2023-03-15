@@ -21,7 +21,8 @@ public class Interfaz extends javax.swing.JFrame {
         if(rol.equals("Normal"))
         {
             // Si lo es, se bloquea el acceso a estos menús ocultandolos
-            menadd.setVisible(false);
+            addhab.setVisible(false);
+            addprod.setVisible(false);
             Usuarios.setVisible(false);
         }
     }

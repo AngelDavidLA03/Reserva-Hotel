@@ -207,6 +207,11 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 340));
 
         txtBuscarCli.setText("Buscar");
+        txtBuscarCli.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarCliKeyTyped(evt);
+            }
+        });
         jPanel2.add(txtBuscarCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 320, -1));
 
         ButtonBuscar.setText("Buscar");
@@ -360,6 +365,10 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         // Se llama al metodo para bloquear los campos de texto
         lockTextEdit();
     }//GEN-LAST:event_ButtonBorrarActionPerformed
+
+    private void txtBuscarCliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarCliKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarCliKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
