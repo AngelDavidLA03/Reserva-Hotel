@@ -28,7 +28,7 @@ public class Lista_habitaciones extends javax.swing.JFrame {
 
         background = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableHabitacion = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         ButtonBuscar = new javax.swing.JButton();
 
@@ -37,35 +37,34 @@ public class Lista_habitaciones extends javax.swing.JFrame {
 
         background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Código Habitación", "Piso", "Número Habitación", "Núm. Camas", "Tipo Habitación", "Costo"
+                "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Caracteristicas"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        tableHabitacion.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tableHabitacion);
+        if (tableHabitacion.getColumnModel().getColumnCount() > 0) {
+            tableHabitacion.getColumnModel().getColumn(0).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(1).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(2).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(2).setPreferredWidth(10);
+            tableHabitacion.getColumnModel().getColumn(3).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(4).setResizable(false);
         }
 
         background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
@@ -183,7 +182,7 @@ public class Lista_habitaciones extends javax.swing.JFrame {
     private javax.swing.JButton ButtonBuscar;
     private javax.swing.JPanel background;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableHabitacion;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
     

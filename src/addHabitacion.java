@@ -43,11 +43,11 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         Comboboxnumcamas = new javax.swing.JComboBox<>();
         Comboboxtipohab = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         ButtonBuscar = new javax.swing.JButton();
         ButtonEliminar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableHabitacion = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -104,38 +104,6 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Código Habitación", "Número Habitación", "Piso", "Núm. Cams", "Costo", "Tipo Habitación"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-        }
-
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 300));
-
         txtBuscar.setText("Buscar");
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -149,6 +117,30 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
 
         ButtonEliminar.setText("Eliminar");
         jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
+
+        tableHabitacion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Caracteristicas"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableHabitacion.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tableHabitacion);
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 300));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 370));
 
@@ -187,7 +179,7 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableHabitacion;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCodhab;
     private javax.swing.JTextField txtCosto;
