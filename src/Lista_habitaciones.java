@@ -14,8 +14,11 @@ public class Lista_habitaciones extends javax.swing.JFrame {
      * Creates new form Lista_habitaciones
      */
     public Lista_habitaciones() {
+        
         initComponents();
         
+        // Se habilita el campo de busqueda
+        txtBuscar.setEditable(true);
     }
 
     /**
@@ -40,17 +43,17 @@ public class Lista_habitaciones extends javax.swing.JFrame {
 
         tableHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Caracteristicas"
+                "Código Habitacion", "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Caracteristicas"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -68,14 +71,14 @@ public class Lista_habitaciones extends javax.swing.JFrame {
             tableHabitacion.getColumnModel().getColumn(0).setResizable(false);
             tableHabitacion.getColumnModel().getColumn(1).setResizable(false);
             tableHabitacion.getColumnModel().getColumn(2).setResizable(false);
-            tableHabitacion.getColumnModel().getColumn(2).setPreferredWidth(10);
             tableHabitacion.getColumnModel().getColumn(3).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(3).setPreferredWidth(10);
             tableHabitacion.getColumnModel().getColumn(4).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(5).setResizable(false);
         }
 
         background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, -1));
 
-        txtBuscar.setEditable(false);
         txtBuscar.setText("Ingrese el número de la habitacion.");
         txtBuscar.setEnabled(false);
         txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -200,6 +203,53 @@ public class Lista_habitaciones extends javax.swing.JFrame {
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
     
-    //private void SEARCHinTable()
-
+    // Metodo encargado de llenar la tabla de los productos
+    private void loadTableProducts(String dato, String num)
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableHabitacion.getModel(); // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+            if(dato.equals(""))                                     // Se crea un If que evalua el valor de dato 
+            {
+                ps = cn.prepareStatement("CALL `SEARCHhabitacion`");                    // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            }
+            else 
+            {
+                ps = cn.prepareStatement("CALL `SEARCHhabitacionUNIQUEinList`(?,?)");   //Se prepara la linea de codigo para ejecutar el PROCEDURE
+                ps.setString(1, dato);                                                  //Valor de entrada del primer dato
+                ps.setString(2, num);                                                   //Valor de entrada del Segundo dato
+            }    
+            // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();           // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
 }

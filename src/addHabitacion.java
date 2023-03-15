@@ -1,5 +1,7 @@
 import java.sql.*;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
 *   SUBVENTANA ENCARGADA DE VER, AÑADIR, ELIMINAR Y MODIFICAR LOS DATOS DE LAS HABITACIONES EN EL PROGRAMA
 *   INTEGRANTES DEL EQUIPO
@@ -12,7 +14,18 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
      * Creates new form addHabitacion
      */
     public addHabitacion() {
+        
         initComponents();
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+        
+        // Se deshabilitan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+        
+        // Se carga la tabla de productos
+        loadTableHabitacion();
     }
 
     /**
@@ -26,22 +39,22 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
 
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         txtCodhab = new javax.swing.JTextField();
         txtNumhab = new javax.swing.JTextField();
         txtpiso = new javax.swing.JTextField();
         txtCosto = new javax.swing.JTextField();
+        iconImage = new javax.swing.JLabel();
+        cmbBoxTipo = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        txtCaracteristicas = new javax.swing.JTextField();
         ButtonBorrar = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnAccept = new javax.swing.JButton();
         ButtonNuevo = new javax.swing.JButton();
-        ButtonGuardar = new javax.swing.JButton();
-        Imagen = new javax.swing.JLabel();
-        Comboboxnumcamas = new javax.swing.JComboBox<>();
-        Comboboxtipohab = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         txtBuscar = new javax.swing.JTextField();
         ButtonBuscar = new javax.swing.JButton();
@@ -61,11 +74,8 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         jLabel3.setText("Piso");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
-        jLabel4.setText("Núm. Camas");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
-
         jLabel5.setText("Costo");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         jLabel6.setText("Número Habitación");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
@@ -74,32 +84,60 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
         jLabel8.setText("Tipo Habitación");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
-        jLabel9.setText("Foto");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+        txtCodhab.setEditable(false);
         jPanel1.add(txtCodhab, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 130, -1));
         jPanel1.add(txtNumhab, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
         jPanel1.add(txtpiso, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
-        jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 130, -1));
+        jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
+        jPanel1.add(iconImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 220, 140));
+
+        cmbBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Simple", "Doble", "Matrimonial", " " }));
+        cmbBoxTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbBoxTipoItemStateChanged(evt);
+            }
+        });
+        jPanel1.add(cmbBoxTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 90, -1));
+
+        jLabel9.setText("Características");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 195, -1, -1));
+        jPanel1.add(txtCaracteristicas, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
 
         ButtonBorrar.setText("Borrar");
-        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
+        ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonBorrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, -1));
+
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, -1, -1));
+
+        btnAccept.setText("Aceptar");
+        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, -1, -1));
 
         ButtonNuevo.setText("Nuevo");
-        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 310, -1, -1));
+        ButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonNuevoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, -1, -1));
 
-        ButtonGuardar.setText("Guardar");
-        jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, -1, -1));
-        jPanel1.add(Imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 130, 70));
-
-        Comboboxnumcamas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "1", "2", "3", "4" }));
-        jPanel1.add(Comboboxnumcamas, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 90, -1));
-
-        Comboboxtipohab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Simple", "Doble", "Matrimonial", " " }));
-        jPanel1.add(Comboboxtipohab, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 90, -1));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 370));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 420));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -120,17 +158,17 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
 
         tableHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Caracteristicas"
+                "Código Habitacion", "Número Habitación", "Tipo Habitación", "Piso", "Costo", "Características"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -138,11 +176,24 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
             }
         });
         tableHabitacion.getTableHeader().setReorderingAllowed(false);
+        tableHabitacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableHabitacionMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableHabitacion);
+        if (tableHabitacion.getColumnModel().getColumnCount() > 0) {
+            tableHabitacion.getColumnModel().getColumn(0).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(1).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(2).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(3).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(4).setResizable(false);
+            tableHabitacion.getColumnModel().getColumn(5).setResizable(false);
+        }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 300));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 350));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 370));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 420));
 
         jLabel1.setText("Datos del Habitación");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
@@ -157,20 +208,134 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarKeyTyped
 
+    private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+    }//GEN-LAST:event_ButtonBorrarActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+
+        // Se ocultan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+
+        // Se muestran los demas botones de accion
+        ButtonBorrar.setVisible(true);
+        ButtonNuevo.setVisible(true);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+        // Se analiza si existe algun campo vacio en los campos de texto
+        if(txtNumhab.getText().equals("") || txtpiso.getText().equals("") || txtCosto.getText().equals("") || cmbBoxTipo.getSelectedItem().equals("------"))
+        {
+            JOptionPane.showMessageDialog(null, "Existe algun campo vacio, favor de llenarlo", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        }
+        // Sin embargo, si no existen campos vacios
+        else
+        {
+            // Variables en las que se almacenaran lo almacenado en los espacios de la ventana
+            int codHab = (Integer.parseInt(txtpiso.getText()) * 100) + Integer.parseInt(txtNumhab.getText());
+            txtCodhab.setText(codHab + "");
+            
+            int numHab = (Integer.parseInt(txtNumhab.getText()));
+            String tipoHab = (String)cmbBoxTipo.getSelectedItem();
+            int pisoHab = Integer.parseInt(txtpiso.getText());
+            double costo = Double.parseDouble(txtCosto.getText());
+            String caracteristicas = txtCaracteristicas.getText();
+
+            // Se ejecuta el metodo para añadir los valores a la tabla de productos
+            ADDhabitacion(codHab, numHab, tipoHab, pisoHab, costo, caracteristicas);
+
+            // Se llama al metodo para bloquear los campos de texto
+            lockTextEdit();
+
+            // Se ocultan los botones de aceptar y cancelar
+            btnCancel.setVisible(false);
+            btnAccept.setVisible(false);
+
+            // Se muestran los demas botones de accion
+            ButtonBorrar.setVisible(true);
+            ButtonNuevo.setVisible(true);
+        }
+    }//GEN-LAST:event_btnAcceptActionPerformed
+
+    private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para desbloquear los campos de texto
+        unlockTextEdit();
+
+        // Se muestran los botones de aceptar y cancelar
+        btnCancel.setVisible(true);
+        btnAccept.setVisible(true);
+
+        // Se ocultan los demas botones de accion
+        ButtonBorrar.setVisible(false);
+        ButtonNuevo.setVisible(false);
+    }//GEN-LAST:event_ButtonNuevoActionPerformed
+
+    private void cmbBoxTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBoxTipoItemStateChanged
+        // Se consigue el tipo de habitacion, y se analiza el resultado obtenido
+        String tipoHab = (String)cmbBoxTipo.getSelectedItem();
+        switch(tipoHab)
+        {
+            case "Simple":
+            {   
+                // Si el tipoHab es igual a Simple, se coloca la imagen de una habitacion simple
+                iconImage.setIcon(new ImageIcon(getClass().getResource("/img/habSimple.jpg")));
+                break;
+            }
+            case "Doble":
+            {
+                // Si el tipoHab es igual a Doble, se coloca la imagen de una habitacion doble
+                iconImage.setIcon(new ImageIcon(getClass().getResource("/img/habDoble.jpg")));
+                break;
+            }
+            case "Matrimonial":
+            {
+                // Si el tipoHab es igual a Matrimonial, se coloca la imagen de una habitacion matrimonial
+                iconImage.setIcon(new ImageIcon(getClass().getResource("/img/habMatrimonial.png")));
+                break;
+            }
+            default:
+            {
+                // Si el tipoHab no tiene un valor reconocible, se coloca la imagen por defecto
+                iconImage.setIcon(new ImageIcon(getClass().getResource("/img/logo.png")));
+                break;
+            }
+        }
+    }//GEN-LAST:event_cmbBoxTipoItemStateChanged
+
+    private void tableHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableHabitacionMouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableHabitacion.getModel();                               // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        int codHab = Integer.parseInt(String.valueOf(modeloTabla.getValueAt(tableHabitacion.getSelectedRow(),0)));    // Se extrae el valor de la tabla de la ventana que se encuentre en la fila 0 y se convierte a int
+
+        // Se ejecuta el metodo encargado de buscar los productos de forma separada
+        SEARCHhabitacionUNIQUE(codHab);
+    }//GEN-LAST:event_tableHabitacionMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
     private javax.swing.JButton ButtonBuscar;
     private javax.swing.JButton ButtonEliminar;
-    private javax.swing.JButton ButtonGuardar;
     private javax.swing.JButton ButtonNuevo;
-    private javax.swing.JComboBox<String> Comboboxnumcamas;
-    private javax.swing.JComboBox<String> Comboboxtipohab;
-    private javax.swing.JLabel Imagen;
+    private javax.swing.JButton btnAccept;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JComboBox<String> cmbBoxTipo;
+    private javax.swing.JLabel iconImage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -181,18 +346,191 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableHabitacion;
     private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtCaracteristicas;
     private javax.swing.JTextField txtCodhab;
     private javax.swing.JTextField txtCosto;
     private javax.swing.JTextField txtNumhab;
     private javax.swing.JTextField txtpiso;
     // End of variables declaration//GEN-END:variables
     
+    // Metodo encargado de buscar un recepcionista segun su clave primaria
+    private void SEARCHhabitacionUNIQUE(int codHab)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+
+        try 
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+
+            ps = cn.prepareStatement("CALL `SEARCHhabitacionUNIQUE`(?)");    // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps.setInt(1, codHab);                                            // Se asigna el valor del parametro codProduct a la consulta
+
+            rs = ps.executeQuery();                                 // Se ejecuta la consulta
+
+            // Se comprueba si el valor arrojado de la consulta es diferente a nulo
+            if(rs != null)
+            {
+                // Ciclo while donde se comprueba si existe un registro siguiente
+                while(rs.next())
+                {
+                    // Se asignan los valores encontrados en la consulta
+                    txtCodhab.setText(rs.getInt("codHab") + "");
+                    txtNumhab.setText(rs.getInt("numHab") + "");
+                    txtpiso.setText(rs.getInt("pisoHab") + "");
+                    txtCosto.setText(rs.getDouble("costoHab") + "0");
+                    txtCaracteristicas.setText(rs.getString("caracteristicasHab"));
+                    
+                    String type = rs.getString("tipoHab");                       // Se crea una variable para almacenar el valor del atributo tipoClient
+                    switch(type)                                                 // Se crea un switch case para comprobar el valor obtenido en el atributo tipoClient
+                    {
+                        case "Simple":
+                        {
+                            // Si el valor de tipo es igual a "Simple", este seleccionara el valor en la posicion 1 del arreglo del combobox y su respectiva imagen
+                            cmbBoxTipo.setSelectedIndex(1);
+                            iconImage.setIcon(new ImageIcon(getClass().getResource("/img/habSimple.jpg")));
+                            break;
+                        }
+                        case "Doble":
+                        {
+                            // Si el valor de tipo es igual a "Doble", este seleccionara el valor en la posicion 2 del arreglo del combobox y su respectiva imagen
+                            cmbBoxTipo.setSelectedIndex(2);
+                            iconImage.setIcon(new ImageIcon(getClass().getResource("/img/habDoble.jpg")));
+                            break;
+                        }
+                        case "Matrimonial":
+                        {
+                            // Si el valor de tipo es igual a "Matrimonial", este seleccionara el valor en la posicion 3 del arreglo del combobox y su respectiva imagen
+                            cmbBoxTipo.setSelectedIndex(3);
+                            iconImage.setIcon(new ImageIcon(getClass().getResource("/img/habMatrimonial.png")));
+                            break;
+                        }
+                    }
+                }
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
+    // Metodo encargado de añadir los valores en la tabla de recepcionistas
+    private void ADDhabitacion(int codHab, int numHab, String tipoHab, int pisoHab, double costoHab, String caracteristicas)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `ADDhabitacion`(?,?,?,?,?,?)");  // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asignan los valores de los parametros a la modificacion
+            ps.setInt(1, codHab);
+            ps.setInt(2, numHab);
+            ps.setString(3, tipoHab);
+            ps.setInt(4, pisoHab);
+            ps.setDouble(5, costoHab);
+            ps.setString(6, caracteristicas);
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            // Se notifica al usuario que se ha registrado el producto
+            JOptionPane.showMessageDialog(null, "SE HA REGISTRADO LA NUEVA HABITACION");
+            
+            //  SE PREPARA LA ADICION A LA ESPECIALIZACION CORRESPONDIENTE
+            // Se analiza el valor del parametro tipoHab
+            switch(tipoHab)
+            {
+                case "Simple":
+                {   
+                    // Si el tipoHab es igual a Simple, se prepara el llamamiento al PROCEDURE correspondiente
+                    ps = cn.prepareStatement("CALL `ADDsimple`(?)");
+                    break;
+                }
+                case "Doble":
+                {
+                    // Si el tipoHab es igual a Doble, se prepara el llamamiento al PROCEDURE correspondiente
+                    ps = cn.prepareStatement("CALL `ADDdoble`(?)");
+                    break;
+                }
+                case "Matrimonial":
+                {
+                    // Si el tipoHab es igual a Matrimonial, se prepara el llamamiento al PROCEDURE correspondiente
+                    ps = cn.prepareStatement("CALL `ADDmatrimonial`(?)");
+                    break;
+                }
+            }
+            // Se asigna el valor del parametro de la modificacion
+            ps.setInt(1,codHab);
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+
+            cx.disconnect();            // Se cierra la conexion con la base de datos
+            loadTableHabitacion();      // Se actualiza la tabla 
+        }
+
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
+        }
+    }
+    
+    // Metodo encargado de llenar la tabla de los recepcionistas
+    private void loadTableHabitacion()
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableHabitacion.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                       // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `SEARCHhabitacion`");    // Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+            rs = ps.executeQuery();                                 // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                                // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();                       // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
     // Metodo encargado para bloquear los campos de texto
     @Override
     public void lockTextEdit()
     {
         // Se bloquea la edicion de los campos de texto
-        
+        txtCodhab.setEditable(false);
+        txtNumhab.setEditable(false);
+        txtpiso.setEditable(false);
+        txtCosto.setEditable(false);
+        cmbBoxTipo.setEditable(false);
+        txtCaracteristicas.setEditable(false);
     }
     
     // Metodo encargado para desbloquear los campos de texto
@@ -200,7 +538,10 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
     public void unlockTextEdit()
     {
         // Se desbloquea la edicion de los campos de texto
-        
+        txtNumhab.setEditable(true);
+        txtpiso.setEditable(true);
+        txtCosto.setEditable(true);
+        txtCaracteristicas.setEditable(true);
     }
     
     // Metodo encargado para vaciar los campos de texto
@@ -208,7 +549,12 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
     public void clearTextField()
     {
         // Se vacian los campos de texto
-        
+        txtCodhab.setText("");
+        txtNumhab.setText("");
+        txtpiso.setText("");
+        txtCosto.setText("");
+        cmbBoxTipo.setSelectedIndex(0);
+        txtCaracteristicas.setText("");
     }
 
 }

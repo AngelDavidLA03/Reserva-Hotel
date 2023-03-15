@@ -85,7 +85,8 @@ ALTER TABLE Trabajar ADD CONSTRAINT FK_recID_Trabajar FOREIGN KEY (recID) REFERE
 ALTER TABLE Trabajar ADD CONSTRAINT FK_codigoHotel_Trabajar FOREIGN KEY (codigoHotel) REFERENCES Hotel(codigoHotel) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /* TABLA DE HABITACION */
-CREATE TABLE Habitacion(numHab INT(3) PRIMARY KEY NOT NULL COMMENT 'Cada habitacion comenzara con un multiplo de su piso, seguido del numero de habitacion (ejemplo, piso 1, habitacion 1 = 101)',
+CREATE TABLE habitacion(codHab INT(3) PRIMARY KEY NOT NULL COMMENT 'Cada habitacion comenzara con un multiplo de su piso, seguido del numero de habitacion (ejemplo, piso 1, habitacion 1 = 101)',
+	numHab INT(2) NOT NULL,
 	tipoHab VARCHAR(11) NOT NULL COMMENT 'Solo permitir valores como Simple, Doble y Matrimonial',
 	pisoHab INT(1) NOT NULL,
 	costoHab DECIMAL(7,2) NOT NULL,
@@ -93,27 +94,27 @@ CREATE TABLE Habitacion(numHab INT(3) PRIMARY KEY NOT NULL COMMENT 'Cada habitac
 	
 /* TABLA DE RELACION HABITACION - CLIENTE DE TIPO M - M*/
 CREATE TABLE Reservar(codClient VARCHAR(10) NOT NULL,
-	numHab INT(3) NOT NULL,
+	codHab INT(3) NOT NULL,
 	fechaReserv DATE NOT NULL,
 	horaReserv TIME NOT NULL,
 	diasReserv INT(2) NOT NULL,
 	precioTotalR DECIMAL(8,2) NOT NULL) ENGINE=INNODB;
 	
 ALTER TABLE Reservar ADD CONSTRAINT FK_codClient_Reservar FOREIGN KEY (codClient) REFERENCES Cliente(codClient) ON DELETE CASCADE ON UPDATE CASCADE; 
-ALTER TABLE Reservar ADD CONSTRAINT FK_numHab_Reservar FOREIGN KEY (numHab) REFERENCES Habitacion(numHab) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE Reservar ADD CONSTRAINT FK_numHab_Reservar FOREIGN KEY (codHab) REFERENCES Habitacion(codHab) ON DELETE CASCADE ON UPDATE CASCADE;
 	
 /* TABLA DE ESPECIALIZACION SIMPLE */
-CREATE TABLE Simple(numHabS INT(3) PRIMARY KEY NOT NULL,
-	UNIQUE INDEX `numHabS` (`numHabS`) USING BTREE,
-	CONSTRAINT `FK_numHabS_Simple` FOREIGN KEY (`numHabS`) REFERENCES `db_hotel`.`habitacion` (`numHab`) ON UPDATE CASCADE ON DELETE CASCADE) ENGINE = INNODB;
+CREATE TABLE Simple(codHabS INT(3) PRIMARY KEY NOT NULL,
+	UNIQUE INDEX `codHabS` (`codHabS`) USING BTREE,
+	CONSTRAINT `FK_codHabS_Simple` FOREIGN KEY (`codHabS`) REFERENCES `db_hotel`.`habitacion` (`codHab`) ON UPDATE CASCADE ON DELETE CASCADE) ENGINE = INNODB;
 
 /* TABLA DE ESPECIALIZACION DOBLE */
-CREATE TABLE Doble(numHabD INT(3) PRIMARY KEY NOT NULL,
-	UNIQUE INDEX `numHabD` (`numHabD`) USING BTREE,
-	CONSTRAINT `FK_numHabD_Doble` FOREIGN KEY (`numHabD`) REFERENCES `db_hotel`.`habitacion` (`numHab`) ON UPDATE CASCADE ON DELETE CASCADE) ENGINE = INNODB;
+CREATE TABLE Doble(codHabD INT(3) PRIMARY KEY NOT NULL,
+	UNIQUE INDEX `codHabD` (`codHabD`) USING BTREE,
+	CONSTRAINT `FK_codHabD_Doble` FOREIGN KEY (`codHabD`) REFERENCES `db_hotel`.`habitacion` (`codHab`) ON UPDATE CASCADE ON DELETE CASCADE) ENGINE = INNODB;
 
 /* TABLA DE ESPECIALIZACION MATRIMONIAL */
-CREATE TABLE Matrimonial(numHabM INT(3) PRIMARY KEY NOT NULL,
-	UNIQUE INDEX `numHabM` (`numHabM`) USING BTREE,
-	CONSTRAINT `FK_numHabM_Matrimonial` FOREIGN KEY (`numHabM`) REFERENCES `db_hotel`.`habitacion` (`numHab`) ON UPDATE CASCADE ON DELETE CASCADE) ENGINE = INNODB;
+CREATE TABLE Matrimonial(codHabM INT(3) PRIMARY KEY NOT NULL,
+	UNIQUE INDEX `codHabM` (`codHabM`) USING BTREE,
+	CONSTRAINT `FK_codHabM_Matrimonial` FOREIGN KEY (`codHabM`) REFERENCES `db_hotel`.`habitacion` (`codHab`) ON UPDATE CASCADE ON DELETE CASCADE) ENGINE = INNODB;
 
