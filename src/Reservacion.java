@@ -16,9 +16,10 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     }
 
     Reservacion(String dato) {
-        if(dato.substring(1, 2)=="CL")
+        if(dato.substring(0, 2)=="CL")
         {
         txtCliente.setText(dato);
+        new Consumos(dato);
         }
         else
         {

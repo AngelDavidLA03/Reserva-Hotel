@@ -15,6 +15,8 @@ public class Lista_Clientes extends javax.swing.JFrame {
      */
     public Lista_Clientes() {
         initComponents();
+        
+        loadtable();
     }
 
     /**
@@ -27,7 +29,6 @@ public class Lista_Clientes extends javax.swing.JFrame {
     private void initComponents() {
 
         background = new javax.swing.JPanel();
-        ButtonBuscar = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClients = new javax.swing.JTable();
@@ -37,11 +38,7 @@ public class Lista_Clientes extends javax.swing.JFrame {
 
         background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ButtonBuscar.setText("Buscar");
-        background.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, -1, -1));
-
         txtBuscar.setText("Ingrese el ID del cliente.");
-        txtBuscar.setEnabled(false);
         txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtBuscarFocusGained(evt);
@@ -170,7 +167,6 @@ public class Lista_Clientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonBuscar;
     private javax.swing.JPanel background;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableClients;
@@ -193,16 +189,11 @@ public class Lista_Clientes extends javax.swing.JFrame {
             Conexion cx = new Conexion();                           // Se crea una nueva conexion
             Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
             
-            if(dato.equals(""))                                     // Se crea un If que evalua el valor de dato 
-            {
-            ps = cn.prepareStatement("CALL `SEARCHclient`");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
-            }
-            else 
-            {
+           
             ps = cn.prepareStatement("CALL `SEARCHclientUNIQUEinList`(?,?)"); //Se prepara la linea de codigo para ejecutar el PROCEDURE
             ps.setString(1, dato);                                  //Valor de entrada del primer dato
             ps.setString(2, num);                                   //Valor de entrada del Segundo dato
-            }
+            
 
             rs = ps.executeQuery();                     // Se ejecuta la consulta
             rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
@@ -215,19 +206,6 @@ public class Lista_Clientes extends javax.swing.JFrame {
                 for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
                 {
                     fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
-                    
-                    // Se analiza si el valor contenido en la fila 9 es verdadero
-                    if(i == 9 && fila[9].equals(true))
-                    {
-                        // Se sustituye el valor de la fila 9 por "Si"
-                        fila[9] = "Si";
-                    }
-                    // Sin embargo, se analiza si el valor contenido en la fila 9 es falso
-                    else if(i == 9 && fila[9].equals(false))
-                    {
-                        // Se sustituye el valor de la fila 9 por "No"
-                        fila[9] = "No";
-                    }
                 }
                 modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
             }
@@ -237,6 +215,50 @@ public class Lista_Clientes extends javax.swing.JFrame {
         {
             System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
         }
+    }
+    
+    private void loadtable()
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableClients.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+            
+            ps = cn.prepareStatement("CALL `SEARCHclient`"); //Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+              
+            // Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();           // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+        
     }
 
 }

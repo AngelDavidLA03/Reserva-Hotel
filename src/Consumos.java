@@ -1,5 +1,6 @@
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
 *   VENTANA QUE SIRVE A MANERA VER, AÑADIR, Y MODIFICAR LOS DATOS DE LOS CONSUMOS HECHOS EN EL HOTEL
 *   INTEGRANTES DEL EQUIPO
@@ -14,11 +15,22 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
      */
     public Consumos() {
         initComponents();
+        
+        // Se carga la tabla de productos
+
     }
 
-    Consumos(String prod) {
-        txtProducto.setText(prod);
+    Consumos(String dato) {
+        if(dato.substring(0, 2)=="CL")
+        {
+        txtCliente.setText(dato);
+        }
+        else
+        {
+        txtProducto.setText(dato);
+        }
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,8 +45,7 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        ButtonEliminar = new javax.swing.JButton();
+        Tablecons = new javax.swing.JTable();
         txtTotal = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -44,11 +55,12 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         txtProducto = new javax.swing.JTextField();
         txtCliente = new javax.swing.JTextField();
         txtcantiprod = new javax.swing.JTextField();
-        ButtonBorrar = new javax.swing.JButton();
-        ButtonNuevo = new javax.swing.JButton();
-        ButtonGuardar = new javax.swing.JButton();
         ButtonConsprod = new javax.swing.JButton();
         txtpreciototal = new javax.swing.JFormattedTextField();
+        ButtonBorrar = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnAccept = new javax.swing.JButton();
+        ButtonNuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -63,7 +75,7 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tablecons.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -82,23 +94,20 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        Tablecons.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(Tablecons);
+        if (Tablecons.getColumnModel().getColumnCount() > 0) {
+            Tablecons.getColumnModel().getColumn(0).setResizable(false);
+            Tablecons.getColumnModel().getColumn(1).setResizable(false);
+            Tablecons.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 400, 180));
-
-        ButtonEliminar.setText("Eliminar");
-        jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 400, 220));
 
         txtTotal.setText("Total: $");
         jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 160, 30));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 270));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 420, 270));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -124,15 +133,6 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         jPanel1.add(txtCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 100, -1));
         jPanel1.add(txtcantiprod, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 130, -1));
 
-        ButtonBorrar.setText("Borrar");
-        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
-
-        ButtonNuevo.setText("Nuevo");
-        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, -1, -1));
-
-        ButtonGuardar.setText("Guardar");
-        jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, -1, -1));
-
         ButtonConsprod.setText("Buscar");
         ButtonConsprod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,6 +143,38 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
 
         txtpreciototal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
         jPanel1.add(txtpreciototal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 80, -1));
+
+        ButtonBorrar.setText("Borrar");
+        ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonBorrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, -1, -1));
+
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, -1, -1));
+
+        btnAccept.setText("Aceptar");
+        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, -1, -1));
+
+        ButtonNuevo.setText("Nuevo");
+        ButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonNuevoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 270));
 
@@ -160,13 +192,90 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         ven.setVisible(true);
     }//GEN-LAST:event_ButtonConsprodActionPerformed
 
+    private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+    }//GEN-LAST:event_ButtonBorrarActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+
+        // Se ocultan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+
+        // Se muestran los demas botones de accion
+        ButtonBorrar.setVisible(true);
+        ButtonNuevo.setVisible(true);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+
+        // Se analiza si existe algun campo vacio en los campos de texto
+        if(txtCliente.getText().equals("") || txtProducto.getText().equals("") || txtcantiprod.getText().equals("") || txtpreciototal.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Existe algun campo vacio, favor de llenarlo o cambiar el valor del desplegable", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        }
+        // Sin embargo, si no existen campos vacios
+        else
+        {
+
+            // Variables en las que se almacenaran lo almacenado en los espacios de la ventana
+
+            // Se hace una concatenacion entre las iniciales y la fecha
+            String client = txtCliente.getText();
+            String product = txtProducto.getText();
+            String cant = txtcantiprod.getText();
+            String total = txtpreciototal.getText();
+
+            // Se ejecuta el metodo para añadir los valores a la tabla de productos
+            addconsumo(client, product, cant, total);
+
+            // Se llama al metodo para bloquear los campos de texto
+            lockTextEdit();
+
+            // Se ocultan los botones de aceptar y cancelar
+            btnCancel.setVisible(false);
+            btnAccept.setVisible(false);
+
+            // Se muestran los demas botones de accion
+            ButtonBorrar.setVisible(true);
+            ButtonNuevo.setVisible(true);
+
+        }
+    }//GEN-LAST:event_btnAcceptActionPerformed
+
+    private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para desbloquear los campos de texto
+        unlockTextEdit();
+
+        // Se muestran los botones de aceptar y cancelar
+        btnCancel.setVisible(true);
+        btnAccept.setVisible(true);
+
+        // Se ocultan los demas botones de accion
+        ButtonBorrar.setVisible(false);
+        ButtonNuevo.setVisible(false);
+    }//GEN-LAST:event_ButtonNuevoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
     private javax.swing.JButton ButtonConsprod;
-    private javax.swing.JButton ButtonEliminar;
-    private javax.swing.JButton ButtonGuardar;
     private javax.swing.JButton ButtonNuevo;
+    private javax.swing.JTable Tablecons;
+    private javax.swing.JButton btnAccept;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -176,7 +285,6 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtProducto;
     private javax.swing.JTextField txtTotal;
@@ -184,7 +292,42 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
     private javax.swing.JFormattedTextField txtpreciototal;
     // End of variables declaration//GEN-END:variables
 
-    // Metodo encargado para bloquear los campos de texto
+private void addconsumo(String client, String product, String cant, String total)
+{
+PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `ADDcompra`(?,?,?,?)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asignan los valores de los parametros a la consulta
+            ps.setString(1, client);
+            ps.setString(2, product);
+            ps.setString(3, cant);
+            ps.setString(4, total);
+            
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            // Se notifica al usuario que se ha registrado el producto
+            JOptionPane.showMessageDialog(null, "SE HA REGISTRADO AL NUEVO RECEPCIONISTA");
+
+            cx.disconnect();        // Se cierra la conexion con la base de datos
+            String clien = txtCliente.getText();
+            Tablecons(clien);    // Se actualiza la tabla 
+        }
+        
+        
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
+        }
+}
+
+// Metodo encargado para bloquear los campos de texto
     @Override
     public void lockTextEdit()
     {
@@ -213,6 +356,47 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         txtProducto.setText("");
         txtcantiprod.setText("");
         txtpreciototal.setText("");
+    }
+
+    private void Tablecons(String clien ) {
+    DefaultTableModel modeloTabla = (DefaultTableModel) Tablecons.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `SERCHcompra` (?)");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
+           
+            // Se asignan los valores de los parametros a la consulta
+            ps.setString(1, clien);
+            
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();           // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }    
     }
 
 }
