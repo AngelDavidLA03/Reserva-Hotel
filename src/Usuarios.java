@@ -70,9 +70,6 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableEmployes = new javax.swing.JTable();
-        txtBuscarCli = new javax.swing.JTextField();
-        ButtonBuscar = new javax.swing.JButton();
-        ButtonEliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -204,26 +201,7 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
             tableEmployes.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 560, 340));
-
-        txtBuscarCli.setText("Buscar");
-        txtBuscarCli.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtBuscarCliKeyTyped(evt);
-            }
-        });
-        jPanel2.add(txtBuscarCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 320, -1));
-
-        ButtonBuscar.setText("Buscar");
-        jPanel2.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
-
-        ButtonEliminar.setText("Eliminar");
-        ButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonEliminarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 390));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 410));
 
@@ -235,14 +213,6 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEliminarActionPerformed
-        // Se llama al metodo para vaciar los campos de texto
-        clearTextField();
-        
-        // Se llama al metodo para bloquear los campos de texto
-        lockTextEdit();
-    }//GEN-LAST:event_ButtonEliminarActionPerformed
 
     private void tableEmployesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmployesMouseClicked
         DefaultTableModel modeloTabla = (DefaultTableModel) tableEmployes.getModel();               // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
@@ -383,15 +353,9 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         }
     }//GEN-LAST:event_ButtonBorrarActionPerformed
 
-    private void txtBuscarCliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarCliKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscarCliKeyTyped
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
-    private javax.swing.JButton ButtonBuscar;
-    private javax.swing.JButton ButtonEliminar;
     private javax.swing.JButton ButtonNuevo;
     private javax.swing.JButton btnAccept;
     private javax.swing.JButton btnCancel;
@@ -415,7 +379,6 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
     private javax.swing.JTable tableEmployes;
     private javax.swing.JTextField txtApmat;
     private javax.swing.JTextField txtAppat;
-    private javax.swing.JTextField txtBuscarCli;
     private javax.swing.JTextField txtCP;
     private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtCiudad;
