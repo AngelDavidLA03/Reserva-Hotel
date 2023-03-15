@@ -1,5 +1,6 @@
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
 *   VENTANA QUE SIRVE A MANERA DE VISUALIZAR LAS HABITACIONES DEL HOTEL
 *   INTEGRANTES DEL EQUIPO
@@ -57,6 +58,11 @@ public class Lista_habitaciones extends javax.swing.JFrame {
             }
         });
         tableHabitacion.getTableHeader().setReorderingAllowed(false);
+        tableHabitacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableHabitacionMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableHabitacion);
         if (tableHabitacion.getColumnModel().getColumnCount() > 0) {
             tableHabitacion.getColumnModel().getColumn(0).setResizable(false);
@@ -142,6 +148,14 @@ public class Lista_habitaciones extends javax.swing.JFrame {
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void tableHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableHabitacionMouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableHabitacion.getModel();
+        String dato = String.valueOf(modeloTabla.getValueAt(tableHabitacion.getSelectedRow(),0));
+        
+        Reservacion ventana = new Reservacion(dato);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_tableHabitacionMouseClicked
 
     /**
      * @param args the command line arguments

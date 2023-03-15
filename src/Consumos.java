@@ -16,8 +16,8 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         initComponents();
     }
 
-    Consumos(String nomprod) {
-        txtProducto.setText(nomprod);
+    Consumos(String prod) {
+        txtProducto.setText(prod);
     }
 
     /**
@@ -189,7 +189,10 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
     public void lockTextEdit()
     {
         // Se bloquea la edicion de los campos de texto
-        
+        txtCliente.setEditable(false);
+        txtProducto.setEditable(false);
+        txtcantiprod.setEditable(false);
+        txtpreciototal.setEditable(false);
     }
     
     // Metodo encargado para desbloquear los campos de texto
@@ -197,7 +200,9 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
     public void unlockTextEdit()
     {
         // Se desbloquea la edicion de los campos de texto
-        
+        txtProducto.setEditable(true);
+        txtcantiprod.setEditable(true);
+        txtpreciototal.setEditable(true);
     }
     
     // Metodo encargado para vaciar los campos de texto
@@ -205,7 +210,9 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
     public void clearTextField()
     {
         // Se vacian los campos de texto
-        
+        txtProducto.setText("");
+        txtcantiprod.setText("");
+        txtpreciototal.setText("");
     }
 
 }

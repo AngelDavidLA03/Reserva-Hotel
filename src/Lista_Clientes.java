@@ -77,6 +77,11 @@ public class Lista_Clientes extends javax.swing.JFrame {
             }
         });
         tableClients.getTableHeader().setReorderingAllowed(false);
+        tableClients.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableClientsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableClients);
 
         background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 680, 430));
@@ -121,6 +126,13 @@ public class Lista_Clientes extends javax.swing.JFrame {
         String num = dato.length()+""; // Se declara una cariable que cuenta los caracteres que tiene el dato 
         loadTableClients(dato,num); // Se pasan estas dos cariables al metodo
     }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void tableClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientsMouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableClients.getModel();
+        String dato = String.valueOf(modeloTabla.getValueAt(tableClients.getSelectedRow(),0));
+        Reservacion ventana = new Reservacion(dato);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_tableClientsMouseClicked
 
     /**
      * @param args the command line arguments

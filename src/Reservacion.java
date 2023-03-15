@@ -15,6 +15,18 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         initComponents();
     }
 
+    Reservacion(String dato) {
+        if(dato.substring(1, 2)=="CL")
+        {
+        txtCliente.setText(dato);
+        }
+        else
+        {
+        txtHabitacion.setText(dato);
+        }
+        
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

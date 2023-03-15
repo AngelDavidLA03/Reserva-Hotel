@@ -57,6 +57,11 @@ public class Lista_Productos extends javax.swing.JFrame {
             }
         });
         tableProducts.getTableHeader().setReorderingAllowed(false);
+        tableProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProductsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableProducts);
         if (tableProducts.getColumnModel().getColumnCount() > 0) {
             tableProducts.getColumnModel().getColumn(0).setResizable(false);
@@ -129,6 +134,14 @@ public class Lista_Productos extends javax.swing.JFrame {
         String num = dato.length()+""; // Se declara una cariable que cuenta los caracteres que tiene el dato 
         loadTableProducts(dato,num); // Se pasan estas dos cariables al metodo
     }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void tableProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductsMouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableProducts.getModel();
+        String prod = String.valueOf(modeloTabla.getValueAt(tableProducts.getSelectedRow(),0));
+        
+        Consumos ventana = new Consumos(prod);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_tableProductsMouseClicked
 
     /**
      * @param args the command line arguments
