@@ -16,6 +16,10 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         initComponents();
     }
 
+    Consumos(String nomprod) {
+        txtProducto.setText(nomprod);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

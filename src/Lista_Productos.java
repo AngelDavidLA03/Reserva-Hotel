@@ -15,9 +15,6 @@ public class Lista_Productos extends javax.swing.JFrame {
      */
     public Lista_Productos() {
         initComponents();
-        
-        // Se carga la tabla de productos
-        loadTableProducts();
     }
 
     /**
@@ -128,7 +125,9 @@ public class Lista_Productos extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarFocusLost
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-        // TODO add your handling code here:
+    String dato = txtBuscar.getText().toString(); // Se declara una variable para el dato que se capture en el campo de texto 
+        String num = dato.length()+""; // Se declara una cariable que cuenta los caracteres que tiene el dato 
+        loadTableProducts(dato,num); // Se pasan estas dos cariables al metodo
     }//GEN-LAST:event_txtBuscarKeyTyped
 
     /**
@@ -175,7 +174,7 @@ public class Lista_Productos extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     // Metodo encargado de llenar la tabla de los productos
-    private void loadTableProducts()
+    private void loadTableProducts(String dato, String num)
     {
         DefaultTableModel modeloTabla = (DefaultTableModel) tableProducts.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
@@ -190,7 +189,16 @@ public class Lista_Productos extends javax.swing.JFrame {
             Conexion cx = new Conexion();                           // Se crea una nueva conexion
             Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
             
+            if(dato.equals(""))                                     // Se crea un If que evalua el valor de dato 
+            {
             ps = cn.prepareStatement("CALL `SEARCHproduct`");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            }
+            else 
+            {
+            ps = cn.prepareStatement("CALL `SEARCHlistproductUNIQUEinlist`(?,?)"); //Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps.setString(1, dato);                                  //Valor de entrada del primer dato
+            ps.setString(2, num);                                   //Valor de entrada del Segundo dato
+            }    // Se prepara la linea de codigo para ejecutar el PROCEDURE
 
             rs = ps.executeQuery();                     // Se ejecuta la consulta
             rsmd = rs.getMetaData();                    // Se consigue la informacion de la 

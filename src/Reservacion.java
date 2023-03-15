@@ -225,7 +225,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     }//GEN-LAST:event_txtClienteActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        Lista_Productos lProducts = new Lista_Productos();
+        Consumos lProducts = new Consumos();
         lProducts.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
