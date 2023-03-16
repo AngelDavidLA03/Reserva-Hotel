@@ -9,11 +9,16 @@ import javax.swing.JOptionPane;
 
 public class Pagar extends javax.swing.JFrame implements textFieldConfig {
 
-    /**
-     * Creates new form Pagar
-     */
-    public Pagar() {
+    private static String habitacion;           // Atributo para almacenar la habitacion
+    private static String cliente;               // Atributo para almacenar al cliente
+    private static String costo;                // Atributo para almacenar el costo
+    
+    public Pagar(String habitacion, String cliente, String costo) {
         initComponents();
+        
+        this.habitacion = habitacion;
+        this.cliente = cliente;
+        this.costo = costo;
     }
 
     /**
