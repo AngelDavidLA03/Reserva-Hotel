@@ -1,5 +1,6 @@
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
 *   SUBVENTANA ENCARGADA DE VER Y AÑADIR LOS DATOS DE RESERVACION EN EL PROGRAMA
 *   INTEGRANTES DEL EQUIPO
@@ -19,7 +20,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         if(dato.substring(0, 2)=="CL")
         {
         txtCliente.setText(dato);
-        new Consumos(dato);
+            Consumos consumos = new Consumos(dato);
         }
         else
         {
@@ -38,7 +39,6 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -48,12 +48,8 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jLabel10 = new javax.swing.JLabel();
         txtHabitacion = new javax.swing.JTextField();
         txtCliente = new javax.swing.JTextField();
-        txtTrabajador = new javax.swing.JTextField();
         txtcantdias = new javax.swing.JTextField();
         txtCosto = new javax.swing.JTextField();
-        ButtonBorrar = new javax.swing.JButton();
-        ButtonNuevo = new javax.swing.JButton();
-        ButtonGuardar = new javax.swing.JButton();
         txtHora = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
         ComboboxEstado = new javax.swing.JComboBox<>();
@@ -61,9 +57,13 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         ButtonConscli = new javax.swing.JButton();
         Comboboxtiporeserva = new javax.swing.JComboBox<>();
         txtFecha = new javax.swing.JFormattedTextField();
+        ButtonBorrar = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnAccept = new javax.swing.JButton();
+        ButtonNuevo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablerese = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         ButtonBuscar = new javax.swing.JButton();
         ButtonEliminar = new javax.swing.JButton();
@@ -80,14 +80,11 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setText("Trabajador");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
-
         jLabel4.setText("Tipo");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
         jLabel5.setText("Fecha de Reserva");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         jLabel6.setText("Cliente");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
@@ -96,13 +93,13 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
         jLabel8.setText("Hora de Reserva");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
         jLabel9.setText("Cantidad de días");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
         jLabel10.setText("Costo Total");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
         jPanel1.add(txtHabitacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 100, -1));
 
         txtCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -111,27 +108,17 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
             }
         });
         jPanel1.add(txtCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 100, -1));
-        jPanel1.add(txtTrabajador, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 130, -1));
-        jPanel1.add(txtcantdias, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 130, -1));
-        jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, 130, -1));
-
-        ButtonBorrar.setText("Borrar");
-        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
-
-        ButtonNuevo.setText("Nuevo");
-        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, -1, -1));
-
-        ButtonGuardar.setText("Guardar");
-        jPanel1.add(ButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, -1, -1));
+        jPanel1.add(txtcantdias, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 130, -1));
+        jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 130, -1));
 
         txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(txtHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 70, -1));
+        jPanel1.add(txtHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 70, -1));
 
         jLabel11.setText("Estado");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
 
         ComboboxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Alquiler", "Pagado", "Anulada" }));
-        jPanel1.add(ComboboxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, -1, -1));
+        jPanel1.add(ComboboxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
 
         ButtonConshabi.setText("Buscar");
         ButtonConshabi.addActionListener(new java.awt.event.ActionListener() {
@@ -150,49 +137,83 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jPanel1.add(ButtonConscli, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 70, -1));
 
         Comboboxtiporeserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-------", "Reserva", "Alquiler" }));
-        jPanel1.add(Comboboxtiporeserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, -1, -1));
+        jPanel1.add(Comboboxtiporeserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, -1));
 
         txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 130, -1));
+        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 130, -1));
+
+        ButtonBorrar.setText("Borrar");
+        ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonBorrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, -1, 20));
+
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, 20));
+
+        btnAccept.setText("Aceptar");
+        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, -1, 20));
+
+        ButtonNuevo.setText("Nuevo");
+        ButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonNuevoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 320, -1, 20));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 370));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(455, 402));
+
+        tablerese.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Núm Habitación", "Cliente", "Trabajador", "Tipo", "Fecha Reserva", "Hora Reserva", "Cantidad días", "Costo Total"
+                "Núm Habitación", "Cliente", "Tipo", "Fecha Reserva", "Hora Reserva", "Cantidad días", "Costo Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(6).setResizable(false);
-            jTable1.getColumnModel().getColumn(7).setResizable(false);
+        tablerese.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tablerese);
+        if (tablerese.getColumnModel().getColumnCount() > 0) {
+            tablerese.getColumnModel().getColumn(0).setResizable(false);
+            tablerese.getColumnModel().getColumn(1).setResizable(false);
+            tablerese.getColumnModel().getColumn(2).setResizable(false);
+            tablerese.getColumnModel().getColumn(3).setResizable(false);
+            tablerese.getColumnModel().getColumn(4).setResizable(false);
+            tablerese.getColumnModel().getColumn(5).setResizable(false);
+            tablerese.getColumnModel().getColumn(6).setResizable(false);
+            tablerese.getColumnModel().getColumn(7).setResizable(false);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 560, 280));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 560, 290));
 
         txtBuscar.setText("Buscar");
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -200,13 +221,13 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
                 txtBuscarKeyTyped(evt);
             }
         });
-        jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 260, -1));
+        jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 260, -1));
 
         ButtonBuscar.setText("Buscar");
-        jPanel2.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
+        jPanel2.add(ButtonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, -1, -1));
 
         ButtonEliminar.setText("Eliminar");
-        jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
+        jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, -1, -1));
 
         txtTotal.setText("Total: $");
         jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 160, 30));
@@ -253,8 +274,104 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     }//GEN-LAST:event_ButtonConscliActionPerformed
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-        // TODO add your handling code here:
+        String dato = txtBuscar.getText().toString(); // Se declara una variable para el dato que se capture en el campo de texto 
+        String num = dato.length()+""; // Se declara una cariable que cuenta los caracteres que tiene el dato 
+        loadTablerese(dato,num); // Se pasan estas dos cariables al metodo
     }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
+        // Se crea una variable para almacenar el error
+        int valorMenu;
+        // Se crea un arreglo en el que se almacenan las opciones del mensaje
+        String[] options = {"SI","NO"};
+
+        // Se crea un
+        valorMenu = JOptionPane.showOptionDialog(null, "¿ESTA SEGURO DE ELIMINAR LA RESERVACION DEL CLIENTE " + txtCliente.getText() +"?","CONFIRMACION",
+            JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,options,options[0]);
+        switch(valorMenu)
+        {
+            case 0:
+            {
+                // Se ejecuta el metodo encargado de eliminar al recepcionista
+                DELETErecep(txtCliente.getText());
+
+                // Se llama al metodo para vaciar los campos de texto
+                clearTextField();
+                break;
+            }
+            // Si el valor obtenido del mensaje es 1, no se hara ninguna accion, simplemente se cerrara el recuadro
+            case 1:{break;}
+        }
+    }//GEN-LAST:event_ButtonBorrarActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+
+        // Se ocultan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+
+        // Se muestran los demas botones de accion
+        ButtonBorrar.setVisible(true);
+        ButtonNuevo.setVisible(true);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+
+        // Se analiza si existe algun campo vacio en los campos de texto
+        if(txtHabitacion.getText().equals("") || txtCliente.getText().equals("") || Comboboxtiporeserva.getSelectedItem().equals("-------") || txtFecha.getText().equals("") || txtHora.getText().equals("") || txtcantdias.getText().equals("") || txtCosto.getText().equals("") || ComboboxEstado.getSelectedItem().equals("-------"))
+        {
+            JOptionPane.showMessageDialog(null, "Existe algun campo vacio, favor de llenarlo o cambiar el valor del desplegable", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        }
+        // Sin embargo, si no existen campos vacios
+        else
+        {
+            
+            // Se hace una concatenacion entre las iniciales y la fecha
+            String habit = txtHabitacion.getText();
+            String client = txtCliente.getText();
+            String tirec = (String)Comboboxtiporeserva.getSelectedItem();
+            String fecha = txtFecha.getText();
+            String hora = txtHora.getText();
+            int dias = Integer.parseInt(txtcantdias.getText());
+            String costo = txtCosto.getText();
+
+            // Se ejecuta el metodo para añadir los valores a la tabla de productos
+            ADDreserva(habit, client, tirec, fecha, hora, dias, costo);
+
+            // Se llama al metodo para bloquear los campos de texto
+            lockTextEdit();
+
+            // Se ocultan los botones de aceptar y cancelar
+            btnCancel.setVisible(false);
+            btnAccept.setVisible(false);
+
+            // Se muestran los demas botones de accion
+            ButtonBorrar.setVisible(true);
+            ButtonNuevo.setVisible(true);
+        }
+
+    }//GEN-LAST:event_btnAcceptActionPerformed
+
+    private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para desbloquear los campos de texto
+        unlockTextEdit();
+
+        // Se muestran los botones de aceptar y cancelar
+        btnCancel.setVisible(true);
+        btnAccept.setVisible(true);
+
+        // Se ocultan los demas botones de accion
+        ButtonBorrar.setVisible(false);
+        ButtonNuevo.setVisible(false);
+    }//GEN-LAST:event_ButtonNuevoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -263,17 +380,17 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private javax.swing.JButton ButtonConscli;
     private javax.swing.JButton ButtonConshabi;
     private javax.swing.JButton ButtonEliminar;
-    private javax.swing.JButton ButtonGuardar;
     private javax.swing.JButton ButtonNuevo;
     private javax.swing.JComboBox<String> ComboboxEstado;
     private javax.swing.JComboBox<String> Comboboxtiporeserva;
+    private javax.swing.JButton btnAccept;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -283,7 +400,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablerese;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtCosto;
@@ -291,7 +408,6 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private javax.swing.JTextField txtHabitacion;
     private javax.swing.JFormattedTextField txtHora;
     private javax.swing.JTextField txtTotal;
-    private javax.swing.JTextField txtTrabajador;
     private javax.swing.JTextField txtcantdias;
     // End of variables declaration//GEN-END:variables
 
@@ -300,7 +416,14 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     public void lockTextEdit()
     {
         // Se bloquea la edicion de los campos de texto
-        
+       txtHabitacion.setEnabled(false);
+       txtCliente.setEnabled(false);
+       Comboboxtiporeserva.setEditable(false);
+       txtFecha.setEditable(false);
+       txtHora.setEditable(false);
+       txtcantdias.setEditable(false);
+       txtCosto.setEditable(false);
+       ComboboxEstado.setEditable(false);
     }
     
     // Metodo encargado para desbloquear los campos de texto
@@ -308,7 +431,12 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     public void unlockTextEdit()
     {
         // Se desbloquea la edicion de los campos de texto
-        
+       Comboboxtiporeserva.setEditable(true);
+       txtFecha.setEditable(true);
+       txtHora.setEditable(true);
+       txtcantdias.setEditable(true);
+       txtCosto.setEditable(true);
+       ComboboxEstado.setEditable(true);
     }
     
     // Metodo encargado para vaciar los campos de texto
@@ -316,7 +444,163 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     public void clearTextField()
     {
         // Se vacian los campos de texto
+       Comboboxtiporeserva.setSelectedIndex(0);
+       txtFecha.setText("");
+       txtHora.setText("");
+       txtcantdias.setText("");
+       txtCosto.setText("");
+       ComboboxEstado.setSelectedIndex(0);
+    }
+    
+    // Metodo encargado de añadir los valores en la tabla de recepcionistas
+    private void ADDreserva(String habit, String client, String tirec, String fecha, String hora, int dias, String costo)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `ADDreserv`(?,?,?,?,?,?,?,)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asignan los valores de los parametros a la consulta
+            ps.setString(1, habit);
+            ps.setString(2, client);
+            ps.setString(4, tirec);
+            ps.setString(5, fecha);
+            ps.setInt(6, Integer.parseInt(hora));
+            ps.setString(7, dias+"");
+            ps.setInt(8, Integer.parseInt(costo));
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            // Se notifica al usuario que se ha registrado el producto
+            JOptionPane.showMessageDialog(null, "SE HA REGISTRADO AL NUEVO RECEPCIONISTA");
+
+            cx.disconnect();        // Se cierra la conexion con la base de datos
+            loadTable();    // Se actualiza la tabla 
+        }
         
+        
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
+        }
+    }
+    
+    private void loadTablerese(String dato, String num)
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablerese.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+           
+            ps = cn.prepareStatement("CALL `SEARCHclientUNIQUEinList`(?,?)"); //Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps.setString(1, dato);                                  //Valor de entrada del primer dato
+            ps.setString(2, num);                                   //Valor de entrada del Segundo dato
+            
+
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();           // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+        
+    }
+    
+    // Metodo encargado de llenar la tabla de los recepcionistas
+    private void loadTable()
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablerese.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int columnas;                   // Cantidad de columnas que tiene la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `SERCHreserv`");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            columnas = rsmd.getColumnCount();           // Se asigna la cantidad de columnas
+            
+            // Ciclo while donde se comprueba si existe un registro siguiente
+            while(rs.next())
+            {
+                Object[] fila = new Object[columnas];           // Se establece un arreglo en el que se almacenaran los datos
+                for(int i = 0; i < columnas; i++)               // Ciclo que termina hasta haber llenado el arreglo anterior
+                {
+                    fila[i] = rs.getObject(i + 1);              // Se añade el valor de la consulta almacenado en el arreglo
+                }
+                modeloTabla.addRow(fila);                       // Se añade la fila a la tabla
+            }
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+    }
+    
+    private void DELETErecep(String recID)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `DELETErecev`(?)");              // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asigna el valor del parametro a la consulta
+            ps.setString(1, recID);
+
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            // Se notifica al usuario que se ha registrado el producto
+            JOptionPane.showMessageDialog(null, "SE HA ELIMINADO AL NUEVO RECEPCIONISTA");
+
+            cx.disconnect();        // Se cierra la conexion con la base de datos
+            loadTable();    // Se actualiza la tabla 
+        }
+        
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
+        }
     }
 
 }
