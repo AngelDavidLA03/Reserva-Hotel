@@ -121,3 +121,21 @@ CREATE TABLE Matrimonial(codHabM INT(3) PRIMARY KEY NOT NULL,
 	UNIQUE INDEX `codHabM` (`codHabM`) USING BTREE,
 	CONSTRAINT `FK_codHabM_Matrimonial` FOREIGN KEY (`codHabM`) REFERENCES `db_hotel`.`habitacion` (`codHab`) ON UPDATE CASCADE ON DELETE CASCADE) ENGINE = INNODB;
 
+/* TABLA DE GASTOS */
+CREATE TABLE Gastos(refGastos VARCHAR(10) PRIMARY KEY NOT NULL COMMENT 'Formado por letra inicial de su nombre(s), apellidos y fecha del gasto',
+	isDiscount BOOLEAN NOT NULL COMMENT 'Usar solo cuando exsita un descuento adicional, 0 = No, 1 = Si',
+	descuento INT(3) NULL,
+	gastoTotal DECIMAL(8,2) NOT NULL COMMENT 'Gasto total considerando tanto el consumo en el hotel, las reservas, descuentos e IVA',
+	gastoPreIVA DECIMAL(8,2) NOT NULL COMMENT 'Gasto anterior a la aplicacion del IVA',
+	gastoPreDiscount DECIMAL(8,2) NOT NULL COMMENT 'Gasto anterior a la aplicacion del descuento') ENGINE=INNODB;
+	
+/* TABLA DE RELACION GASTOS - CLIENTE DE TIPO 1 - M*/
+CREATE TABLE Pagar(refGastos VARCHAR(10) NOT NULL UNIQUE,
+	codClient VARCHAR(10) NOT NULL,
+	fechaPago DATE NOT NULL,
+	horaPago TIME NOT NULL,
+	bancoClient VARCHAR(10) NOT NULL COMMENT 'Banco que se consultara el pago correspondiente del cliente') ENGINE=INNODB;
+	
+ALTER TABLE Pagar ADD CONSTRAINT FK_refGastos_Pagar FOREIGN KEY (refGastos) REFERENCES Gastos(refGastos) ON DELETE CASCADE ON UPDATE CASCADE; 
+ALTER TABLE Pagar ADD CONSTRAINT FK_codClient_Pagar FOREIGN KEY (codClient) REFERENCES Cliente(codClient) ON DELETE CASCADE ON UPDATE CASCADE;
+	
