@@ -280,28 +280,11 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     }//GEN-LAST:event_txtBuscarKeyTyped
 
     private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
-        // Se crea una variable para almacenar el error
-        int valorMenu;
-        // Se crea un arreglo en el que se almacenan las opciones del mensaje
-        String[] options = {"SI","NO"};
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
 
-        // Se crea un
-        valorMenu = JOptionPane.showOptionDialog(null, "¿ESTA SEGURO DE ELIMINAR LA RESERVACION DEL CLIENTE " + txtCliente.getText() +"?","CONFIRMACION",
-            JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,options,options[0]);
-        switch(valorMenu)
-        {
-            case 0:
-            {
-                // Se ejecuta el metodo encargado de eliminar al recepcionista
-                DELETErecep(txtCliente.getText());
-
-                // Se llama al metodo para vaciar los campos de texto
-                clearTextField();
-                break;
-            }
-            // Si el valor obtenido del mensaje es 1, no se hara ninguna accion, simplemente se cerrara el recuadro
-            case 1:{break;}
-        }
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
     }//GEN-LAST:event_ButtonBorrarActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
