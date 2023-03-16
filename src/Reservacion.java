@@ -342,6 +342,8 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
 
             // Se ejecuta el metodo para añadir los valores a la tabla de productos
             ADDreserva(habit, client, tirec, fecha, hora, dias, costo);
+            
+            new Pagar(habit, client, costo);
 
             // Se llama al metodo para bloquear los campos de texto
             lockTextEdit();
