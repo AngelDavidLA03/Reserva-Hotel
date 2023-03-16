@@ -102,8 +102,8 @@ public class Login extends javax.swing.JFrame {
             if(loginCheck(recID,passRec))
             {
                 JOptionPane.showMessageDialog(null, "BIENVENIDO","LOGIN EXITOSO", JOptionPane.INFORMATION_MESSAGE);
-                new Interfaz(rol).setVisible(true);         // Se instancia una nueva interfaz del menu principal
-                this.dispose();                             // La ventana actual (login) se cierra
+                new Interfaz(rol,recID).setVisible(true);         // Se instancia una nueva interfaz del menu principal
+                this.dispose();                                   // La ventana actual (login) se cierra
 
             }
             // Sin embargo, si el valor es falso

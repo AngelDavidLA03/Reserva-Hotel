@@ -8,10 +8,9 @@ import javax.swing.table.DefaultTableModel;
 *   - Angel David Lopez Alvarez - 20660062
 */
 public class Reservacion extends javax.swing.JInternalFrame implements textFieldConfig {
-
-    /**
-     * Creates new form Recervacion
-     */
+    
+    public String recID = Interfaz.recID;
+    
     public Reservacion() {
         initComponents();
     }
@@ -24,7 +23,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         }
         else
         {
-        txtHabitacion.setText(dato);
+            txtHabitacion.setText(dato);
         }
         
     }

@@ -10,12 +10,14 @@ import javax.swing.JOptionPane;
 public class Interfaz extends javax.swing.JFrame {
     
     private static String rolRec;           // Atributo para almacenar el rol del usuario logeado
+    public static String recID;            // Atributo para almacenar el rol del usuario logeado
     
-    public Interfaz(String rol) {
+    public Interfaz(String rol, String id) {
         initComponents();
         
         // Se asigna el valor para el atributo de rolRec
         rolRec = rol;
+        recID = id;
         
         // Se analiza si rol es igual a Normal
         if(rol.equals("Normal"))
@@ -233,7 +235,7 @@ public class Interfaz extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Interfaz(rolRec).setVisible(true);
+                new Interfaz(rolRec, recID).setVisible(true);
             }
         });
     }
