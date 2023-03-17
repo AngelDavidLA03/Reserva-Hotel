@@ -15,8 +15,11 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
 
     private static String[] habitaciones;       // Atributo para almacenar la habitacion
     private static String cliente;              // Atributo para almacenar al cliente
-    private static double costo;                // Atributo para almacenar el costo
-    private static Reservacion referencia;      // Se referencia a la ventana de consumos 
+    private static double subTotal;             // Atributo para almacenar el costo
+    private static double costoTotal;           // Atributo para almacenar el costo total
+    private static Reservacion referencia;      // Se referencia a la ventana de consumos
+    private static double preDiscount;          // Atributo para almacenar el costo antes del descuento
+    private static double preIVA;               // Atributo para almacenar el costo antes del IVA
     
     public Pagar(String[] habitaciones, String cliente, double costo, Reservacion referencia)
     {
@@ -24,7 +27,7 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         
         this.habitaciones = habitaciones;
         this.cliente = cliente;
-        this.costo = costo;
+        this.subTotal = costo;
         
         this.referencia = referencia;
         
@@ -41,9 +44,12 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
             }
         }
         
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+
+        // Se ocultan los botones de aceptar y cancelar
         btnCancel.setVisible(false);
         btnAccept.setVisible(false);
-        
         
         txtCliente.setText(cliente);
         txttotalreserva.setText("$ "+ costo + "0");
@@ -134,6 +140,7 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
 
         jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 130));
 
+        txtIngreso.setEditable(false);
         txtIngreso.setText("Total: $");
         jPanel3.add(txtIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 190, 30));
 
@@ -142,6 +149,7 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        txtTotal.setEditable(false);
         txtTotal.setText("Total: $");
         jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 190, 30));
 
@@ -192,7 +200,7 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         jLabel7.setText("Habitación");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
-        jLabel8.setText("Descuento");
+        jLabel8.setText("Descuento %");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
         jLabel10.setText("Costo Total");
@@ -272,16 +280,14 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         // Sin embargo, si no existen campos vacios
         else
         {
+            calcPay();
 
             // Se hace una concatenacion entre las iniciales y la fecha
             String banc = txtBanco.getText();
-            String desc = txtdescuento.getText();
-            String costot = txtcostototal.getText();
+            int desc = Integer.parseInt(txtdescuento.getText());
             
-            
-
             // Se ejecuta el metodo para añadir los valores a la tabla de productos
-            realizarcompra(banc, desc, costot);
+            realizarcompra(banc, desc, costoTotal);
 
             // Se llama al metodo para bloquear los campos de texto
             lockTextEdit();
@@ -292,6 +298,8 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
 
             // Se muestran los demas botones de accion
             ButtonNuevo.setVisible(true);
+            
+            loadtablepago();
         }
     }//GEN-LAST:event_btnAcceptActionPerformed
 
@@ -421,38 +429,29 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
     }
     
     // Metodo encargado de añadir los valores en la tabla de recepcionistas
-    private void realizarcompra(String banc, String desc, String costot)
+    private void realizarcompra(String banc, int desc, double costot)
     {
-          DateFormat dateFormat = new SimpleDateFormat("yyMMdd");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
-          String date = dateFormat.format(Calendar.getInstance().getTime());  // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+        System.out.println("Controlador compraADD");
+        DateFormat dateFormat = new SimpleDateFormat("yyMMdd");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
+        String fecha = dateFormat.format(Calendar.getInstance().getTime());  // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
 
-          SimpleDateFormat horaformat = new SimpleDateFormat("hh:mm:ss");
-          String hora = horaformat.format(Calendar.getInstance().getTime());
+        DateFormat dateFormat1 = new SimpleDateFormat("yyyy/MM/dd");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
+        String date = dateFormat1.format(Calendar.getInstance().getTime());  // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+
+        DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
+        String time = timeFormat.format(Calendar.getInstance().getTime());  // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
          
-            String name = txtCliente.getText();;
-            String[] names = name.split(" ");
+        String name = txtCliente.getText();;
+        String string = name.substring(0,3);
             
-            char nomInitial = 'X';
-            char secondNomInitial = 'X';
-            if(names.length == 2)
-            {
-                nomInitial = names[0].charAt(0);
-                secondNomInitial = names[1].charAt(0);
-            }
-            else
-            {
-                nomInitial = names[0].charAt(0);
-            }
+        String codpag = string + fecha;
             
-            String habit = txtHabitacion.getText();
+        int isdesc = 0;
             
-            String codpag = String.valueOf(nomInitial) + String.valueOf(secondNomInitial) + habit + date;
-            
-            int isdesc = 0;
-            
-            if (desc != "" ){
-                isdesc = 1;
-            }
+        if (desc != 0 )
+        {
+            isdesc = 1;
+        }
                 
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
 
@@ -464,33 +463,42 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
             ps = cn.prepareStatement("CALL `ADDgasto`(?,?,?,?)");  // Se prepara la linea de codigo para ejecutar el PROCEDURE
             
             // Se asignan los valores de los parametros a la modificacion
-            ps.setString(1, codpag);
-            ps.setInt(2, isdesc);
-            ps.setString(3, desc);
-            ps.setString(4, costot);
-            
+            if(isdesc == 1)
+            {
+                ps.setString(1, codpag);
+                ps.setInt(2, isdesc);
+                ps.setInt(3, desc);
+                ps.setDouble(4, costoTotal);
+            }
+            else
+            {
+                ps.setString(1, codpag);
+                ps.setInt(2, isdesc);
+                ps.setInt(3, 0);
+                ps.setDouble(4, costoTotal);
+            }
            
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
             
             ps = cn.prepareStatement("CALL `ADDpago`(?,?,?,?,?)");  // Se prepara la linea de codigo para ejecutar el PROCEDURE
             
             // Se asignan los valores de los parametros a la modificacion
             
             ps.setString(1, codpag);
-            ps.setString(2, name);
+            ps.setString(2, cliente);
             ps.setString(3, date);
-            ps.setString(4, hora);
+            ps.setString(4, time);
             ps.setString(5, banc);
 
             ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
             
             // Se notifica al usuario que se ha registrado el producto
-            JOptionPane.showMessageDialog(null, "SE HA REGISTRADO AL NUEVO CLIENTE");
+            JOptionPane.showMessageDialog(null, "SE HA REGISTRADO EL PAGO");
            
 
-            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
 
             cx.disconnect();            // Se cierra la conexion con la base de datos
-            loadtablepago(name);        // Se actualiza la tabla 
         }
         
         
@@ -500,8 +508,9 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         }
     }
 
-    private void loadtablepago(String clien ) {
-    DefaultTableModel modeloTabla = (DefaultTableModel) tablepago.getModel();           // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+    private void loadtablepago() {
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablepago.getModel();           // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
         
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
@@ -518,7 +527,7 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
             ps = cn.prepareStatement("CALL `SEARCHpagototal` (?)");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
            
             // Se asignan los valores de los parametros a la consulta
-            ps.setString(1, clien);
+            ps.setString(1, cliente);
             
             rs = ps.executeQuery();                     // Se ejecuta la consulta
             rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
@@ -542,53 +551,88 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         }    
     }
     
-    private void test()
+    private void calcPay()
     {
         double valres = 0;
-        double valpro = 0;
         double subtot = 0;
-        double desc = 0;
-        double total = 0;
+        int desc = 0;
         
-        valres = Float.valueOf(referencia.txtCosto.getText());
-        valpro = Float.valueOf(txtTotal.getText());
-        subtot = valres + valpro;
-        String su = Double.toString(subtot);
-        txtsubtotal.setText(su);
+        valres = subTotal;
+        
+        subtot = valres;
+        txtsubtotal.setText("$ " + subTotal + "0");
         
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
         ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
-        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
         
         try
         {
             Conexion cx = new Conexion();                           // Se crea una nueva conexion
             Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
 
-            ps = cn.prepareStatement("CALL `descuento` (?)");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps = cn.prepareStatement("CALL `Descuento` (?)");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
 
             // Se asignan los valores de los parametros a la consulta
-            ps.setString(1, cliente);
+            ps.setString(1, txtCliente.getText());
             rs = ps.executeQuery();                     // Se ejecuta la consulta
-            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
-            txtdescuento.setText(rsmd.toString() + "%");
-
-            desc = Float.valueOf(txtdescuento.getText());
-            total = (float) ((subtot-(subtot*(desc/100)))*0.16);
             
-            txtcostototal.setText("$ " + total + "0");
+            // Se comprueba si el valor arrojado de la consulta es diferente a nulo
+            if(rs != null)
+            {
+                // Ciclo while donde se comprueba si existe un registro siguiente
+                while(rs.next())
+                {
+                    
+                    if(txtdescuento.getText().equals(""))
+                    {
+                        desc = rs.getInt("descuentoH");
+                    }
+                    else
+                    {
+                        desc = rs.getInt("descuentoH") + Integer.parseInt(txtdescuento.getText());
+                    }
+                    
+                    txtdescuento.setText(desc + "");
+                    
+                    preDiscount = subtot;
+                    
+                    preIVA = subtot - (subtot * (desc/100));
+                    
+                    costoTotal = preIVA + (preIVA * 0.16);
+                }
+            }
+            
+            
+            txtcostototal.setText(+ costoTotal + "0");
 
             ps = cn.prepareStatement("CALL `SUMconsumos` (?)");
             ps.setString(1, cliente);
             rs = ps.executeQuery();                     // Se ejecuta la consulta
 
-            txtTotal.setText(rs.getDouble("precioTotalC") + "");
-
+            // Se comprueba si el valor arrojado de la consulta es diferente a nulo
+            if(rs != null)
+            {
+                // Ciclo while donde se comprueba si existe un registro siguiente
+                while(rs.next())
+                {
             
+                    double consumo = rs.getDouble("Total");
+                    txtTotal.setText("$ " + consumo + "0");
+                }
+            }
+
             ps = cn.prepareStatement("CALL `Ingresostot`");
             rs = ps.executeQuery();                     // Se ejecuta la consulta
+            // Se comprueba si el valor arrojado de la consulta es diferente a nulo
+            if(rs != null)
+            {
+                // Ciclo while donde se comprueba si existe un registro siguiente
+                while(rs.next())
+                {
             
-            txtIngreso.setText(rs.getDouble("gastoTotal") + "");
+                    txtIngreso.setText(rs.getDouble("total") + "0");
+                }
+            }
             
             cx.disconnect();    // Se cierra la conexion con la base de datos
         }

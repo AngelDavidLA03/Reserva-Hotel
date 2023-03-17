@@ -124,8 +124,8 @@ CREATE TABLE Matrimonial(codHabM INT(3) PRIMARY KEY NOT NULL,
 /* TABLA DE GASTOS */
 CREATE TABLE Gastos(refGastos VARCHAR(10) PRIMARY KEY NOT NULL COMMENT 'Formado por letra inicial de su nombre(s), apellidos y fecha del gasto',
 	isDiscount BOOLEAN NOT NULL COMMENT 'Usar solo cuando exsita un descuento adicional, 0 = No, 1 = Si',
-	descuentoGasto INT(3) NULL,
-	gastoTotal DECIMAL(8,2) NOT NULL COMMENT 'Gasto total considerando tanto el consumo en el hotel, las reservas, descuentos e IVA') ENGINE=INNODB;
+	discount INT(3) NULL,
+	total DECIMAL(8,2) NOT NULL COMMENT 'Gasto total considerando tanto el consumo en el hotel, las reservas, descuentos e IVA') ENGINE=INNODB;
 	
 /* TABLA DE RELACION GASTOS - CLIENTE DE TIPO 1 - M*/
 CREATE TABLE Pagar(refGastos VARCHAR(10) NOT NULL UNIQUE,

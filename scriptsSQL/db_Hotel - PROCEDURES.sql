@@ -456,26 +456,26 @@ SELECT codClient, codHab, fechaReserv, horaReserv, diasReserv, precioTotalR
 FROM reservar;
 
 /* PROCEDIMIENTO UTILIZADO PARA AÑADIR DATOS A LA TABLA GASTOS*/
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ADDgato`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ADDgasto`(
 	IN ref VARCHAR(10),
 	IN isdesc INT(1),
 	IN descu INT(3),
-	IN gatot VARCHAR(10) 
+	IN gasto DECIMAL(8,2) 
 )
 LANGUAGE SQL
 NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA AGREGAR VALORES A LA TABLA GASTS'
-INSERT INTO gastos (refGastos, isDiscount, descuetoGasto,gastoTotal)
-VALUES (ref, isdesc, descu, gatot);
+INSERT INTO gastos (refGastos, isDiscount, discount, total)
+VALUES (ref, isdesc, descu, gasto);
 
 /* PROCEDIMIENTO UTILIZADO PARA AÑADIR DATOS A LA TABLA PAGAR*/
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ADDpago`(
 	IN ref VARCHAR(10),
 	IN clie Varchar(10),
-	IN fech VARCHAR(8),
-	IN hora VARCHAR(8),
+	IN fech DATE,
+	IN hora TIME,
 	IN banco VARCHAR(20) 
 )
 LANGUAGE SQL
@@ -495,9 +495,9 @@ NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA BUSCAR LOS PAGOS DE UNA PERSONA'
-SELECT pagar.codClient, gastos.descuentoGasto, gastos.gastoTotal
+SELECT pagar.codClient, gastos.discount, gastos.total
 FROM gastos INNER JOIN pagar
-WHERE  (gastos.refGastos = pagar.refGastos) AND pagar.codClient = cod;
+WHERE  (gastos.refGastos = pagar.refGastos) AND pagar.codClient = cod
 
 /* PROCEDIMIENTO UTILIZADO PARA SUMAR GASTOS EN PRODUCTOS POR PARTE DEL CLIENTE*/
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SUMconsumos`(
@@ -508,9 +508,9 @@ NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA SUMAR GASTOS EN PRODUCTOS POR PARTE DEL CLIENTE'
-SELECT SUM(comprar.precioTotalC ) AS Total
+SELECT SUM(precioTotalC ) AS Total
 FROM comprar
-WHERE pagar.codClient = cod;
+WHERE codClient = cod;
 
 /* PROCEDIMIENTO UTILIZADO PARA OPTENER COSTO DE HABITACION*/
 CREATE DEFINER=`root`@`localhost` PROCEDURE `costhabit`(
@@ -546,7 +546,7 @@ NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA SUMAR LOS INGRESOS TOTALES DEL HOTEL'
-SELECT SUM(gastos.gastoTotal ) AS Total
+SELECT SUM(gastos.total ) AS Total
 FROM gastos
 
 /* PROCEDIMIENTO UTILIZADO PARA OPTENER EL DESCUENTO DEL CLIENTE*/

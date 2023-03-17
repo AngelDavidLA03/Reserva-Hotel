@@ -10,9 +10,11 @@ import javax.swing.table.DefaultTableModel;
 */
 public class Reservacion extends javax.swing.JInternalFrame implements textFieldConfig {
     
-    private static String[] habitaciones;       // Atributo para almacenar la habitacion
+    private static String[] habitaciones;       // Atributo para almacenar las habitaciones
+    private static String numHab;               // Atributo para almacenar la habitacion
     private static String cliente;              // Atributo para almacenar al cliente
     private static double costo;                // Atributo para almacenar el costo
+    
     
     public String recID = Interfaz.recID;
     
@@ -76,6 +78,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jButton6 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tableresev = new javax.swing.JTable();
+        jButton7 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -196,13 +199,13 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         txtTotal.setText("Total: $");
         jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, 160, 30));
 
-        jButton6.setText("Consumo");
+        jButton6.setText("Pagar");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
+        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 330, -1, -1));
 
         Tableresev.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -241,6 +244,14 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
 
         jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 540, 260));
 
+        jButton7.setText("Consumo");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 370));
 
         jLabel1.setText("Datos de la Reserva");
@@ -253,8 +264,13 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        Consumos lProducts = new Consumos(txtCliente.getText(),this);
-        lProducts.setVisible(true);
+        
+        // Se hace una concatenacion entre las iniciales y la fecha
+        String habit = txtHabitacion.getText();
+        String[] habits = habit.split(",");
+        
+        Pagar lpagar = new Pagar(habits,txtCliente.getText(),costo,this);
+        lpagar.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void ButtonConshabiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConshabiActionPerformed
@@ -413,10 +429,42 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private void TableresevMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableresevMouseClicked
         DefaultTableModel modeloTabla = (DefaultTableModel) Tableresev.getModel();               // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         String clientID = String.valueOf(modeloTabla.getValueAt(Tableresev.getSelectedRow(),0));    // Se extrae el valor de la tabla de la ventana que se encuentre en la fila 0
+        double newCosto = Double.parseDouble(String.valueOf(modeloTabla.getValueAt(Tableresev.getSelectedRow(),5)));
+        String hab = String.valueOf(String.valueOf(modeloTabla.getValueAt(Tableresev.getSelectedRow(),1)));
         
+        if(txtCosto.getText().equals(""))
+        {
+            costo = 0;
+            costo += newCosto;
+            txtCosto.setText("$ " + costo + "0");
+        }
+        else
+        {
+            double lastValue = costo;
+            costo += newCosto;
+            txtCosto.setText("$ " + costo + "0");
+        }
+        
+        if(txtHabitacion.getText().equals(""))
+        {
+            numHab = hab;
+            txtHabitacion.setText(numHab);
+        }
+        else
+        {
+            String lastValue = numHab;
+            numHab += "," + hab;
+            txtHabitacion.setText(numHab);
+        }
+        
+
         txtCliente.setText(clientID);
         
     }//GEN-LAST:event_TableresevMouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -432,6 +480,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private javax.swing.JButton btnAccept;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
