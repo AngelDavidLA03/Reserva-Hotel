@@ -1,4 +1,10 @@
+import java.awt.Graphics;
+import java.awt.Image;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 /*
 *   VENTANA QUE SIRVE A MANERA DE MENU PRINCIPAL DEL PROGRAMA
@@ -11,6 +17,7 @@ public class Interfaz extends javax.swing.JFrame {
     
     private static String rolRec;           // Atributo para almacenar el rol del usuario logeado
     public static String recID;            // Atributo para almacenar el rol del usuario logeado
+    Thread dateTime;                    // Identificador del thread del metodo calcDateTime
     
     public Interfaz(String rol, String id) {
         initComponents();
@@ -18,6 +25,9 @@ public class Interfaz extends javax.swing.JFrame {
         // Se asigna el valor para el atributo de rolRec
         rolRec = rol;
         recID = id;
+        
+        dateTime = new Thread((Runnable) this);    // Se construye el thread
+        dateTime.start();               // Se inicializa el thread
         
         // Se analiza si rol es igual a Normal
         if(rol.equals("Normal"))
@@ -38,7 +48,17 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Ventana = new javax.swing.JDesktopPane();
+        ImageIcon icon = new ImageIcon(getClass().getResource("/img/Escritorio.png"));
+        Image image = icon.getImage();
+        Ventana = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(image,0,0,getWidth(),getHeight(),this);
+            }
+        };
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        txtFecha = new javax.swing.JLabel();
+        txtHora = new javax.swing.JLabel();
         menubar = new javax.swing.JMenuBar();
         menres = new javax.swing.JMenu();
         Resypro = new javax.swing.JMenuItem();
@@ -58,18 +78,35 @@ public class Interfaz extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout VentanaLayout = new javax.swing.GroupLayout(Ventana);
-        Ventana.setLayout(VentanaLayout);
-        VentanaLayout.setHorizontalGroup(
-            VentanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 910, Short.MAX_VALUE)
-        );
-        VentanaLayout.setVerticalGroup(
-            VentanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
-        );
+        Ventana.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        getContentPane().add(Ventana, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jButton1.setBackground(new java.awt.Color(153, 0, 153));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ganancia.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        Ventana.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 430, 50, 50));
+
+        jButton2.setBackground(new java.awt.Color(153, 0, 153));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Calculator.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        Ventana.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 430, 50, 50));
+
+        txtFecha.setBackground(new java.awt.Color(255, 255, 255));
+        txtFecha.setForeground(new java.awt.Color(51, 51, 255));
+        Ventana.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 450, 111, 30));
+
+        txtHora.setBackground(new java.awt.Color(255, 255, 255));
+        txtHora.setForeground(new java.awt.Color(0, 0, 0));
+        Ventana.add(txtHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 420, 111, 30));
+
+        getContentPane().add(Ventana, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, -1));
 
         menres.setText("Reservar");
 
@@ -206,6 +243,16 @@ public class Interfaz extends javax.swing.JFrame {
         reservacion.show();
     }//GEN-LAST:event_ResyproActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Calculadora cal = new Calculadora();
+        cal.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      Ganancias vent = new Ganancias();
+      vent.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -240,6 +287,22 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
     }
+    
+     // Metodo derivado de la implementacion de Runnable
+    public void run()
+    {
+        // Se instancia un nuevo thread
+        Thread ct = Thread.currentThread();
+        while(ct == dateTime)           // Se analiza si el thread es igual al constructor de dateTime
+        {   
+            calcDateTime();             // Se ejecuta el metodo calcDateTime para calcular la fecha
+        try 
+        {
+            Thread.sleep(1000);         // El programa se espera 1 segundo en volver a ejecutarse
+        }
+        catch(InterruptedException e) {}
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CerrarP;
@@ -252,8 +315,28 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuItem addcli;
     private javax.swing.JMenuItem addhab;
     private javax.swing.JMenuItem addprod;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JMenu menadd;
     private javax.swing.JMenu menres;
     private javax.swing.JMenuBar menubar;
+    private javax.swing.JLabel txtFecha;
+    private javax.swing.JLabel txtHora;
     // End of variables declaration//GEN-END:variables
+
+
+        // Metodo calcDateTime para determinar la fecha y hora del dispositivo
+    private void calcDateTime()
+    {
+        DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss aa");            // Se establece un nuevo formato para la hora
+        String time = timeFormat.format(Calendar.getInstance().getTime());      // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
+        String date = dateFormat.format(Calendar.getInstance().getTime());      // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+        
+        // Se asigna la fecha y hora a los apartados necesarios
+        txtHora.setText(time);
+        txtFecha.setText(date);
+        
+    }
 }
