@@ -10,13 +10,16 @@ import javax.swing.table.DefaultTableModel;
 
 public class Lista_Productos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Lista_Productos
-     */
-    public Lista_Productos() {
+    // Se referencia a la ventana de reservacion 
+    private static Consumos referencia;
+    
+    public Lista_Productos(Consumos referencia) {
         initComponents();
         
+        this.referencia = referencia;
+        
         loadtable();
+
     }
 
     /**
@@ -134,8 +137,8 @@ public class Lista_Productos extends javax.swing.JFrame {
         DefaultTableModel modeloTabla = (DefaultTableModel) tableProducts.getModel();
         String dato = String.valueOf(modeloTabla.getValueAt(tableProducts.getSelectedRow(),0));
         
-        Consumos ventana = new Consumos(dato);
-        ventana.setVisible(true);
+        referencia.txtProducto.setText(dato);
+        this.dispose();
     }//GEN-LAST:event_tableProductsMouseClicked
 
     /**
@@ -168,7 +171,7 @@ public class Lista_Productos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Lista_Productos().setVisible(true);
+                new Lista_Productos(referencia).setVisible(true);
             }
         });
     }

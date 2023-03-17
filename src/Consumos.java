@@ -1,4 +1,7 @@
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /*
@@ -10,23 +13,38 @@ import javax.swing.table.DefaultTableModel;
 
 public class Consumos extends javax.swing.JFrame implements textFieldConfig {
 
-    /**
-     * Creates new form Consumos
-     */
-    public Consumos() {
+    // Se referencia a la ventana de reservacion 
+    private static Reservacion referencia;
+    private static String cliente;
+    
+    public Consumos(String cliente, Reservacion referencia) {
         initComponents();
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+        
+        this.referencia = referencia;
+        this.cliente = cliente;
+        
+        
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+        
+        ButtonConsprod.setVisible(false);
+
+        txtCliente.setText(referencia.txtCliente.getText());
         
         
     }
 
-    Consumos(String dato) throws SQLException {
+    Consumos(String dato){
         if(dato.substring(0, 2)=="CL")
         {
-        txtCliente.setText(dato);
+            txtCliente.setText(dato);
         }
         else
         {
-        txtProducto.setText(dato);
+            txtProducto.setText(dato);
         }
         
         String client = txtCliente.getText();
@@ -37,15 +55,29 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
         ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
-        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
-        Conexion cx = new Conexion();                           // Se crea una nueva conexion
-        Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
-            
-        ps = cn.prepareStatement("CALL `SUMconsumos` (?)");
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+
+            ps = cn.prepareStatement("CALL `SUMconsumos` (?)");
             ps.setString(1, client);
             rs = ps.executeQuery();                     // Se ejecuta la consulta
-            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
-            txtTotal.setText(rsmd.toString());
+             // Se comprueba si el valor arrojado de la consulta es diferente a nulo
+            if(rs != null)
+            {
+                // Ciclo while donde se comprueba si existe un registro siguiente
+                while(rs.next())
+                {
+                    txtTotal.setText("$ " + rs.getDouble("Total") + "0");
+                }
+            }
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error: " + ex);
+        }
     }
     
 
@@ -141,12 +173,6 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         jLabel7.setText("Cliente");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
         jPanel1.add(txtProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 100, -1));
-
-        txtCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtClienteActionPerformed(evt);
-            }
-        });
         jPanel1.add(txtCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 100, -1));
         jPanel1.add(txtcantiprod, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 130, -1));
 
@@ -156,7 +182,7 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
                 ButtonConsprodActionPerformed(evt);
             }
         });
-        jPanel1.add(ButtonConsprod, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 60, -1));
+        jPanel1.add(ButtonConsprod, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 70, -1));
 
         txtpreciototal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
         jPanel1.add(txtpreciototal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 80, -1));
@@ -167,7 +193,7 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
                 ButtonBorrarActionPerformed(evt);
             }
         });
-        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, -1, -1));
+        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
 
         btnCancel.setText("Cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -199,13 +225,9 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtClienteActionPerformed
-
     private void ButtonConsprodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConsprodActionPerformed
        // Codigos necesarios para mostrar la subventana de Lista de Productos
-        Lista_Productos ven = new Lista_Productos();
+        Lista_Productos ven = new Lista_Productos(this);
         ven.setVisible(true);
     }//GEN-LAST:event_ButtonConsprodActionPerformed
 
@@ -227,6 +249,8 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         // Se ocultan los botones de aceptar y cancelar
         btnCancel.setVisible(false);
         btnAccept.setVisible(false);
+        
+        ButtonConsprod.setVisible(false);
 
         // Se muestran los demas botones de accion
         ButtonBorrar.setVisible(true);
@@ -236,7 +260,7 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
     private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
 
         // Se analiza si existe algun campo vacio en los campos de texto
-        if(txtCliente.getText().equals("") || txtProducto.getText().equals("") || txtcantiprod.getText().equals("") || txtpreciototal.getText().equals(""))
+        if(txtCliente.getText().equals("") || txtProducto.getText().equals("") || txtcantiprod.getText().equals(""))
         {
             JOptionPane.showMessageDialog(null, "Existe algun campo vacio, favor de llenarlo o cambiar el valor del desplegable", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
         }
@@ -248,12 +272,11 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
 
             // Se hace una concatenacion entre las iniciales y la fecha
             String client = txtCliente.getText();
-            String product = txtProducto.getText();
-            String cant = txtcantiprod.getText();
-            String total = txtpreciototal.getText();
+            int product = Integer.parseInt(txtProducto.getText());
+            int cant = Integer.parseInt(txtcantiprod.getText());
 
-            // Se ejecuta el metodo para añadir los valores a la tabla de productos
-            addconsumo(client, product, cant, total);
+            // Se ejecuta el metodo para calcular el precio total
+            calcPrice(client, product, cant);
 
             // Se llama al metodo para bloquear los campos de texto
             lockTextEdit();
@@ -261,6 +284,8 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
             // Se ocultan los botones de aceptar y cancelar
             btnCancel.setVisible(false);
             btnAccept.setVisible(false);
+            
+            ButtonConsprod.setVisible(false);
 
             // Se muestran los demas botones de accion
             ButtonBorrar.setVisible(true);
@@ -279,6 +304,8 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         // Se muestran los botones de aceptar y cancelar
         btnCancel.setVisible(true);
         btnAccept.setVisible(true);
+        
+        ButtonConsprod.setVisible(true);
 
         // Se ocultan los demas botones de accion
         ButtonBorrar.setVisible(false);
@@ -303,46 +330,101 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtCliente;
-    private javax.swing.JTextField txtProducto;
+    public javax.swing.JTextField txtProducto;
     private javax.swing.JTextField txtTotal;
     private javax.swing.JTextField txtcantiprod;
     private javax.swing.JFormattedTextField txtpreciototal;
     // End of variables declaration//GEN-END:variables
 
-private void addconsumo(String client, String product, String cant, String total)
-{
-PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
-
-        try
-        {
-            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
-            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
-            
-            ps = cn.prepareStatement("CALL `ADDcompra`(?,?,?,?)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
-            
-            // Se asignan los valores de los parametros a la consulta
-            ps.setString(1, client);
-            ps.setString(2, product);
-            ps.setString(3, cant);
-            ps.setString(4, total);
-            
-
-            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
-            
-            // Se notifica al usuario que se ha registrado el producto
-            JOptionPane.showMessageDialog(null, "SE HA REGISTRADO AL NUEVO RECEPCIONISTA");
-
-            cx.disconnect();        // Se cierra la conexion con la base de datos
-            String clien = txtCliente.getText();
-            Tablecons(clien);    // Se actualiza la tabla 
-        }
+    
+    private void calcPrice(String codClient,int codProd, int cant)
+    {
+        double total = 0;
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta  
         
-        
-        catch(Exception e)
-        {
-            System.out.println("ERROR. - " + e);
-        }
-}
+            try
+            {
+                Conexion cx = new Conexion();                           // Se crea una nueva conexion
+                Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+
+                double precioSubtotal = 0;
+                
+                ps = cn.prepareStatement("CALL `costprod`(?)");        //Se prepara la linea de codigo para ejecutar el PROCEDURE
+                ps.setInt(1, codProd);                                  //Valor de entrada del Segundo dato
+
+
+                rs = ps.executeQuery();                                 // Se ejecuta la consulta
+
+                // Se comprueba si el valor arrojado de la consulta es diferente a nulo
+                if(rs != null)
+                {
+                    // Ciclo while donde se comprueba si existe un registro siguiente
+                    while(rs.next())
+                    {
+                 
+                        precioSubtotal = rs.getDouble("precio");
+
+                        total = precioSubtotal * cant; 
+
+                        txtpreciototal.setText("$ " + total + "0");
+                        
+                        addconsumo(codClient,codProd,cant,total);
+                    }
+
+                }
+                 cx.disconnect();    // Se cierra la conexion con la base de datos
+            }
+            catch (SQLException ex) 
+            {
+                System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+            }
+    }
+    
+    
+    private void addconsumo(String client, int product, int cant, double total)
+    {
+            PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
+            String date = dateFormat.format(Calendar.getInstance().getTime());  // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+
+            DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
+            String time = timeFormat.format(Calendar.getInstance().getTime());  // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+
+            
+            
+            try
+            {
+                Conexion cx = new Conexion();                                   // Se crea una nueva conexion
+                Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
+
+                ps = cn.prepareStatement("CALL `ADDcompra`(?,?,?,?,?,?)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+                // Se asignan los valores de los parametros a la consulta
+                ps.setInt(1, product);
+                ps.setString(2, client);
+                ps.setInt(3, cant);
+                ps.setString(4, date);
+                ps.setString(5, time);
+                ps.setDouble(6, total);
+                
+                ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+
+                // Se notifica al usuario que se ha registrado el producto
+                JOptionPane.showMessageDialog(null, "SE HA REGISTRADO LA NUEVA COMPRA");
+
+                cx.disconnect();        // Se cierra la conexion con la base de datos
+                String clien = txtCliente.getText();
+                Tablecons(clien);    // Se actualiza la tabla 
+            }
+
+
+            catch(Exception e)
+            {
+                System.out.println("ERROR. - " + e);
+            }
+    }
 
 // Metodo encargado para bloquear los campos de texto
     @Override
@@ -415,5 +497,8 @@ PreparedStatement ps;           // Variable que se encarga de almacenar la sente
             System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
         }    
     }
+    
+    
+    
 
 }

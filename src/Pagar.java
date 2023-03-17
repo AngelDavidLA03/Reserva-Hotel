@@ -13,74 +13,45 @@ import javax.swing.table.DefaultTableModel;
 
 public class Pagar extends javax.swing.JFrame implements textFieldConfig {
 
-    private static String habitacion;           // Atributo para almacenar la habitacion
-    private static String cliente;               // Atributo para almacenar al cliente
-    private static String costo;                // Atributo para almacenar el costo
+    private static String[] habitaciones;       // Atributo para almacenar la habitacion
+    private static String cliente;              // Atributo para almacenar al cliente
+    private static double costo;                // Atributo para almacenar el costo
+    private static Reservacion referencia;      // Se referencia a la ventana de consumos 
     
-    public Pagar(String habitacion, String cliente, String costo) throws SQLException {
+    public Pagar(String[] habitaciones, String cliente, double costo, Reservacion referencia)
+    {
         initComponents();
         
-        this.habitacion = habitacion;
+        this.habitaciones = habitaciones;
         this.cliente = cliente;
         this.costo = costo;
         
-        txtHabitacion.setText(habitacion);
+        this.referencia = referencia;
+        
+        for(int i = 0; i < habitaciones.length; i++)
+        {
+            if(txtHabitacion.getText().equals(""))
+            {
+                txtHabitacion.setText(habitaciones[0]);
+            }
+            else
+            {
+                String habitacionRegistrada = txtHabitacion.getText();
+                txtHabitacion.setText(habitacionRegistrada + "," + habitaciones[i]);
+            }
+        }
+        
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+        
+        
         txtCliente.setText(cliente);
-        txttotalreserva.setText(costo);
+        txttotalreserva.setText("$ "+ costo + "0");
         
         Tablecons(cliente);
-        
-        float valres = 0;
-        float valpro = 0;
-        float subtot = 0;
-        float desc = 0;
-        float total = 0;
-        
-        valres = Float.valueOf(txttotalreserva.getText());
-        valpro = Float.valueOf(txtTotal.getText());
-        subtot = valres+valpro;
-        String su = Float.toString(subtot);
-        txtsubtotal.setText(su);
-        
-        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
-        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
-        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
-        
-        Conexion cx = new Conexion();                           // Se crea una nueva conexion
-            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
-            
-            ps = cn.prepareStatement("CALL `descuento` (?)");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
-           
-            // Se asignan los valores de los parametros a la consulta
-            ps.setString(1, cliente);
-            rs = ps.executeQuery();                     // Se ejecuta la consulta
-            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
-            txtdescuento.setText(rsmd.toString());
-            
-            desc = Float.valueOf(txtdescuento.getText());
-            total = (float) ((subtot-(subtot*(desc/100)))*0.16);
-            String totalren = Float.toString(total);
-            txtcostototal.setText(totalren);
-            
-            ps = cn.prepareStatement("CALL `SUMconsumos` (?)");
-            ps.setString(1, cliente);
-            rs = ps.executeQuery();                     // Se ejecuta la consulta
-            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
-            txtTotal.setText(rsmd.toString());
-            
-            
-            
-        ps = cn.prepareStatement("CALL `Ingresostot`");
-            rs = ps.executeQuery();                     // Se ejecuta la consulta
-            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
-            txtIngreso.setText(rsmd.toString());
-            cx.disconnect();    // Se cierra la conexion con la base de datos
-        
     }
 
-    Pagar(String[] habits, String client, String costo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -159,9 +130,6 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
             tablepago.getColumnModel().getColumn(0).setResizable(false);
             tablepago.getColumnModel().getColumn(1).setResizable(false);
             tablepago.getColumnModel().getColumn(2).setResizable(false);
-            tablepago.getColumnModel().getColumn(3).setResizable(false);
-            tablepago.getColumnModel().getColumn(4).setResizable(false);
-            tablepago.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 130));
@@ -179,17 +147,17 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
 
         tableconsum.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Producto", "Cantidad", "Precio Total"
+                "Cliente", "Código Producto", "Cantidad", "Precio Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -202,6 +170,7 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
             tableconsum.getColumnModel().getColumn(0).setResizable(false);
             tableconsum.getColumnModel().getColumn(1).setResizable(false);
             tableconsum.getColumnModel().getColumn(2).setResizable(false);
+            tableconsum.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 130));
@@ -289,17 +258,8 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
     }//GEN-LAST:event_txtClienteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-
-
-        // Se llama al metodo para bloquear los campos de texto
-        lockTextEdit();
-
-        // Se ocultan los botones de aceptar y cancelar
-        btnCancel.setVisible(false);
-        btnAccept.setVisible(false);
-
-        // Se muestran los demas botones de accion
-        ButtonNuevo.setVisible(true);
+        JOptionPane.showMessageDialog(null,"SE HA CANCELADO EL PAGO");
+        this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
@@ -336,9 +296,6 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
     }//GEN-LAST:event_btnAcceptActionPerformed
 
     private void ButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNuevoActionPerformed
-        // Se llama al metodo para vaciar los campos de texto
-        clearTextField();
-
         // Se llama al metodo para desbloquear los campos de texto
         unlockTextEdit();
 
@@ -420,8 +377,9 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         txtcostototal.setText("");
     }
     
-    private void Tablecons(String clien ) {
-    DefaultTableModel modeloTabla = (DefaultTableModel) tableconsum.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+    private void Tablecons(String clien ) 
+    {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tableconsum.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
         
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
@@ -532,7 +490,7 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
             ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
 
             cx.disconnect();            // Se cierra la conexion con la base de datos
-            loadtablepago(name);         // Se actualiza la tabla 
+            loadtablepago(name);        // Se actualiza la tabla 
         }
         
         
@@ -543,7 +501,7 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
     }
 
     private void loadtablepago(String clien ) {
-    DefaultTableModel modeloTabla = (DefaultTableModel) tableconsum.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+    DefaultTableModel modeloTabla = (DefaultTableModel) tablepago.getModel();           // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
         
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
@@ -582,5 +540,61 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         {
             System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
         }    
+    }
+    
+    private void test()
+    {
+        double valres = 0;
+        double valpro = 0;
+        double subtot = 0;
+        double desc = 0;
+        double total = 0;
+        
+        valres = Float.valueOf(referencia.txtCosto.getText());
+        valpro = Float.valueOf(txtTotal.getText());
+        subtot = valres + valpro;
+        String su = Double.toString(subtot);
+        txtsubtotal.setText(su);
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+
+            ps = cn.prepareStatement("CALL `descuento` (?)");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
+
+            // Se asignan los valores de los parametros a la consulta
+            ps.setString(1, cliente);
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
+            txtdescuento.setText(rsmd.toString() + "%");
+
+            desc = Float.valueOf(txtdescuento.getText());
+            total = (float) ((subtot-(subtot*(desc/100)))*0.16);
+            
+            txtcostototal.setText("$ " + total + "0");
+
+            ps = cn.prepareStatement("CALL `SUMconsumos` (?)");
+            ps.setString(1, cliente);
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+
+            txtTotal.setText(rs.getDouble("precioTotalC") + "");
+
+            
+            ps = cn.prepareStatement("CALL `Ingresostot`");
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            
+            txtIngreso.setText(rs.getDouble("gastoTotal") + "");
+            
+            cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
     }
 }
