@@ -15,7 +15,7 @@ public class Conexion
     String puerto = "3306";                                     // Puerto con el que se realizara la conexion (puerto 3306 por defecto)
     String url = "jdbc:mariadb://"+servidor+":"+puerto+"/";     // URL para ingresar a la base de datos
     String user = "root";                                       // Usuario para acceder a la base de datos (super usuario o root por defecto)
-    String pass = "Lapk2112";                                          // Contraseña del usuario para acceder a la base de datos (campo vacio para modificarlo segun cada persona que quiera usar el programa)
+    String pass = "";                                           // Contraseña del usuario para acceder a la base de datos (campo vacio para modificarlo segun cada persona que quiera usar el programa)
     String driver = "org.mariadb.jdbc.Driver";                  // URL del conector de MariaDB mediante Java (su ubicacion es la carpeta libraries)
     Connection cx;                                              // Variable en la cual se almacenaran los cambios de conexion
     
