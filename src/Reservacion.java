@@ -12,52 +12,19 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     
     public String recID = Interfaz.recID;
     
-    public Reservacion() {
+    public Reservacion() 
+    {
+        
         initComponents();
+        
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
         
         // Se ocultan los botones de aceptar y cancelar
         btnCancel.setVisible(false);
         btnAccept.setVisible(false);
 
         loadTable();
-        
-        
-        
-    }
-
-    Reservacion(String dato) throws SQLException {
-        if(dato.substring(0, 2)=="CL")
-        {
-            txtCliente.setText(dato);
-            Consumos consumos = new Consumos(dato);
-        }
-        else
-        {
-            
-            if(txtHabitacion.getText().equals(""))
-            {
-                txtHabitacion.setText(dato);
-            }
-            else
-            {
-                String lastHabitation = txtHabitacion.getText();
-                
-                txtHabitacion.setText(lastHabitation + "," + dato);
-            }
-        }
-        String client = txtCliente.getText();
-        
-        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
-        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
-        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
-        Conexion cx = new Conexion();                           // Se crea una nueva conexion
-        Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
-            
-        ps = cn.prepareStatement("CALL `SUMhabit` (?)");
-            ps.setString(1, client);
-            rs = ps.executeQuery();                     // Se ejecuta la consulta
-            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
-            txtTotal.setText(rsmd.toString());
         
     }
 
@@ -277,12 +244,12 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void ButtonConshabiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConshabiActionPerformed
-        Lista_habitaciones lHabitacion = new Lista_habitaciones();
+        Lista_habitaciones lHabitacion = new Lista_habitaciones(this);
         lHabitacion.setVisible(true);
     }//GEN-LAST:event_ButtonConshabiActionPerformed
 
     private void ButtonConscliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConscliActionPerformed
-        Lista_Clientes lClient = new Lista_Clientes();
+        Lista_Clientes lClient = new Lista_Clientes(this);
         lClient.setVisible(true);
     }//GEN-LAST:event_ButtonConscliActionPerformed
 
@@ -435,10 +402,10 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtCliente;
+    public javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtCosto;
     private javax.swing.JFormattedTextField txtFecha;
-    private javax.swing.JTextField txtHabitacion;
+    public javax.swing.JTextField txtHabitacion;
     private javax.swing.JFormattedTextField txtHora;
     private javax.swing.JTextField txtTotal;
     private javax.swing.JTextField txtcantdias;
@@ -449,8 +416,8 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     public void lockTextEdit()
     {
         // Se bloquea la edicion de los campos de texto
-       txtHabitacion.setEnabled(false);
-       txtCliente.setEnabled(false);
+       txtHabitacion.setEditable(false);
+       txtCliente.setEditable(false);
        Comboboxtiporeserva.setEditable(false);
        txtFecha.setEditable(false);
        txtHora.setEditable(false);
@@ -464,12 +431,10 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     public void unlockTextEdit()
     {
         // Se desbloquea la edicion de los campos de texto
-       Comboboxtiporeserva.setEditable(true);
        txtFecha.setEditable(true);
        txtHora.setEditable(true);
        txtcantdias.setEditable(true);
        txtCosto.setEditable(true);
-       ComboboxEstado.setEditable(true);
     }
     
     // Metodo encargado para vaciar los campos de texto
@@ -477,12 +442,14 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     public void clearTextField()
     {
         // Se vacian los campos de texto
-       Comboboxtiporeserva.setSelectedIndex(0);
-       txtFecha.setText("");
-       txtHora.setText("");
-       txtcantdias.setText("");
-       txtCosto.setText("");
-       ComboboxEstado.setSelectedIndex(0);
+        txtHabitacion.setText("");
+        txtCliente.setText("");
+        Comboboxtiporeserva.setSelectedIndex(0);
+        txtFecha.setText("");
+        txtHora.setText("");
+        txtcantdias.setText("");
+        txtCosto.setText("");
+        ComboboxEstado.setSelectedIndex(0);
     }
     
     // Metodo encargado de añadir los valores en la tabla de recepcionistas
@@ -603,6 +570,52 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         {
             System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
         }
+    }
+    
+    private void getTotalPrice(String client)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+
+            ps = cn.prepareStatement("CALL `SUMhabit` (?)");
+            ps.setString(1, client);
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
+            txtTotal.setText(rsmd.toString());
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error: " + ex);
+        }
+    }
+    
+    public void setHabitation(String hab)
+    {
+        if(txtHabitacion.getText().equals(""))
+        {
+            txtHabitacion.setText(hab);
+        }
+        else
+        {
+            String lastHabitation = txtHabitacion.getText();
+
+            txtHabitacion.setText(lastHabitation + "," + hab);
+        }
+    }
+    
+    public void setClient(String client)
+    {
+        txtCliente.setText(client);
+        Consumos consumos = new Consumos(client);
+        
+        getTotalPrice(client);
+        
     }
 
 }

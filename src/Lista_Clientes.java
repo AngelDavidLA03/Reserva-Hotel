@@ -8,13 +8,16 @@ import javax.swing.table.DefaultTableModel;
 *   - Angel David Lopez Alvarez - 20660062
 */
 
-public class Lista_Clientes extends javax.swing.JFrame {
+public class Lista_Clientes extends javax.swing.JFrame 
+{
 
-    /**
-     * Creates new form Lista_Clientes
-     */
-    public Lista_Clientes() {
+    // Se referencia a la ventana de reservacion 
+    private static Reservacion referencia;
+    
+    public Lista_Clientes(Reservacion referencia) {
         initComponents();
+        
+        this.referencia = referencia;
         
         loadtable();
     }
@@ -125,10 +128,14 @@ public class Lista_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarKeyTyped
 
     private void tableClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientsMouseClicked
+        // Se extrae y almacena el valor de la primera fila de la columna seleccionada
         DefaultTableModel modeloTabla = (DefaultTableModel) tableClients.getModel();
         String dato = String.valueOf(modeloTabla.getValueAt(tableClients.getSelectedRow(),0));
-        Reservacion ventana = new Reservacion(dato);
-        ventana.setVisible(true);
+        
+        // Se envia el valor del cliente a la ventana de referencia y se cierra la ventana actual
+        referencia.setClient(dato);
+        this.dispose();
+
     }//GEN-LAST:event_tableClientsMouseClicked
 
     /**
@@ -161,7 +168,7 @@ public class Lista_Clientes extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Lista_Clientes().setVisible(true);
+                new Lista_Clientes(referencia).setVisible(true);
             }
         });
     }
