@@ -585,20 +585,20 @@ NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA SUMAR LOS INGRESOS TOTALES POR MES DEL HOTEL'
-SELECT SUM(gastos.gastoTotal ) AS Total
+SELECT SUM(gastos.total ) AS Total
 FROM gastos INNER JOIN pagar
 WHERE MONTH(pagar.fechaPago)= mes AND YEAR(pagar.fechaPago)= an AND (gastos.refGastos=pagar.refGastos); 
 
 /* PROCEDIMIENTO UTILIZADO PARA MOSTRAR LOS INGRESOS TOTALES POR MES DEL HOTEL*/
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Ingresostotpormesmost`(
-IN mes INT(2),
- IN an  INT(4)
+	IN mes INT(2),
+	IN an  INT(4)
 )
 LANGUAGE SQL
 NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA MOSTRAR LOS INGRESOS TOTALES POR MES DEL HOTEL'
-SELECT pagar.codClient, pagar.fechaPago, gastos.gastoTotal
+SELECT pagar.codClient, pagar.fechaPago, gastos.total
 FROM gastos INNER JOIN pagar
 WHERE MONTH(pagar.fechaPago)= mes AND YEAR(pagar.fechaPago)= an AND (gastos.refGastos=pagar.refGastos); 

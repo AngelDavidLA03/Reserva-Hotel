@@ -82,59 +82,59 @@ public class Ganancias extends javax.swing.JFrame {
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
         
-        String mes1 = "";
+        int mes1 = 0;
         String datmes = mes.getSelectedItem().toString();
-        String dataan = año.getSelectedItem().toString();
+        int dataan = Integer.parseInt(año.getSelectedItem().toString());
         
         switch(datmes)
             {
                 case "Enero":
                 {
-                    mes1 = 1+"";
+                    mes1 = 1;
                 }
                 case "Febrero":
                 {
-                    mes1 = 2+"";
+                    mes1 = 2;
                 }
                 case "Marzo":
                 {
-                    mes1 = 3+"";
+                    mes1 = 3;
                 }
                 case "Abril":
                 {
-                    mes1 = 4+"";
+                    mes1 = 4;
                 } 
                 case "Mayo":
                 {
-                    mes1 = 5+"";
+                    mes1 = 5;
                 } 
                 case "Junio":
                 {
-                    mes1 = 6+"";
+                    mes1 = 6;
                 } 
                 case "Julio":
                 {
-                    mes1 = 7+"";
+                    mes1 = 7;
                 } 
                 case "Agosto":
                 {
-                    mes1 = 8+"";
+                    mes1 = 8;
                 } 
                 case "Septiembre":
                 {
-                    mes1 = 9+"";
+                    mes1 = 9;
                 } 
                 case "Octubre":
                 {
-                    mes1 = 10+"";
+                    mes1 = 10;
                 } 
                 case "Noviembre":
                 {
-                    mes1 = 11+"";
+                    mes1 = 11;
                 } 
                 case "Diciembre":
                 {
-                    mes1 = 12+"";
+                    mes1 = 12;
                 }   
             }
         
@@ -188,8 +188,8 @@ public class Ganancias extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> mes;
     // End of variables declaration//GEN-END:variables
 
-private void Tablegan(String mes, String an ) {
-    DefaultTableModel modeloTabla = (DefaultTableModel) Ganancias.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+private void Tablegan(int mes, int an ) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) Ganancias.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
         
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
@@ -205,8 +205,8 @@ private void Tablegan(String mes, String an ) {
             ps = cn.prepareStatement("CALL `Ingresostotpormes` (?,?)");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
            
             // Se asignan los valores de los parametros a la consulta
-            ps.setString(1, mes);
-            ps.setString(1, an);
+            ps.setInt(1, mes);
+            ps.setInt(2, an);
             
             rs = ps.executeQuery();                     // Se ejecuta la consulta
             rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
@@ -230,7 +230,7 @@ private void Tablegan(String mes, String an ) {
         }    
     }
 
-private void ganancia(String mes, String an ) {
+private void ganancia(int mes, int an ) {
    
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
         ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
@@ -245,8 +245,8 @@ private void ganancia(String mes, String an ) {
             ps = cn.prepareStatement("CALL `Ingresostotpormesmost` (?,?)");         // Se prepara la linea de codigo para ejecutar el PROCEDURE
            
             // Se asignan los valores de los parametros a la consulta
-            ps.setString(1, mes);
-            ps.setString(1, an);
+            ps.setInt(1, mes);
+            ps.setInt(2, an);
             
             rs = ps.executeQuery();                     // Se ejecuta la consulta
             
