@@ -16,11 +16,10 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
     public Consumos() {
         initComponents();
         
-        // Se carga la tabla de productos
-
+        
     }
 
-    Consumos(String dato) {
+    Consumos(String dato) throws SQLException {
         if(dato.substring(0, 2)=="CL")
         {
         txtCliente.setText(dato);
@@ -29,6 +28,24 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         {
         txtProducto.setText(dato);
         }
+        
+        String client = txtCliente.getText();
+        
+        // Se carga la tabla de productos
+        Tablecons(client);
+        
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        Conexion cx = new Conexion();                           // Se crea una nueva conexion
+        Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+        ps = cn.prepareStatement("CALL `SUMconsumos` (?)");
+            ps.setString(1, client);
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
+            txtTotal.setText(rsmd.toString());
     }
     
 

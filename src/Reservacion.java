@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /*
@@ -13,9 +14,18 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     
     public Reservacion() {
         initComponents();
+        
+        // Se ocultan los botones de aceptar y cancelar
+        btnCancel.setVisible(false);
+        btnAccept.setVisible(false);
+
+        loadTable();
+        
+        
+        
     }
 
-    Reservacion(String dato) {
+    Reservacion(String dato) throws SQLException {
         if(dato.substring(0, 2)=="CL")
         {
             txtCliente.setText(dato);
@@ -35,6 +45,19 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
                 txtHabitacion.setText(lastHabitation + "," + dato);
             }
         }
+        String client = txtCliente.getText();
+        
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        Conexion cx = new Conexion();                           // Se crea una nueva conexion
+        Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+        ps = cn.prepareStatement("CALL `SUMhabit` (?)");
+            ps.setString(1, client);
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la
+            txtTotal.setText(rsmd.toString());
         
     }
 
@@ -71,14 +94,15 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         btnAccept = new javax.swing.JButton();
         ButtonNuevo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablerese = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
         txtBuscar = new javax.swing.JTextField();
         ButtonBuscar = new javax.swing.JButton();
         ButtonEliminar = new javax.swing.JButton();
         txtTotal = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Tableresev = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -117,11 +141,11 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
             }
         });
         jPanel1.add(txtCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 100, -1));
-        jPanel1.add(txtcantdias, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 130, -1));
-        jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 130, -1));
+        jPanel1.add(txtcantdias, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 100, -1));
+        jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 100, -1));
 
         txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(txtHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 70, -1));
+        jPanel1.add(txtHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 100, -1));
 
         jLabel11.setText("Estado");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
@@ -149,7 +173,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jPanel1.add(Comboboxtiporeserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, -1));
 
         txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 130, -1));
+        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 100, -1));
 
         ButtonBorrar.setText("Borrar");
         ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -157,7 +181,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
                 ButtonBorrarActionPerformed(evt);
             }
         });
-        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, -1, 20));
+        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, -1, 20));
 
         btnCancel.setText("Cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -165,7 +189,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, 20));
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, -1, 20));
 
         btnAccept.setText("Aceptar");
         btnAccept.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +197,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
                 btnAcceptActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, -1, 20));
+        jPanel1.add(btnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, -1, 20));
 
         ButtonNuevo.setText("Nuevo");
         ButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -181,48 +205,13 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
                 ButtonNuevoActionPerformed(evt);
             }
         });
-        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 320, -1, 20));
+        jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, -1, 20));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 370));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(455, 402));
-
-        tablerese.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Núm Habitación", "Cliente", "Tipo", "Fecha Reserva", "Hora Reserva", "Cantidad días", "Costo Total"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tablerese.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tablerese);
-        if (tablerese.getColumnModel().getColumnCount() > 0) {
-            tablerese.getColumnModel().getColumn(0).setResizable(false);
-            tablerese.getColumnModel().getColumn(1).setResizable(false);
-            tablerese.getColumnModel().getColumn(2).setResizable(false);
-            tablerese.getColumnModel().getColumn(3).setResizable(false);
-            tablerese.getColumnModel().getColumn(4).setResizable(false);
-            tablerese.getColumnModel().getColumn(5).setResizable(false);
-            tablerese.getColumnModel().getColumn(6).setResizable(false);
-            tablerese.getColumnModel().getColumn(7).setResizable(false);
-        }
-
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 560, 290));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 40, 30, 280));
 
         txtBuscar.setText("Buscar");
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -239,7 +228,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jPanel2.add(ButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, -1, -1));
 
         txtTotal.setText("Total: $");
-        jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 160, 30));
+        jPanel2.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, 160, 30));
 
         jButton6.setText("Consumo");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -247,10 +236,25 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 335, -1, -1));
+        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
         jButton7.setText("Pagar");
-        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 335, -1, -1));
+        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 330, -1, -1));
+
+        Tableresev.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Habitación", "Cliente", "Fecha", "Hora", "Días", "Costo total"
+            }
+        ));
+        jScrollPane2.setViewportView(Tableresev);
+
+        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 540, 260));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 580, 370));
 
@@ -315,7 +319,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
 
         // Se analiza si existe algun campo vacio en los campos de texto
-        if(txtHabitacion.getText().equals("") || txtCliente.getText().equals("") || Comboboxtiporeserva.getSelectedItem().equals("-------") || txtFecha.getText().equals("") || txtHora.getText().equals("") || txtcantdias.getText().equals("") || txtCosto.getText().equals("") || ComboboxEstado.getSelectedItem().equals("-------"))
+        if(txtHabitacion.getText().equals("") || txtCliente.getText().equals("") || txtFecha.getText().equals("") || txtHora.getText().equals("") || txtcantdias.getText().equals("") || txtCosto.getText().equals("") || ComboboxEstado.getSelectedItem().equals("-------"))
         {
             JOptionPane.showMessageDialog(null, "Existe algun campo vacio, favor de llenarlo o cambiar el valor del desplegable", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
         }
@@ -328,14 +332,45 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
             String[] habits = habit.split(",");
 
             String client = txtCliente.getText();
-            String tirec = (String)Comboboxtiporeserva.getSelectedItem();
             String fecha = txtFecha.getText();
             String hora = txtHora.getText();
             int dias = Integer.parseInt(txtcantdias.getText());
-            String costo = txtCosto.getText();
+            
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+        ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
+        ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
+        int total = 0;
+                
+        try
+        {
+            Conexion cx = new Conexion();                           // Se crea una nueva conexion
+            Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
+            
+           
+            ps = cn.prepareStatement("CALL `costhabit`(?)"); //Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps.setString(1, habit);                                  //Valor de entrada del Segundo dato
+            
 
+            rs = ps.executeQuery();                     // Se ejecuta la consulta
+            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
+            int habpres = Integer.getInteger(rsmd.toString());
+            
+             total = habpres*dias; 
+             
+             
+             cx.disconnect();    // Se cierra la conexion con la base de datos
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
+        }
+            String val;
+            val = total+"";
+             txtCosto.setText(val);
+             
+             String costo = txtCosto.getText();
             // Se ejecuta el metodo para añadir los valores a la tabla de productos
-            ADDreserva(habit, client, tirec, fecha, hora, dias, costo);
+            ADDreserva(habits, client, fecha, hora, dias, costo);
             
             Pagar ventana = new Pagar(habits, client, costo);
             
@@ -380,6 +415,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private javax.swing.JButton ButtonNuevo;
     private javax.swing.JComboBox<String> ComboboxEstado;
     private javax.swing.JComboBox<String> Comboboxtiporeserva;
+    private javax.swing.JTable Tableresev;
     private javax.swing.JButton btnAccept;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton jButton6;
@@ -396,8 +432,8 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablerese;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtCosto;
@@ -450,7 +486,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     }
     
     // Metodo encargado de añadir los valores en la tabla de recepcionistas
-    private void ADDreserva(String habit, String client, String tirec, String fecha, String hora, int dias, String costo)
+    private void ADDreserva(String[] habits, String client, String fecha, String hora, int dias, String costo)
     {
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
 
@@ -459,16 +495,15 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
             Conexion cx = new Conexion();                                   // Se crea una nueva conexion
             Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
             
-            ps = cn.prepareStatement("CALL `ADDreserv`(?,?,?,?,?,?,?,)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps = cn.prepareStatement("CALL `ADDreserv`(?,?,?,?,?,?)");     // Se prepara la linea de codigo para ejecutar el PROCEDURE
             
             // Se asignan los valores de los parametros a la consulta
-            ps.setString(1, habit);
-            ps.setString(2, client);
-            ps.setString(4, tirec);
-            ps.setString(5, fecha);
-            ps.setInt(6, Integer.parseInt(hora));
-            ps.setString(7, dias+"");
-            ps.setInt(8, Integer.parseInt(costo));
+            ps.setString(1, client);
+            ps.setString(2, Arrays.toString(habits));
+            ps.setString(3, fecha);
+            ps.setInt(4, Integer.parseInt(hora));
+            ps.setString(5, dias+"");
+            ps.setInt(6, Integer.parseInt(costo));
 
             ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
             
@@ -488,7 +523,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     
     private void loadTablerese(String dato, String num)
     {
-        DefaultTableModel modeloTabla = (DefaultTableModel) tablerese.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        DefaultTableModel modeloTabla = (DefaultTableModel) Tableresev.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
         
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
@@ -502,7 +537,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
             Connection cn = cx.connect();                           // Se ejecuta el metodo connect() de la clase Conexion
             
            
-            ps = cn.prepareStatement("CALL `SEARCHclientUNIQUEinList`(?,?)"); //Se prepara la linea de codigo para ejecutar el PROCEDURE
+            ps = cn.prepareStatement("CALL `SERCHreservUNIQUE`(?,?)"); //Se prepara la linea de codigo para ejecutar el PROCEDURE
             ps.setString(1, dato);                                  //Valor de entrada del primer dato
             ps.setString(2, num);                                   //Valor de entrada del Segundo dato
             
@@ -533,7 +568,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     // Metodo encargado de llenar la tabla de los recepcionistas
     private void loadTable()
     {
-        DefaultTableModel modeloTabla = (DefaultTableModel) tablerese.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        DefaultTableModel modeloTabla = (DefaultTableModel) Tableresev.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
         
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
@@ -567,36 +602,6 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         catch (SQLException ex) 
         {
             System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
-        }
-    }
-    
-    private void DELETErecep(String recID)
-    {
-        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
-
-        try
-        {
-            Conexion cx = new Conexion();                                   // Se crea una nueva conexion
-            Connection cn = cx.connect();                                   // Se ejecuta el metodo connect() de la clase Conexion
-            
-            ps = cn.prepareStatement("CALL `DELETErecev`(?)");              // Se prepara la linea de codigo para ejecutar el PROCEDURE
-            
-            // Se asigna el valor del parametro a la consulta
-            ps.setString(1, recID);
-
-
-            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
-            
-            // Se notifica al usuario que se ha registrado el producto
-            JOptionPane.showMessageDialog(null, "SE HA ELIMINADO AL NUEVO RECEPCIONISTA");
-
-            cx.disconnect();        // Se cierra la conexion con la base de datos
-            loadTable();    // Se actualiza la tabla 
-        }
-        
-        catch(Exception e)
-        {
-            System.out.println("ERROR. - " + e);
         }
     }
 
