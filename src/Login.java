@@ -1,4 +1,7 @@
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 /*
 *   VENTANA ENCARGADA DE INICIAR SESION EN EL PROGRAMA
@@ -7,13 +10,17 @@ import javax.swing.JOptionPane;
 *   - Angel David Lopez Alvarez - 20660062
 */
 
-public class Login extends javax.swing.JFrame {
+public class Login extends javax.swing.JFrame implements Runnable {
 
     private static int trys = 5;        // Intentos de inicio de sesion antes de cerrar el programa 
-    private static String rol = "";
+    private static String rol = "";     // Rol del usuario que se ha logeado
+    Thread dateTime;                    // Identificador del thread del metodo calcDateTime
     
     public Login() {
         initComponents();
+        
+        dateTime = new Thread(this);    // Se construye el thread
+        dateTime.start();               // Se inicializa el thread
     }
 
     /**
@@ -32,32 +39,41 @@ public class Login extends javax.swing.JFrame {
         txtPassRec = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         tittle = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        txtTime = new javax.swing.JLabel();
+        txtDate = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         icon = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("LOGIN");
+        setIconImages(null);
+        setMinimumSize(new java.awt.Dimension(630, 420));
+        setUndecorated(true);
         setResizable(false);
+        setSize(new java.awt.Dimension(630, 420));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setBackground(java.awt.SystemColor.activeCaption);
+        jPanel1.setMinimumSize(new java.awt.Dimension(630, 420));
+        jPanel1.setPreferredSize(new java.awt.Dimension(630, 420));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         descUsuario.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         descUsuario.setText("Codigo de Usuario:");
-        jPanel1.add(descUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 130, -1));
+        jPanel1.add(descUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 130, -1));
 
         txtRecId.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(txtRecId, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 310, 150, -1));
+        jPanel1.add(txtRecId, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 150, -1));
 
         descPass.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         descPass.setText("Contraseña:");
-        jPanel1.add(descPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, 80, -1));
+        jPanel1.add(descPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 80, -1));
 
         txtPassRec.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(txtPassRec, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, 150, -1));
+        jPanel1.add(txtPassRec, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 290, 150, -1));
 
-        btnLogin.setBackground(new java.awt.Color(102, 102, 255));
+        btnLogin.setBackground(new java.awt.Color(194, 122, 15));
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLogin.setText("INGRESAR");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -65,17 +81,38 @@ public class Login extends javax.swing.JFrame {
                 btnLoginActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, 90, -1));
+        jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 320, 90, -1));
 
         tittle.setFont(new java.awt.Font("Roboto Black", 1, 24)); // NOI18N
         tittle.setText("Iniciar Sesión");
-        jPanel1.add(tittle, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, -1, -1));
+        jPanel1.add(tittle, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, -1, -1));
 
-        icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/loginIcon.png"))); // NOI18N
-        jPanel1.add(icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, -1, -1));
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/loginBackground.png"))); // NOI18N
-        jPanel1.add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, -1));
+        txtTime.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtTime.setForeground(new java.awt.Color(255, 153, 0));
+        txtTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel4.add(txtTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 110, 20));
+
+        txtDate.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtDate.setForeground(new java.awt.Color(255, 153, 0));
+        txtDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel4.add(txtDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 26, 110, 20));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 360, 120, 50));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.png"))); // NOI18N
+        icon.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.add(icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 240, 350));
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/background.jpg"))); // NOI18N
+        jPanel1.add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 420));
 
         getContentPane().add(jPanel1);
 
@@ -159,6 +196,22 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
+    
+    // Metodo derivado de la implementacion de Runnable
+    public void run()
+    {
+        // Se instancia un nuevo thread
+        Thread ct = Thread.currentThread();
+        while(ct == dateTime)           // Se analiza si el thread es igual al constructor de dateTime
+        {   
+            calcDateTime();             // Se ejecuta el metodo calcDateTime para calcular la fecha
+        try 
+        {
+            Thread.sleep(1000);         // El programa se espera 1 segundo en volver a ejecutarse
+        }
+        catch(InterruptedException e) {}
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel background;
@@ -167,9 +220,13 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel descUsuario;
     private javax.swing.JLabel icon;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel tittle;
+    private javax.swing.JLabel txtDate;
     private javax.swing.JPasswordField txtPassRec;
     private javax.swing.JTextField txtRecId;
+    private javax.swing.JLabel txtTime;
     // End of variables declaration//GEN-END:variables
 
     
@@ -214,5 +271,20 @@ public class Login extends javax.swing.JFrame {
             System.out.println("Error = " + ex);     // Se notifica via consola que ha ocurrido un error
         }
         return isExist;         // Se regresa el valor de la variable isExist
+    }
+    
+    // Metodo calcDateTime para determinar la fecha y hora del dispositivo
+    private void calcDateTime()
+    {
+        DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss aa");            // Se establece un nuevo formato para la hora
+        String time = timeFormat.format(Calendar.getInstance().getTime());      // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");             // Se establece un nuevo formato para la fecha, de forma en que se presenten los ultimos 2 digitos del año, el numero de mes y numero de dia
+        String date = dateFormat.format(Calendar.getInstance().getTime());      // Se instancia un nuevo objeto para obtener la fecha actual del dispositivo
+        
+        // Se asigna la fecha y hora a los apartados necesarios
+        txtTime.setText(time);
+        txtDate.setText(date);
+        
     }
 }

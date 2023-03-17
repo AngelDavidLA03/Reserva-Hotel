@@ -18,12 +18,22 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     Reservacion(String dato) {
         if(dato.substring(0, 2)=="CL")
         {
-        txtCliente.setText(dato);
+            txtCliente.setText(dato);
             Consumos consumos = new Consumos(dato);
         }
         else
         {
-            txtHabitacion.setText(dato);
+            
+            if(txtHabitacion.getText().equals(""))
+            {
+                txtHabitacion.setText(dato);
+            }
+            else
+            {
+                String lastHabitation = txtHabitacion.getText();
+                
+                txtHabitacion.setText(lastHabitation + "," + dato);
+            }
         }
         
     }
@@ -116,7 +126,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jLabel11.setText("Estado");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
 
-        ComboboxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Alquiler", "Pagado", "Anulada" }));
+        ComboboxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Alquiler", "Pagado" }));
         jPanel1.add(ComboboxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
 
         ButtonConshabi.setText("Buscar");
@@ -315,6 +325,8 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
             
             // Se hace una concatenacion entre las iniciales y la fecha
             String habit = txtHabitacion.getText();
+            String[] habits = habit.split(",");
+
             String client = txtCliente.getText();
             String tirec = (String)Comboboxtiporeserva.getSelectedItem();
             String fecha = txtFecha.getText();
@@ -325,7 +337,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
             // Se ejecuta el metodo para añadir los valores a la tabla de productos
             ADDreserva(habit, client, tirec, fecha, hora, dias, costo);
             
-            Pagar ventana = new Pagar(habit, client, costo);
+            Pagar ventana = new Pagar(habits, client, costo);
             
 
             // Se llama al metodo para bloquear los campos de texto
