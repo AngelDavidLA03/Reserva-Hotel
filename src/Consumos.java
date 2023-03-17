@@ -31,10 +31,10 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         btnAccept.setVisible(false);
         
         ButtonConsprod.setVisible(false);
-
+        
         txtCliente.setText(referencia.txtCliente.getText());
         
-        
+        Tablecons(referencia.txtCliente.getText());
     }
 
     Consumos(String dato){
@@ -126,17 +126,17 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
 
         Tablecons.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Producto", "Cantidad", "Precio Total"
+                "Cliente", "Producto", "Cantidad", "Precio Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -149,6 +149,7 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
             Tablecons.getColumnModel().getColumn(0).setResizable(false);
             Tablecons.getColumnModel().getColumn(1).setResizable(false);
             Tablecons.getColumnModel().getColumn(2).setResizable(false);
+            Tablecons.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 400, 220));
@@ -458,7 +459,7 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
     }
 
     private void Tablecons(String clien ) {
-    DefaultTableModel modeloTabla = (DefaultTableModel) Tablecons.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
+        DefaultTableModel modeloTabla = (DefaultTableModel) Tablecons.getModel();   // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         modeloTabla.setRowCount(0);                                                     // Se establece la primera fila para comenzar desde esa posicion
         
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta

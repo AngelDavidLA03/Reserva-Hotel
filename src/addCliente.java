@@ -76,7 +76,6 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
-        setIconifiable(true);
         setTitle("Registro de Clientes");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

@@ -60,7 +60,6 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
         jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
-        setIconifiable(true);
         setTitle("Añadir Productos");
         setPreferredSize(new java.awt.Dimension(910, 416));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

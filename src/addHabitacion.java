@@ -62,7 +62,6 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
-        setIconifiable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -88,6 +87,8 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         jPanel1.add(txtNumhab, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
         jPanel1.add(txtpiso, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
         jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
+
+        iconImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.png"))); // NOI18N
         jPanel1.add(iconImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 220, 140));
 
         cmbBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Simple", "Doble", "Matrimonial" }));

@@ -40,7 +40,8 @@ public class Ganancias extends javax.swing.JFrame {
         Ganancias_total = new javax.swing.JTextField();
         Buscar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         año.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Año", "2023", "2024", "2025", "2026", "2027", "2028", "2028", "2030" }));
@@ -76,6 +77,7 @@ public class Ganancias extends javax.swing.JFrame {
         getContentPane().add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, -1, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
@@ -233,7 +235,7 @@ private void ganancia(String mes, String an ) {
         PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
         ResultSet rs;                   // Variable que se encarga de almacenar los resultados de la consulta
         ResultSetMetaData rsmd;         // Variable que se encarga de almacenar la informacion de la tabla
-        String gan;                   // Cantidad de columnas que tiene la tabla
+        double gan = 0;                 // Cantidad de columnas que tiene la tabla
         
         try
         {
@@ -247,10 +249,16 @@ private void ganancia(String mes, String an ) {
             ps.setString(1, an);
             
             rs = ps.executeQuery();                     // Se ejecuta la consulta
-            rsmd = rs.getMetaData();                    // Se consigue la informacion de la 
-            gan = rsmd.toString();          // Se asigna la cantidad de columnas
             
-            Ganancias_total.setText(gan);
+            if(rs != null)
+             {
+                // Ciclo while donde se comprueba si existe un registro siguiente
+                while(rs.next())
+                {
+                    gan = rs.getDouble("Total");          // Se asigna la cantidad de columnas
+                }
+             }
+            Ganancias_total.setText("$ " + gan + "0");
             cx.disconnect();    // Se cierra la conexion con la base de datos
         }
         catch (SQLException ex) 

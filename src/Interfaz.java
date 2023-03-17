@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import org.netbeans.lib.awtextra.AbsoluteConstraints;
 /*
 *   VENTANA QUE SIRVE A MANERA DE MENU PRINCIPAL DEL PROGRAMA
 *   INTEGRANTES DEL EQUIPO
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
 *   - Angel David Lopez Alvarez - 20660062
 */
 
-public class Interfaz extends javax.swing.JFrame {
+public class Interfaz extends javax.swing.JFrame implements Runnable{
     
     private static String rolRec;           // Atributo para almacenar el rol del usuario logeado
     public static String recID;            // Atributo para almacenar el rol del usuario logeado
@@ -26,7 +27,7 @@ public class Interfaz extends javax.swing.JFrame {
         rolRec = rol;
         recID = id;
         
-        dateTime = new Thread((Runnable) this);    // Se construye el thread
+        dateTime = new Thread(this);    // Se construye el thread
         dateTime.start();               // Se inicializa el thread
         
         // Se analiza si rol es igual a Normal
@@ -99,14 +100,14 @@ public class Interfaz extends javax.swing.JFrame {
         Ventana.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 430, 50, 50));
 
         txtFecha.setBackground(new java.awt.Color(255, 255, 255));
-        txtFecha.setForeground(new java.awt.Color(51, 51, 255));
+        txtFecha.setForeground(new java.awt.Color(255, 255, 255));
         Ventana.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 450, 111, 30));
 
         txtHora.setBackground(new java.awt.Color(255, 255, 255));
-        txtHora.setForeground(new java.awt.Color(0, 0, 0));
+        txtHora.setForeground(new java.awt.Color(255, 255, 255));
         Ventana.add(txtHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 420, 111, 30));
 
-        getContentPane().add(Ventana, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, -1));
+        getContentPane().add(Ventana, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 480));
 
         menres.setText("Reservar");
 
@@ -196,14 +197,14 @@ public class Interfaz extends javax.swing.JFrame {
     private void addcliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addcliActionPerformed
         // Codigos necesarios para mostrar la subventana de clientes en la interfaz
         addCliente clientes = new addCliente();
-        Ventana.add(clientes);
+        Ventana.add(clientes, new AbsoluteConstraints(0,0,-1,-1));
         clientes.show();
     }//GEN-LAST:event_addcliActionPerformed
 
     private void UsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuActionPerformed
         // Codigos necesarios para mostrar la subventana de usuarios en la interfaz
         Usuarios usuarios = new Usuarios();
-        Ventana.add(usuarios);
+        Ventana.add(usuarios, new AbsoluteConstraints(0,0,-1,-1));
         usuarios.show();
     }//GEN-LAST:event_UsuActionPerformed
 
@@ -225,21 +226,21 @@ public class Interfaz extends javax.swing.JFrame {
     private void addhabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addhabActionPerformed
         // Codigos necesarios para mostrar la subventana de habitaciones en la interfaz
         addHabitacion habitacion = new addHabitacion();
-        Ventana.add(habitacion);
+        Ventana.add(habitacion, new AbsoluteConstraints(0,0,-1,-1));
         habitacion.show();
     }//GEN-LAST:event_addhabActionPerformed
 
     private void addprodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addprodActionPerformed
         // Codigos necesarios para mostrar la subventana de productos en la interfaz
         addProducto producto = new addProducto();
-        Ventana.add(producto);
+        Ventana.add(producto, new AbsoluteConstraints(0,0,-1,-1));
         producto.show();
     }//GEN-LAST:event_addprodActionPerformed
 
     private void ResyproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResyproActionPerformed
         // Codigos necesarios para mostrar la subventana de reservaciones en la interfaz
         Reservacion reservacion = new Reservacion();
-        Ventana.add(reservacion);
+        Ventana.add(reservacion, new AbsoluteConstraints(0,0,-1,-1));
         reservacion.show();
     }//GEN-LAST:event_ResyproActionPerformed
 
