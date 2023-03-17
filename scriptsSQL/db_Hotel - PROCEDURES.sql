@@ -473,7 +473,7 @@ VALUES (ref, isdesc, descu, gasto);
 /* PROCEDIMIENTO UTILIZADO PARA AÑADIR DATOS A LA TABLA PAGAR*/
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ADDpago`(
 	IN ref VARCHAR(10),
-	IN clie Varchar(10),
+	IN clie VARCHAR(10),
 	IN fech DATE,
 	IN hora TIME,
 	IN banco VARCHAR(20) 
@@ -483,7 +483,7 @@ NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT 'PROCEDIMIENTO UTILIZADO PARA AGREGAR VALORES A LA TABLA GASTS'
-INSERT INTO gastos (refGastos, codClient, fechaPago, horaPago, bancoClient)
+INSERT INTO pagar (refGastos, codClient, fechaPago, horaPago, bancoClient)
 VALUES (ref, clie, fech, hora, banco);
 
 /* PROCEDIMIENTO UTILIZADO PARA BUSCAR LOS PAGOS QUE A REALIZADO EL CLIENTE*/
