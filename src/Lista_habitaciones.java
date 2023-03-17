@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /*
@@ -8,17 +10,22 @@ import javax.swing.table.DefaultTableModel;
 *   - Angel David Lopez Alvarez - 20660062
 */
 
-public class Lista_habitaciones extends javax.swing.JFrame {
+public class Lista_habitaciones extends javax.swing.JFrame 
+{
 
-    /**
-     * Creates new form Lista_habitaciones
-     */
-    public Lista_habitaciones() {
+    // Se referencia a la ventana de reservacion 
+    private static Reservacion referencia;
+    
+    
+    public Lista_habitaciones(Reservacion referencia)
+    {
         
         initComponents();
         
         // Se habilita el campo de busqueda
         txtBuscar.setEditable(true);
+        
+        this.referencia = referencia;
         
         loadtable();
     }
@@ -137,11 +144,13 @@ public class Lista_habitaciones extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarKeyTyped
 
     private void tableHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableHabitacionMouseClicked
+        // Se extrae y almacena el valor de la primera fila de la columna seleccionada
         DefaultTableModel modeloTabla = (DefaultTableModel) tableHabitacion.getModel();
         String dato = String.valueOf(modeloTabla.getValueAt(tableHabitacion.getSelectedRow(),0));
         
-        Reservacion ventana = new Reservacion(dato);
-        ventana.setVisible(true);
+        // Se envia el valor del cliente a la ventana de referencia
+        referencia.setHabitation(dato);
+        
     }//GEN-LAST:event_tableHabitacionMouseClicked
 
     /**
@@ -174,7 +183,7 @@ public class Lista_habitaciones extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Lista_habitaciones().setVisible(true);
+                new Lista_habitaciones(referencia).setVisible(true);
             }
         });
     }
