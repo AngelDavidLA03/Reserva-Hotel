@@ -23,6 +23,8 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         // Se deshabilitan los botones de aceptar y cancelar
         btnCancel.setVisible(false);
         btnAccept.setVisible(false);
+        btnCancelModify.setVisible(false);
+        btnAcceptModify.setVisible(false);
         
         // Se carga la tabla de productos
         loadTableHabitacion();
@@ -51,10 +53,13 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         cmbBoxTipo = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         txtCaracteristicas = new javax.swing.JTextField();
-        ButtonBorrar = new javax.swing.JButton();
+        ButtonModify = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnAccept = new javax.swing.JButton();
         ButtonNuevo = new javax.swing.JButton();
+        btnAcceptModify = new javax.swing.JButton();
+        btnCancelModify = new javax.swing.JButton();
+        ButtonBorrar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableHabitacion = new javax.swing.JTable();
@@ -84,8 +89,26 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
 
         txtCodhab.setEditable(false);
         jPanel1.add(txtCodhab, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 130, -1));
+
+        txtNumhab.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumhabKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtNumhab, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
+
+        txtpiso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtpisoKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtpiso, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
+
+        txtCosto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCostoKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
 
         iconImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.png"))); // NOI18N
@@ -103,13 +126,13 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 195, -1, -1));
         jPanel1.add(txtCaracteristicas, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
 
-        ButtonBorrar.setText("Borrar");
-        ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+        ButtonModify.setText("Cambiar Precio");
+        ButtonModify.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonBorrarActionPerformed(evt);
+                ButtonModifyActionPerformed(evt);
             }
         });
-        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, -1));
+        jPanel1.add(ButtonModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 380, 120, -1));
 
         btnCancel.setText("Cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -134,6 +157,30 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
             }
         });
         jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, -1, -1));
+
+        btnAcceptModify.setText("Aceptar");
+        btnAcceptModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptModifyActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAcceptModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 380, -1, -1));
+
+        btnCancelModify.setText("Cancelar");
+        btnCancelModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelModifyActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancelModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, -1));
+
+        ButtonBorrar.setText("Borrar");
+        ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonBorrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ButtonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 420));
 
@@ -190,13 +237,19 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
-        // Se llama al metodo para vaciar los campos de texto
-        clearTextField();
+    private void ButtonModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonModifyActionPerformed
+        // Se desbloquea el campo de texto
+        txtCosto.setEditable(true);
 
-        // Se llama al metodo para bloquear los campos de texto
-        lockTextEdit();
-    }//GEN-LAST:event_ButtonBorrarActionPerformed
+        // Se muestran los botones de aceptar y cancelar
+        btnCancelModify.setVisible(true);
+        btnAcceptModify.setVisible(true);
+
+        // Se ocultan los demas botones de accion
+        ButtonBorrar.setVisible(false);
+        ButtonModify.setVisible(false);
+        ButtonNuevo.setVisible(false);
+    }//GEN-LAST:event_ButtonModifyActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // Se llama al metodo para vaciar los campos de texto
@@ -210,6 +263,7 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         btnAccept.setVisible(false);
 
         // Se muestran los demas botones de accion
+        ButtonModify.setVisible(true);
         ButtonBorrar.setVisible(true);
         ButtonNuevo.setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
@@ -247,6 +301,7 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
             // Se muestran los demas botones de accion
             ButtonBorrar.setVisible(true);
             ButtonNuevo.setVisible(true);
+            ButtonModify.setVisible(true);
         }
     }//GEN-LAST:event_btnAcceptActionPerformed
 
@@ -263,6 +318,7 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
 
         // Se ocultan los demas botones de accion
         ButtonBorrar.setVisible(false);
+        ButtonModify.setVisible(false);
         ButtonNuevo.setVisible(false);
     }//GEN-LAST:event_ButtonNuevoActionPerformed
 
@@ -306,12 +362,101 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
         SEARCHhabitacionUNIQUE(codHab);
     }//GEN-LAST:event_tableHabitacionMouseClicked
 
+    private void txtpisoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpisoKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtpisoKeyTyped
+
+    private void txtCostoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCostoKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCostoKeyTyped
+
+    private void txtNumhabKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumhabKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumhabKeyTyped
+
+    private void btnAcceptModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptModifyActionPerformed
+        // Se analiza si existe algun campo vacio en los campos de texto
+        if(txtCosto.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Introduzca un precio", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        }
+        // Sin embargo, si no existen campos vacios
+        else
+        {
+            // Variables en las que se almacenaran lo almacenado en los espacios de la ventana
+            int codHab = Integer.parseInt(txtCodhab.getText());
+            double costo = Double.parseDouble(txtCosto.getText());
+
+            // Se ejecuta el metodo para cambiar el precio de la habitacion
+            UPDATEhabPrice(codHab,costo);
+
+            // Se llama al metodo para bloquear los campos de texto
+            lockTextEdit();
+
+            // Se ocultan los botones de aceptar y cancelar
+            btnCancelModify.setVisible(false);
+            btnAcceptModify.setVisible(false);
+
+            // Se muestran los demas botones de accion
+            ButtonBorrar.setVisible(true);
+            ButtonNuevo.setVisible(true);
+            ButtonModify.setVisible(true);
+        }
+    }//GEN-LAST:event_btnAcceptModifyActionPerformed
+
+    private void btnCancelModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelModifyActionPerformed
+        // Se bloquea el campo de precio
+        txtCosto.setEditable(false);
+
+        // Se muestran los botones de aceptar y cancelar
+        btnCancelModify.setVisible(false);
+        btnAcceptModify.setVisible(false);
+
+        // Se ocultan los demas botones de accion
+        ButtonBorrar.setVisible(true);
+        ButtonModify.setVisible(true);
+        ButtonNuevo.setVisible(true);
+    }//GEN-LAST:event_btnCancelModifyActionPerformed
+
+    private void ButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarActionPerformed
+        // Se llama al metodo para vaciar los campos de texto
+        clearTextField();
+
+        // Se llama al metodo para bloquear los campos de texto
+        lockTextEdit();
+
+    }//GEN-LAST:event_ButtonBorrarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBorrar;
+    private javax.swing.JButton ButtonModify;
     private javax.swing.JButton ButtonNuevo;
     private javax.swing.JButton btnAccept;
+    private javax.swing.JButton btnAcceptModify;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnCancelModify;
     private javax.swing.JComboBox<String> cmbBoxTipo;
     private javax.swing.JLabel iconImage;
     private javax.swing.JLabel jLabel1;
@@ -450,6 +595,38 @@ public class addHabitacion extends javax.swing.JInternalFrame implements textFie
             ps.setInt(1,codHab);
 
             ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+
+            cx.disconnect();            // Se cierra la conexion con la base de datos
+            loadTableHabitacion();      // Se actualiza la tabla 
+        }
+
+        catch(Exception e)
+        {
+            System.out.println("ERROR. - " + e);
+        }
+    }
+    
+    // Metodo encargado para modificar el precio de la habitacion
+    private void UPDATEhabPrice(int hab, double precio)
+    {
+        PreparedStatement ps;           // Variable que se encarga de almacenar la sentencia de la consulta
+
+        try
+        {
+            Conexion cx = new Conexion();                                       // Se crea una nueva conexion
+            Connection cn = cx.connect();                                       // Se ejecuta el metodo connect() de la clase Conexion
+            
+            ps = cn.prepareStatement("CALL `CHANGEpriceHab`(?,?)");    // Se prepara la linea de codigo para ejecutar el PROCEDURE
+            
+            // Se asignan los valores de los parametros a la modificacion
+            ps.setInt(1, hab);
+            ps.setDouble(2, precio);
+
+
+            ps.executeUpdate();         // Se ejecuta la actualizacion de los registros
+            
+            // Se notifica al usuario que se ha registrado el producto
+            JOptionPane.showMessageDialog(null, "SE HA CAMBIADO EL PRECIO DE LA HABITACION " + hab);
 
             cx.disconnect();            // Se cierra la conexion con la base de datos
             loadTableHabitacion();      // Se actualiza la tabla 

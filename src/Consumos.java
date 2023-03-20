@@ -175,6 +175,12 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
         jPanel1.add(txtProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 100, -1));
         jPanel1.add(txtCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 100, -1));
+
+        txtcantiprod.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtcantiprodKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtcantiprod, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 130, -1));
 
         ButtonConsprod.setText("Buscar");
@@ -312,6 +318,17 @@ public class Consumos extends javax.swing.JFrame implements textFieldConfig {
         ButtonBorrar.setVisible(false);
         ButtonNuevo.setVisible(false);
     }//GEN-LAST:event_ButtonNuevoActionPerformed
+
+    private void txtcantiprodKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcantiprodKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtcantiprodKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -109,6 +109,12 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         jPanel1.add(txtAppat, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 130, -1));
         jPanel1.add(txtApmat, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 130, -1));
         jPanel1.add(txtCiudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 130, -1));
+
+        txtCP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCPKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 130, -1));
 
         ButtonBorrar.setText("Borrar");
@@ -137,6 +143,12 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
         jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
         jPanel1.add(txtCol, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, 130, -1));
         jPanel1.add(txtCalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 130, -1));
+
+        txtNumExt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumExtKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtNumExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 130, -1));
 
         cmbBoxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "Normal", "Admin" }));
@@ -351,6 +363,28 @@ public class Usuarios extends javax.swing.JInternalFrame implements textFieldCon
             case 1:{break;}
         }
     }//GEN-LAST:event_ButtonBorrarActionPerformed
+
+    private void txtNumExtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumExtKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumExtKeyTyped
+
+    private void txtCPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCPKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCPKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

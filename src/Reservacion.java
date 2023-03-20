@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.text.ParseException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,11 +19,18 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     
     public String recID = Interfaz.recID;
     
-    public Reservacion() 
-    {
-        
+    public Reservacion() throws ParseException 
+    {        
         initComponents();
         
+        // Se establece el nuevo formato, para permitir una retroalimentacion al usuario sobre el orden para colocar la fecha y hora
+        txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("????-??-??")));
+        txtFecha.setText("YYYYMMDD");
+        
+        txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("??:??:??")));
+        txtHora.setText("HHMMSS");
+
+
         // Se llama al metodo para bloquear los campos de texto
         lockTextEdit();
         
@@ -58,17 +66,17 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         txtCliente = new javax.swing.JTextField();
         txtcantdias = new javax.swing.JTextField();
         txtCosto = new javax.swing.JTextField();
-        txtHora = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
         ComboboxEstado = new javax.swing.JComboBox<>();
         ButtonConshabi = new javax.swing.JButton();
         ButtonConscli = new javax.swing.JButton();
         Comboboxtiporeserva = new javax.swing.JComboBox<>();
-        txtFecha = new javax.swing.JFormattedTextField();
         ButtonBorrar = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnAccept = new javax.swing.JButton();
         ButtonNuevo = new javax.swing.JButton();
+        txtFecha = new javax.swing.JFormattedTextField();
+        txtHora = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         txtBuscar = new javax.swing.JTextField();
@@ -110,11 +118,14 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
         jPanel1.add(txtHabitacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 100, -1));
         jPanel1.add(txtCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 100, -1));
+
+        txtcantdias.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtcantdiasKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtcantdias, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 100, -1));
         jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 100, -1));
-
-        txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(txtHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 100, -1));
 
         jLabel11.setText("Estado");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
@@ -140,9 +151,6 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
 
         Comboboxtiporeserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-------", "Reserva", "Alquiler" }));
         jPanel1.add(Comboboxtiporeserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, -1));
-
-        txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 100, -1));
 
         ButtonBorrar.setText("Borrar");
         ButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -175,6 +183,20 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
             }
         });
         jPanel1.add(ButtonNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, -1, 20));
+
+        try {
+            txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 100, -1));
+
+        try {
+            txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jPanel1.add(txtHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 100, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 310, 370));
 
@@ -264,7 +286,6 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        
         // Se hace una concatenacion entre las iniciales y la fecha
         String habit = txtHabitacion.getText();
         String[] habits = habit.split(",");
@@ -295,6 +316,20 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
 
         // Se llama al metodo para bloquear los campos de texto
         lockTextEdit();
+        
+        try
+        {
+            // Se establece el nuevo formato, para permitir una retroalimentacion al usuario sobre el orden para colocar la fecha y hora
+            txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("????-??-??")));
+            txtFecha.setText("YYYYMMDD");
+
+            txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("??:??:??")));
+            txtHora.setText("HHMMSS");
+        }
+        catch(ParseException ex)
+        {
+            System.out.println(ex);
+        }
     }//GEN-LAST:event_ButtonBorrarActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -303,6 +338,22 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
 
         // Se llama al metodo para bloquear los campos de texto
         lockTextEdit();
+        
+        try
+        {
+            // Se establece el nuevo formato, para permitir una retroalimentacion al usuario sobre el orden para colocar la fecha y hora
+            txtFecha.setText("");
+            txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("????-??-??")));
+            txtFecha.setText("YYYYMMDD");
+
+            txtHora.setText("");
+            txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("??:??:??")));
+            txtHora.setText("HHMMSS");
+        }
+        catch(ParseException ex)
+        {
+            System.out.println(ex);
+        }
 
         // Se ocultan los botones de aceptar y cancelar
         btnCancel.setVisible(false);
@@ -314,6 +365,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         // Se muestran los demas botones de accion
         ButtonBorrar.setVisible(true);
         ButtonNuevo.setVisible(true);
+        
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
@@ -424,13 +476,39 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         // Se ocultan los demas botones de accion
         ButtonBorrar.setVisible(false);
         ButtonNuevo.setVisible(false);
+        
+        try
+        {
+            // Se establece el nuevo formato
+            txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
+            txtFecha.setText("");
+            txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##:##")));
+            txtHora.setText("");
+        }
+        catch(ParseException ex)
+        {
+            System.out.println(ex);
+        }
     }//GEN-LAST:event_ButtonNuevoActionPerformed
 
     private void TableresevMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableresevMouseClicked
+        try
+        {
+            // Se establece el nuevo formato
+            txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
+            txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##:##")));
+        }
+        catch(ParseException ex)
+        {
+            System.out.println(ex);
+        }
+        
         DefaultTableModel modeloTabla = (DefaultTableModel) Tableresev.getModel();               // Se crea un nuevo modelo de tabla referenciando a la tabla de la ventana
         String clientID = String.valueOf(modeloTabla.getValueAt(Tableresev.getSelectedRow(),0));    // Se extrae el valor de la tabla de la ventana que se encuentre en la fila 0
         double newCosto = Double.parseDouble(String.valueOf(modeloTabla.getValueAt(Tableresev.getSelectedRow(),5)));
         String hab = String.valueOf(String.valueOf(modeloTabla.getValueAt(Tableresev.getSelectedRow(),1)));
+        String date = String.valueOf(String.valueOf(modeloTabla.getValueAt(Tableresev.getSelectedRow(),2)));
+        String time = String.valueOf(String.valueOf(modeloTabla.getValueAt(Tableresev.getSelectedRow(),3)));
         
         if(txtCosto.getText().equals(""))
         {
@@ -459,12 +537,25 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
         
 
         txtCliente.setText(clientID);
+        txtFecha.setText(date);
+        txtHora.setText(time);
         
     }//GEN-LAST:event_TableresevMouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void txtcantdiasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcantdiasKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtcantdiasKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -563,7 +654,7 @@ public class Reservacion extends javax.swing.JInternalFrame implements textField
             ps.setString(1, client);
             ps.setInt(2, Integer.parseInt(habit));
             ps.setString(3, fecha);
-            ps.setString(4, hora + ":00");
+            ps.setString(4, hora);
             ps.setInt(5, dias);
             ps.setDouble(6, costo);
 

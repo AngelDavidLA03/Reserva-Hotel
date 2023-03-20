@@ -84,10 +84,34 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
 
         jLabel9.setText("Cantidad por unidad");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+
+        txtCodProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodProdKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtCodProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 130, -1));
         jPanel1.add(txtNomProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
+
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
+
+        txtStock.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtStockKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
+
+        txtContUni.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtContUniKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtContUni, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
 
         ButtonBorrar.setText("Borrar");
@@ -257,6 +281,50 @@ public class addProducto extends javax.swing.JInternalFrame implements textField
         // Se llama al metodo para bloquear los campos de texto
         lockTextEdit();
     }//GEN-LAST:event_ButtonBorrarActionPerformed
+
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPrecioKeyTyped
+
+    private void txtStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStockKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtStockKeyTyped
+
+    private void txtContUniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContUniKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9 o si es un .
+        if((typedKey < '0' || typedKey > '9') && ( typedKey < '.' || typedKey > '.'))
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtContUniKeyTyped
+
+    private void txtCodProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodProdKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCodProdKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -12,9 +12,7 @@ import javax.swing.table.DefaultTableModel;
 */
 public class addCliente extends javax.swing.JInternalFrame implements textFieldConfig {
 
-    /**
-     * Creates new form addCliente
-     */
+    
     public addCliente() {
         initComponents();
         
@@ -113,6 +111,12 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         jPanel1.add(txtAp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
         jPanel1.add(txtAm, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 130, -1));
         jPanel1.add(txtNumPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
+
+        txtTelf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelfKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtTelf, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 130, -1));
         jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 130, -1));
         jPanel1.add(chckBoxExtern, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 285, -1, -1));
@@ -436,6 +440,19 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         ButtonNuevo.setVisible(true);
         ButtonUpdate.setVisible(true);
     }//GEN-LAST:event_btnAcceptUpdateActionPerformed
+
+    private void txtTelfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelfKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        String txtActual = txtTelf.getText();
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9, o si es el signo de mas o un espacio, teniendo un controlador para solo permitir 1 espacio
+        if((typedKey < '0' || typedKey > '9') && (typedKey < '+' || typedKey > '+') && (typedKey < ' ' || typedKey > ' ') && txtActual.contains(" "))
+        {
+            // Si lo es, se introduce el valor
+            System.out.println("Si existe espacio");
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtTelfKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

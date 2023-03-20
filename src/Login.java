@@ -1,3 +1,4 @@
+import java.awt.event.KeyEvent;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -71,6 +72,11 @@ public class Login extends javax.swing.JFrame implements Runnable {
         jPanel1.add(descPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 80, -1));
 
         txtPassRec.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtPassRec.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassRecKeyPressed(evt);
+            }
+        });
         jPanel1.add(txtPassRec, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 290, 150, -1));
 
         btnLogin.setBackground(new java.awt.Color(194, 122, 15));
@@ -122,45 +128,15 @@ public class Login extends javax.swing.JFrame implements Runnable {
 
     // Evento mandado a llamar siempre que se pulse el boton de acceso
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // Variables en las que se almacenaran lo almacenado en los espacios de la ventana
-        String recID = txtRecId.getText();
-        String passRec = txtPassRec.getText();
-        
-        // Se comprueba si los campos tienen valores nulos
-        if(recID.equals("") || passRec.equals(""))
-        {
-            // Se lanza un mensaje de advertencia en caso de que se detecten los campos vacios
-            JOptionPane.showMessageDialog(null, "Campos de Usuario y/o Contraseña vacios", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
-        }
-        // Sin embargo, si no estan los campos vacios
-        else
-        {
-            // Se comprueba el valor del metodo loginCheck en caso de que sea igual a verdadero
-            if(loginCheck(recID,passRec))
-            {
-                JOptionPane.showMessageDialog(null, "BIENVENIDO","LOGIN EXITOSO", JOptionPane.INFORMATION_MESSAGE);
-                new Interfaz(rol,recID).setVisible(true);         // Se instancia una nueva interfaz del menu principal
-                this.dispose();                                   // La ventana actual (login) se cierra
-
-            }
-            // Sin embargo, si el valor es falso
-            else
-            {
-                // Se resta 1 al valor actual de trys y se lanza un mensaje de error
-                trys --;
-                JOptionPane.showMessageDialog(null, "Usuario y/o Contraseña incorrectos"+ 
-                                                    "\nIntentos restantes = " + trys + ".","LOGIN FALLIDO", JOptionPane.ERROR_MESSAGE);
-
-                // Se analiza si el valor actual de trys es igual o menor a 0
-                if(trys <= 0)
-                {
-                    // Se notifica al usuario del cierre del programa
-                    JOptionPane.showMessageDialog(null, "Intentos de inicio de sesion gastados", "CERRANDO PROGRAMA", JOptionPane.ERROR_MESSAGE);
-                    System.exit(0);     // Se cierra el programa
-                }
-            }
-        }
+        tryLogin();
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtPassRecKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassRecKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            tryLogin();
+        }
+    }//GEN-LAST:event_txtPassRecKeyPressed
 
     /**
      * @param args the command line arguments
@@ -286,5 +262,48 @@ public class Login extends javax.swing.JFrame implements Runnable {
         txtTime.setText(time);
         txtDate.setText(date);
         
+    }
+    
+    // Metodo tryLogin para realizar el ingreso al sistema
+    private void tryLogin()
+    {
+        // Variables en las que se almacenaran lo almacenado en los espacios de la ventana
+        String recID = txtRecId.getText();
+        String passRec = txtPassRec.getText();
+        
+        // Se comprueba si los campos tienen valores nulos
+        if(recID.equals("") || passRec.equals(""))
+        {
+            // Se lanza un mensaje de advertencia en caso de que se detecten los campos vacios
+            JOptionPane.showMessageDialog(null, "Campos de Usuario y/o Contraseña vacios", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        }
+        // Sin embargo, si no estan los campos vacios
+        else
+        {
+            // Se comprueba el valor del metodo loginCheck en caso de que sea igual a verdadero
+            if(loginCheck(recID,passRec))
+            {
+                JOptionPane.showMessageDialog(null, "BIENVENIDO","LOGIN EXITOSO", JOptionPane.INFORMATION_MESSAGE);
+                new Interfaz(rol,recID).setVisible(true);         // Se instancia una nueva interfaz del menu principal
+                this.dispose();                                   // La ventana actual (login) se cierra
+
+            }
+            // Sin embargo, si el valor es falso
+            else
+            {
+                // Se resta 1 al valor actual de trys y se lanza un mensaje de error
+                trys --;
+                JOptionPane.showMessageDialog(null, "Usuario y/o Contraseña incorrectos"+ 
+                                                    "\nIntentos restantes = " + trys + ".","LOGIN FALLIDO", JOptionPane.ERROR_MESSAGE);
+
+                // Se analiza si el valor actual de trys es igual o menor a 0
+                if(trys <= 0)
+                {
+                    // Se notifica al usuario del cierre del programa
+                    JOptionPane.showMessageDialog(null, "Intentos de inicio de sesion gastados", "CERRANDO PROGRAMA", JOptionPane.ERROR_MESSAGE);
+                    System.exit(0);     // Se cierra el programa
+                }
+            }
+        }
     }
 }

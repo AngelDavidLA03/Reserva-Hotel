@@ -223,6 +223,11 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         jPanel1.add(txtsubtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 130, -1));
 
         txtdescuento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getPercentInstance())));
+        txtdescuento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtdescuentoKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtdescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 130, -1));
 
         txtcostototal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
@@ -314,6 +319,17 @@ public class Pagar extends javax.swing.JFrame implements textFieldConfig {
         // Se ocultan los demas botones de accion
         ButtonNuevo.setVisible(false);
     }//GEN-LAST:event_ButtonNuevoActionPerformed
+
+    private void txtdescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdescuentoKeyTyped
+        char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
+        
+        // Se analiza si la tecla tecleada es un numero entre el 0 y el 9
+        if(typedKey < '0' || typedKey > '9')
+        {
+            // Si lo es, se introduce el valor
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtdescuentoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
