@@ -106,10 +106,22 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
 
         txtCodCli.setEditable(false);
         jPanel1.add(txtCodCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 130, -1));
+
+        txtCurp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCurpKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtCurp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
         jPanel1.add(txtNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
         jPanel1.add(txtAp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
         jPanel1.add(txtAm, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 130, -1));
+
+        txtNumPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumPassKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtNumPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 130, -1));
 
         txtTelf.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -286,6 +298,10 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
         {
             controlador = "PASAPORTE";
         }
+        else if(!txtCurp.getText().equals("") && !txtNumPass.getText().equals(""))
+        {
+            controlador = "AMBOS";
+        }
         else
         {
             JOptionPane.showMessageDialog(null, "El nuevo cliente debe tener obligatoriamente o CURP o su Número de Pasaporte, favor de rellenarlos", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
@@ -443,16 +459,29 @@ public class addCliente extends javax.swing.JInternalFrame implements textFieldC
 
     private void txtTelfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelfKeyTyped
         char typedKey = evt.getKeyChar();           // Se crea una variable en la cual se almacene la tecla presionada
-        String txtActual = txtTelf.getText();
+        
         // Se analiza si la tecla tecleada es un numero entre el 0 y el 9, o si es el signo de mas o un espacio, teniendo un controlador para solo permitir 1 espacio
-        if((typedKey < '0' || typedKey > '9') && (typedKey < '+' || typedKey > '+') && (typedKey < ' ' || typedKey > ' ') && txtActual.contains(" "))
+        if(((typedKey < '0' || typedKey > '9') && (typedKey < '+' || typedKey > '+') && (typedKey < ' ' || typedKey > ' ')) && (txtTelf.getText().length() >= 15))
         {
-            // Si lo es, se introduce el valor
-            System.out.println("Si existe espacio");
             evt.consume();
-            
         }
     }//GEN-LAST:event_txtTelfKeyTyped
+
+    private void txtNumPassKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumPassKeyTyped
+        // Se comprueba que la longitud del texto contenido en el textfield no sea mayor a 10
+        if(txtNumPass.getText().length() >= 10)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumPassKeyTyped
+
+    private void txtCurpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCurpKeyTyped
+        // Se comprueba que la longitud del texto contenido en el textfield no sea mayor a 18
+        if(txtCurp.getText().length() >= 18)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCurpKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
